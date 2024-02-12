@@ -4,7 +4,6 @@
     background-color: #334155; /* This will make the navbar blue */
     display: flex;
     justify-content: left; /* Center the items horizontally */
-    align-items: left; /* Center the items vertically */
     position: fixed; /* Keep it at the top */
     top: 0;
     left: 0;
