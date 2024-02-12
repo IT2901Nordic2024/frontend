@@ -1,0 +1,47 @@
+/* SensorPage */
+.sensor-data-box {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    width: 80%;
+    height: 99px; /* Adjust the height as needed */
+    padding: 24px;
+    flex-direction: column;
+    gap: 22px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--200, #E4E4E7);
+    background: var(--0, #FFF);
+    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.10), 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
+    }
+.sensor-type{
+    color: var(--slate-900, #0F172A);
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    padding-top: 10px;
+    line-height: 36px; /* 120% */
+    letter-spacing: -0.225px;
+    text-align: center;
+}
+
+.sensor-data {
+    color: var(--700, #18181B);
+    font-family: Inter;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+
+
+}
+
+.sensor-page {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children horizontally in flex-direction */
+    align-items: center; /* Center children vertically */
+    height: 50vh; /* Make it fill the entire viewport height */
+    padding: 20px; /* Add some padding around the edges */
+}
