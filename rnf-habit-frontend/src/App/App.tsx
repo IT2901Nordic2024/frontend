@@ -6,7 +6,9 @@ import { NavBar } from '@/Components/navBar/navBar';
 const HeaderLayout = () => (
   <>
     <NavBar />
-    <Outlet />
+    <div className="pt-14">
+      <Outlet />
+    </div>
   </>
 );
 
