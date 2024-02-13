@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import SensorData from '../Pages/SensorPage/SensorPage';
-import LoginPage from '@/Pages/LoginPage/LoginPage';
+import {LoginPage} from '@/Pages/LoginPage/LoginPage';
 import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 
 const HeaderLayout = () => (
   <>
     <NavBar />
-    <div className="pt-14">
+    
       <Outlet />
-    </div>
+    
   </>
 );
 
