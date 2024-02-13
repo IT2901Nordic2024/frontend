@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import './SensorPage.css';
+import React, { useEffect, useState } from 'react';
+
 import { fetchTimesInvoked } from './apiService';
 import { LoadingSpinner } from "@/Components/LoadingSpinner/LoadingSpinner";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/card";
 
 interface SensorData {
   id: number;
@@ -25,21 +26,26 @@ function SensorPage() {
   }, []);
 
   return (
-    <div className="sensor-page">
-      <h1 className="sensor-type">Sensor Data</h1>
-      <div className="sensor-data-box flex justify-center items-center"> {/* Added flex utilities for centering */}
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : data.length > 0 ? (
-          data.map(sensor => (
-            <p key={sensor.id} className="sensor-data">
-              Sensor ID: {sensor.id}, Times Invoked: {sensor.timesInvoked}
-            </p>
-          ))
-        ) : (
-          <p className="sensor-data">No data found</p>
-        )}
-      </div>
+    <div className="flex justify-center items-center h-screen">
+      <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
+        <CardHeader>
+          <CardTitle>Sensor Data</CardTitle>
+          <CardDescription>Overview of sensor data fetched from the API.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex justify-center items-center">
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : data.length > 0 ? (
+            data.map(sensor => (
+              <div key={sensor.id} className="sensor-data">
+                Sensor ID: {sensor.id}, Times Invoked: {sensor.timesInvoked}
+              </div>
+            ))
+          ) : (
+            <p>No data found</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
