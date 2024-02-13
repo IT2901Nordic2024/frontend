@@ -1,4 +1,4 @@
-import './index.css';
+import './navBar.css';
 
 export function NavBar() {
   return (
