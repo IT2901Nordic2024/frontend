@@ -16,6 +16,7 @@ import {
 } from "../../Components/form"
 import { Input } from "../../Components/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/Components/card"
+import { useNavigate } from "react-router-dom";
 
 // Defining form validation schema using zod
 const formSchema = z.object({
@@ -36,16 +37,20 @@ export function LoginPage() {
       password: "",
     },
   })
+  const navigate = useNavigate();
   
   // Defines a submit handler function
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values, for example, check if the information match a user on the server
     console.log(values)
+    //placeholder for actual login logic
+    navigate('/sensor-data');
   }
 
   // Navigate to the signup page
   function goToSignupPage() {
     // Functionality for sending the user to the signup page
+    navigate('/signup');
   } 
 
   return (

@@ -3,6 +3,7 @@ import SensorData from '../Pages/SensorPage/SensorPage';
 import {LoginPage} from '@/Pages/LoginPage/LoginPage';
 import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
+import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 
 const HeaderLayout = () => (
   <>
@@ -29,6 +30,10 @@ const router = createBrowserRouter(
         {
           path: '/connect-device',
           element: <ConnectDevicePage />,
+        },
+        {
+          path: '/signup',
+          element: <SignupPage />,
         },
         // Add more routes as necessary
       ],
