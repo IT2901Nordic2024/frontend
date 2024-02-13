@@ -1,17 +1,36 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SensorData from '../Pages/SensorPage/index';
-//  other pages as created
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import SensorData from '../Pages/SensorPage/SensorPage';
+import LoginPage from '@/Pages/LoginPage/LoginPage';
+import { NavBar } from '@/Components/navBar/navBar';
+
+const HeaderLayout = () => (
+  <>
+    <NavBar />
+    <Outlet />
+  </>
+);
+
+const router = createBrowserRouter(
+  [
+    {
+      element: <HeaderLayout />,
+      children: [
+        {
+          path: '/',
+          element: <LoginPage />,
+        },
+        {
+          path: '/sensor-data',
+          element: <SensorData />,
+        },
+        // Add more routes as necessary
+      ],
+    },
+  ]
+);
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<SensorData />} /> 
-        </Routes>
-      </div>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
