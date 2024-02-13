@@ -48,7 +48,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 // Defining form validation schema using zod
 const formSchema = z.object({
-  deciveCode: z.string().min(2, {
+  deviceCode: z.string().min(2, {
     message: "Invalid code.",
   }),
 })
@@ -58,7 +58,7 @@ export function ConnectDevicePage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      deciveCode: "",
+      deviceCode: "",
     },
   })
   
@@ -84,7 +84,7 @@ export function ConnectDevicePage() {
         <Form {...form}>
             <FormField
               control={form.control}
-              name="deciveCode"
+              name="deviceCode"
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-[7px] flex">
