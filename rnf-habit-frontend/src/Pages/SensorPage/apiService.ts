@@ -1,7 +1,8 @@
 
-interface ApiResponse {
-    id: number;
-    timesInvoked: number;
+export interface ApiResponse {
+    device_id: string;
+    dod_data: string;
+    timestamp: number;
   }
   
   export async function fetchTimesInvoked(): Promise<ApiResponse[]> {
