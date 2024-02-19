@@ -1,3 +1,5 @@
+// Contains the code for the LoadingSpinner component
+
 import './LoadingSpinner.css';
 
 export function LoadingSpinner() {

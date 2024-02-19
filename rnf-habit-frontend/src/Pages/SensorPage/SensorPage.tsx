@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+// Displays the sensor data fetched from the API. 
 
-import { fetchTimesInvoked } from './apiService';
+import { useEffect, useState } from 'react';
+
+import { fetchSensorData } from './apiService';
 import { LoadingSpinner } from "@/Components/LoadingSpinner/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/card";
 import { ApiResponse } from './apiService';
 
 function SensorPage() {
-  const [data, setData] = useState<ApiResponse[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<ApiResponse[]>([]); // State to store fetched sensor data
+  const [isLoading, setIsLoading] = useState(true);    // State to manage loading state
 
   useEffect(() => {
-    fetchTimesInvoked()
+    fetchSensorData() // Calling the fetch function on component mount
       .then(fetchedData => {
         setData(fetchedData);
         setIsLoading(false);
