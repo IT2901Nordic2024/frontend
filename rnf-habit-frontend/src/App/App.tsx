@@ -1,3 +1,6 @@
+// Contains the main routing logic for the application
+// utilizes the react-router-dom library to handle routing
+
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import SensorData from '../Pages/SensorPage/SensorPage';
 import {LoginPage} from '@/Pages/LoginPage/LoginPage';
@@ -5,11 +8,13 @@ import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 
+
+// Layout component that includes the navigation bar and the main content outlet
 const HeaderLayout = () => (
   <>
-    <NavBar />
+    <NavBar /> {/* Nav bar to be displayed on every page */}
     
-      <Outlet />
+      <Outlet /> 
     
   </>
 );
@@ -17,7 +22,7 @@ const HeaderLayout = () => (
 const router = createBrowserRouter(
   [
     {
-      element: <HeaderLayout />,
+      element: <HeaderLayout />, // Root layout component
       children: [
         {
           path: '/',
