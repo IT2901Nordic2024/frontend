@@ -7,7 +7,7 @@ import {LoginPage} from '@/Pages/LoginPage/LoginPage';
 import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 import { SignupPage } from '@/Pages/UserSignup/UserSignup';
-
+import MyHabitsPage  from '@/Pages/MyHabitsPage/MyHabitsPage';
 
 // Layout component that includes the navigation bar and the main content outlet
 const HeaderLayout = () => (
@@ -39,6 +39,10 @@ const router = createBrowserRouter(
         {
           path: '/signup',
           element: <SignupPage />,
+        },
+        {
+          path: '/my-habits',
+          element: <MyHabitsPage />,
         },
         // Add more routes as necessary
       ],
