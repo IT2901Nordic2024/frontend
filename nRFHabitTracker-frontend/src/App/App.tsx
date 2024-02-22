@@ -7,22 +7,22 @@ import {LoginPage} from '@/Pages/LoginPage/LoginPage';
 import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 import { SignupPage } from '@/Pages/UserSignup/UserSignup';
+import { Footer } from '@/Components/footer/footer';
 
 
 // Layout component that includes the navigation bar and the main content outlet
-const HeaderLayout = () => (
+const Layout = () => (
   <>
     <NavBar /> {/* Nav bar to be displayed on every page */}
-    
-      <Outlet /> 
-    
+    <Outlet /> {/* Main content outlet */}
+    <Footer /> {/* Footer to be displayed on every page */}
   </>
 );
 
 const router = createBrowserRouter(
   [
     {
-      element: <HeaderLayout />, // Root layout component
+      element: <Layout />, // Root layout component
       children: [
         {
           path: '/',
