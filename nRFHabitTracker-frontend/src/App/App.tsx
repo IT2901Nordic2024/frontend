@@ -8,6 +8,8 @@ import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 import { Footer } from '@/Components/footer/footer';
+import { ConfigureDevicePage } from '@/Pages/ConfigureDevicePage/ConfigureDevicePage';
+import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage';
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
@@ -38,6 +40,14 @@ const router = createBrowserRouter(
         {
           path: '/signup',
           element: <SignupPage />,
+        },
+        {
+          path: '/configure-device',
+          element: <ConfigureDevicePage />,
+        },
+        {
+          path: '/my-habits',
+          element: <MyHabitsPage />,
         },
         // Add more routes as necessary
       ],
