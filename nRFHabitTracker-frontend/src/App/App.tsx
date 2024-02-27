@@ -10,12 +10,15 @@ import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 import { Footer } from '@/Components/footer/footer';
 import { ConfigureDevicePage } from '@/Pages/ConfigureDevicePage/ConfigureDevicePage';
 import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage';
+import { RemoveScroll } from 'react-remove-scroll';
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
   <>
     <NavBar /> {/* Nav bar to be displayed on every page */}
-    <Outlet /> {/* Main content outlet */}
+    <RemoveScroll> {/* Will make the content alone scrollable */}
+      <Outlet /> {/* Main content outlet */}
+    </RemoveScroll>
     <Footer /> {/* Footer to be displayed on every page */}
   </>
 );
