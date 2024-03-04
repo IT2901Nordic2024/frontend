@@ -1,8 +1,35 @@
 import { Button } from "../../Components/button";
 import mockData from "./mockData.json"; 
 import HabitCard from "../../Components/habitCard/habitCard"; 
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
+interface HabitData {
+  name: string;
+  data: number[][];
+}
 
 const MyHabitsPage: React.FC = () => {
+
+  // state to hold selected habit
+  const [selectedHabit, setSelectedHabit] = useState<[number, number][] | null>(null);
+
+  // react router navigate hook
+  const navigate = useNavigate();
+
+  const handleHabitSelect = (id: string) => {
+
+    const habitData = mockData.Time[id]?.data;
+
+    if(habitData) {
+    setSelectedHabit(habitData);
+    navigate(`/my-habits/${id}`, { state: { data: habitData } });
+
+    } else {
+      setSelectedHabit(null);
+    }
+  }
+
   return (
     <div>  
       <div className="h-20"></div>
@@ -19,14 +46,15 @@ const MyHabitsPage: React.FC = () => {
         </Button>
       </div>
       <div className="flex items-start h-auto flex-wrap">
-        {Object.entries(mockData.count).map(([id, item], index) => (
-          <HabitCard 
-            key={id} 
-            id={id} 
-            name={item.name} 
-            bgColor={index % 2 === 0 ? "bg-[#94A3B8]" : "bg-[#CBD5E1]"} //alternating background colors
-          />
-        ))}
+      {Object.entries(mockData.Time).map(([id, habit], index) => (
+      <HabitCard 
+        key={id} 
+        id={id}
+        name={habit.name} 
+        bgColor={index % 2 === 0 ? "bg-[#94A3B8]" : "bg-[#CBD5E1]"} 
+        onClick={() => handleHabitSelect(id)} 
+      />
+))}
       </div>
     </div>
   );

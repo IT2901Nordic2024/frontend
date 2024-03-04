@@ -10,6 +10,8 @@ import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 import { Footer } from '@/Components/footer/footer';
 import { ConfigureDevicePage } from '@/Pages/ConfigureDevicePage/ConfigureDevicePage';
 import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage';
+import TimeChartPage from '@/Components/Charts/TimeChartPage';
+
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
@@ -49,6 +51,11 @@ const router = createBrowserRouter(
           path: '/my-habits',
           element: <MyHabitsPage />,
         },
+        {
+          path: '/my-habits/:id',
+          element: <TimeChartPage />,
+        },
+
         // Add more routes as necessary
       ],
     },
