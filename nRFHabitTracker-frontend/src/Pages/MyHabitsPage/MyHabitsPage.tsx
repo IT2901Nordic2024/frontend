@@ -20,12 +20,14 @@ const MyHabitsPage: React.FC = () => {
   const handleHabitSelect = (id: string) => {
 
     const habitData = mockData.Time[id]?.data;
+    const habitName = mockData.Time[id]?.name;
 
     if(habitData) {
     setSelectedHabit(habitData);
-    navigate(`/my-habits/${id}`, { state: { data: habitData } });
+    navigate(`/my-habits/${id}`, { state: { data: habitData, name: habitName } });
 
     } else {
+      console.error('No data found');
       setSelectedHabit(null);
     }
   }

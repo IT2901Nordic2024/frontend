@@ -16,6 +16,7 @@ const TimeChartPage: React.FC = () => {
     if(!location.state) return null;
 
     const { data } = location.state as { data: [number, number][] };
+    const {name} = location.state as { name: string };
 
     const series = [{
         name: 'Habit Data',
@@ -33,10 +34,10 @@ const TimeChartPage: React.FC = () => {
             type: 'datetime' as const, 
         },
         stroke: {
-            curve: 'smooth' as const, 
+            curve: 'stepline' as const, 
         },
         title: {
-            text: 'Habit Tracking',
+            text: name,
             align: 'center' as const, 
         }
     };
@@ -44,6 +45,7 @@ const TimeChartPage: React.FC = () => {
     return (
         <div>
             <div className="h-20"></div>
+            <button onClick={() => navigate('/my-habits')} className="bg-[#334155] text-white px-4 py-2 rounded-md ml-4">Go back</button>
             <ReactApexChart options={options} series={series} type="line" height={350} />;
         </div>
         
