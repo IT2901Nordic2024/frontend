@@ -44,7 +44,7 @@ const TimeChartPage: React.FC = () => {
 
     return (
         <div>
-            <div className="h-20"></div>
+            <div className="h-5"></div>
             <button onClick={() => navigate('/my-habits')} className="bg-[#334155] text-white px-4 py-2 rounded-md ml-4">Go back</button>
             <ReactApexChart options={options} series={series} type="line" height={350} />;
         </div>

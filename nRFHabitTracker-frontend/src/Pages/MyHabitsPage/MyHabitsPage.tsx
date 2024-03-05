@@ -33,8 +33,8 @@ const MyHabitsPage: React.FC = () => {
   }
 
   return (
-    <div>  
-      <div className="h-20"></div>
+    <div style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>  
+      <div className="h-10"></div>
       <div className="flex items-center justify-between mb-8 px-4">
         <h1 className="text-4xl font-bold leading-tight">My Habits</h1>
         <Button 
