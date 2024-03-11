@@ -1,10 +1,12 @@
-// Displays the sensor data fetched from the API. 
+// NOT USED
+
+// Displays the sensor data fetched from the API
 
 import { useEffect, useState } from 'react';
 
 import { fetchSensorData } from './apiService';
 import { LoadingSpinner } from "@/Components/LoadingSpinner/LoadingSpinner";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/shadcnComponents/card";
 import { ApiResponse } from './apiService';
 
 function SensorPage() {

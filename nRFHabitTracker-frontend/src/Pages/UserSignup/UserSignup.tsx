@@ -1,12 +1,10 @@
 // This page sign-up form for new users, 
-// It utilizes react-hook-form and zod for handling form state and validations, 
-// and navigates to the sensor data page upon successful sign-up 
-// or to the login page for existing users.
+// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the sensor data page upon successful sign-up or to the login page for existing users.
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../../Components/button";
+import { Button } from "@/Components/shadcnComponents/button";
 import {
   Form,
   FormControl,
@@ -14,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../Components/form";
-import { Input } from "../../Components/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/Components/card";
+} from "@/Components/shadcnComponents/form";
+import { Input } from "@/Components/shadcnComponents/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/Components/shadcnComponents/card";
 import { useNavigate } from "react-router-dom";
 
 // Defining form validation schema using zod
