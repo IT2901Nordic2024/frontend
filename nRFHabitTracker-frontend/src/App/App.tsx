@@ -8,8 +8,9 @@ import { NavBar } from '@/Components/navBar/navBar';
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
 import { SignupPage } from '@/Pages/UserSignup/UserSignup';
 import { Footer } from '@/Components/footer/footer';
-import { ConfigureDevicePage } from '@/Pages/ConfigureDevicePage/ConfigureDevicePage';
+import { AddHabitPage } from '@/Pages/AddHabitPage/AddHabitPage';
 import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage';
+import ChartPage from '@/Pages/ChartPage/ChartPage';
 import { RemoveScroll } from 'react-remove-scroll';
 
 // Layout component that includes the navigation bar and the main content outlet
@@ -45,13 +46,18 @@ const router = createBrowserRouter(
           element: <SignupPage />,
         },
         {
-          path: '/configure-device',
-          element: <ConfigureDevicePage />,
+          path: '/add-habit',
+          element: <AddHabitPage />,
         },
         {
           path: '/my-habits',
           element: <MyHabitsPage />,
         },
+        {
+          path: '/my-habits/:id',
+          element: <ChartPage />,
+        },
+
         // Add more routes as necessary
       ],
     },
