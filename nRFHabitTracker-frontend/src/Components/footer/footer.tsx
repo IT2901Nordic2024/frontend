@@ -16,7 +16,7 @@ export function Footer() {
 
   // Navigation function to the configuration page
   function goToConfigurationPage() {
-    navigate('/configure-device');
+    navigate('/add-habit');
   }
 
   return (
@@ -28,7 +28,7 @@ export function Footer() {
         <div onClick={goToHabitsPage} className="cursor-pointer flex items-center justify-center w-1/3" style={{ backgroundColor: location.pathname === '/my-habits' ? '#1E293B' : 'transparent' }}>
             <img src="/home.png" alt="home" />
         </div>
-        <div onClick={goToConfigurationPage} className="cursor-pointer flex items-center justify-center w-1/3" style={{ backgroundColor: location.pathname === '/configure-device' ? '#1E293B' : 'transparent' }}>
+        <div onClick={goToConfigurationPage} className="cursor-pointer flex items-center justify-center w-1/3" style={{ backgroundColor: location.pathname === '/add-habit' ? '#1E293B' : 'transparent' }}>
             <img src="/plus.png" alt="plus" />
         </div>
     </div>

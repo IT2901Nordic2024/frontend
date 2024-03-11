@@ -16,14 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../Components/select"
- 
+
 export function ConfigureDevicePage() {
-    const handleReset = () => {
-        // reset the form to default values
-        
-        
-    }
-    const handleDeploy = () => {
+    const handleAdd = () => {
         // Sumbit values to aws API gateway 
     }
 
@@ -39,13 +34,13 @@ export function ConfigureDevicePage() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your habit" />
+              <Input id="name" placeholder="Name of your habit"/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="side">Side</Label>
               <Select>
                 <SelectTrigger id="side">
-                  <SelectValue placeholder="Select" />
+                  <SelectValue placeholder="Choose side" />
                 </SelectTrigger>
                 <SelectContent position="popper" className="overflow-y-scroll max-h-60 shadow-lg">
                   <SelectItem value="Side 1">Side 1</SelectItem>
@@ -66,7 +61,7 @@ export function ConfigureDevicePage() {
               <Label htmlFor="type">Type</Label>
               <Select>
                 <SelectTrigger id="type">
-                  <SelectValue placeholder="Select type" />
+                  <SelectValue placeholder="Choose type" />
                 </SelectTrigger>
                 <SelectContent position="popper">
                   <SelectItem value="Counter">Counter</SelectItem>
@@ -77,9 +72,8 @@ export function ConfigureDevicePage() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handleReset}>Reset</Button>
-        <Button onClick={handleDeploy}>Add</Button>
+      <CardFooter>
+        <Button onClick={handleAdd}>Add</Button>
       </CardFooter>
     </Card>
     </div>
