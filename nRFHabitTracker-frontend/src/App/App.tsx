@@ -46,7 +46,7 @@ const router = createBrowserRouter(
           element: <SignupPage />,
         },
         {
-          path: '/configure-device',
+          path: '/add-habit',
           element: <ConfigureDevicePage />,
         },
         {

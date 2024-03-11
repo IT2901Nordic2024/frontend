@@ -18,8 +18,10 @@ import {
 } from "../../Components/select"
  
 export function ConfigureDevicePage() {
-    const handleCancel = () => {
-        // reset form and redirect to main page
+    const handleReset = () => {
+        // reset the form to default values
+        
+        
     }
     const handleDeploy = () => {
         // Sumbit values to aws API gateway 
@@ -29,8 +31,8 @@ export function ConfigureDevicePage() {
     <div className="flex justify-center items-center h-screen" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
     <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
       <CardHeader>
-        <CardTitle>Configure Habit</CardTitle>
-        <CardDescription>Deploy your new habit</CardDescription>
+        <CardTitle>Add Habit</CardTitle>
+        <CardDescription>Add a new habit tracking to your device</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
@@ -45,7 +47,7 @@ export function ConfigureDevicePage() {
                 <SelectTrigger id="side">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
-                <SelectContent position="popper" className="overflow-y-scroll max-h-60 bg-blue-100 shadow-lg">
+                <SelectContent position="popper" className="overflow-y-scroll max-h-60 shadow-lg">
                   <SelectItem value="Side 1">Side 1</SelectItem>
                   <SelectItem value="Side 2">Side 2</SelectItem>
                   <SelectItem value="Side 3">Side 3</SelectItem>
@@ -76,8 +78,8 @@ export function ConfigureDevicePage() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleDeploy}>Deploy</Button>
+        <Button variant="outline" onClick={handleReset}>Reset</Button>
+        <Button onClick={handleDeploy}>Add</Button>
       </CardFooter>
     </Card>
     </div>
