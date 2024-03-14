@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **What user story is this feature related to?**
-User Story #
+User Story:
 User Story Title: 
 
 **What does this feature entail?**
@@ -25,9 +25,9 @@ Describe small, specific tasks that have to be completed for this feature to be 
 
 **Acceptance criteria**
 Describe specific criteria for this feature request to be fulfilled, for instance specific styling.
-- [ ] Criteria 1
-- [ ] Criteria 2 
-- [ ] Criteria 3
+- [ ] Code is commented
+- [ ] Criteria example 1
+- [ ] Criteria example 2
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
