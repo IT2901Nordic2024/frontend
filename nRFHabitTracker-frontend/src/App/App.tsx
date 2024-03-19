@@ -1,72 +1,77 @@
 // Contains the main routing logic for the application
 // utilizes the react-router-dom library to handle routing
 
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import SensorData from "../Pages/SensorPage/SensorPage";
-import { LoginPage } from "@/Pages/LoginPage/LoginPage";
-import { NavBar } from "@/Components/navBar/navBar";
-import { ConnectDevicePage } from "@/Pages/ConnectDevicePage/ConnectDevicePage";
-import { SignupPage } from "@/Pages/UserSignup/UserSignup";
-import { Footer } from "@/Components/footer/footer";
-import { AddHabitPage } from "@/Pages/AddHabitPage/AddHabitPage";
-import MyHabitsPage from "@/Pages/MyHabitsPage/MyHabitsPage";
-import { RemoveScroll } from "react-remove-scroll";
-import AnalyticsPage from "@/Pages/AnalyticsPage/AnalyticsPage";
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import SensorData from '../Pages/SensorPage/SensorPage'
+import { LoginPage } from '@/Pages/LoginPage/LoginPage'
+import { NavBar } from '@/Components/navBar/navBar'
+import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage'
+import { SignupPage } from '@/Pages/UserSignup/UserSignup'
+import { Footer } from '@/Components/footer/footer'
+import { AddHabitPage } from '@/Pages/AddHabitPage/AddHabitPage'
+import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage'
+import { RemoveScroll } from 'react-remove-scroll'
+import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
+import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
   <>
     <NavBar /> {/* Nav bar to be displayed on every page */}
     <RemoveScroll>
-      <div style={{ height: "calc(100vh - 112px)", overflow: "auto" }}>
+      <div style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
         {/* Will make the content alone scrollable */}
         <Outlet /> {/* Main content outlet */}
       </div>
     </RemoveScroll>
     <Footer /> {/* Footer to be displayed on every page */}
   </>
-);
+)
 
 const router = createBrowserRouter([
   {
     element: <Layout />, // Root layout component
     children: [
       {
-        path: "/",
+        path: '/',
         element: <LoginPage />,
       },
       {
-        path: "/sensor-data",
+        path: '/sensor-data',
         element: <SensorData />,
       },
       {
-        path: "/connect-device",
+        path: '/connect-device',
         element: <ConnectDevicePage />,
       },
       {
-        path: "/signup",
+        path: '/signup',
         element: <SignupPage />,
       },
       {
-        path: "/add-habit",
+        path: '/add-habit',
         element: <AddHabitPage />,
       },
       {
-        path: "/my-habits",
+        path: '/my-habits',
         element: <MyHabitsPage />,
       },
       {
-        path: "/my-habits/:id",
+        path: '/my-habits/:id',
         element: <AnalyticsPage />,
+      },
+      {
+        path: '/my-habits/:id/addGoal',
+        element: <AddGoalPage />,
       },
 
       // Add more routes as necessary
     ],
   },
-]);
+])
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App
