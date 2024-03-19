@@ -62,10 +62,7 @@ export default function AddGoalPage() {
   const { name } = location.state as { name: string }
 
   return (
-    <div
-      className="flex justify-center items-center h-screen"
-      style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}
-    >
+    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
           <CardTitle>Add a Goal for '{name}'</CardTitle>
