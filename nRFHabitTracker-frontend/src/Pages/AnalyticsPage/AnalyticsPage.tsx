@@ -73,9 +73,7 @@ export default function AnalyticsPage() {
           <CardTitle>History</CardTitle>
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Chart></Chart>
-        </CardContent>
+        <CardContent>{/* <Chart></Chart> */}</CardContent>
       </Card>
       {/* Example card */}
       <Card className="w-[100%] mx-auto">
