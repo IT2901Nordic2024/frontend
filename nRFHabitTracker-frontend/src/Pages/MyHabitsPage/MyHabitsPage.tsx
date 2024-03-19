@@ -1,3 +1,5 @@
+// The main page for the website, where the user see all their habits
+
 import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
@@ -5,10 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import { fetchHabits, Habit } from './api'
 
 const MyHabitsPage: React.FC = () => {
+  // State variables to hold habits data and loading status
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
+  // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
     fetchHabits()
       .then((response: Habit[]) => {
@@ -21,20 +25,21 @@ const MyHabitsPage: React.FC = () => {
             habitType: habit.habitType,
             deviceId: habit.deviceId,
           }))
-          setHabitsData(transformedData)
+          setHabitsData(transformedData) // Set the transformed data to state
         }
-        setLoading(false)
+        setLoading(false) // Set loading status to false after fetching data
       })
       .catch((error) => console.error('Error fetching habit data:', error))
-  }, [])
+  }, []) // Empty dependency array ensures this effect runs only once on component mount
 
+  // Function to handle selecting a habit card
   const handleHabitSelect = (id: number, name: string) => {
     navigate(`/my-habits/${id}`, { state: { name: name } })
   }
 
   return (
-    <div style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
-      <div className="h-10"></div>
+    <div className="my-5" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
+      {/* Heading and Add Habit button */}
       <div className="flex items-center justify-between mb-8 px-4">
         <h1 className="text-4xl font-bold leading-tight">My Habits</h1>
         <Button
@@ -55,6 +60,7 @@ const MyHabitsPage: React.FC = () => {
           Add Habit
         </Button>
       </div>
+      {/* Habit cards */}
       <div className="flex items-start h-auto flex-wrap">
         {loading ? (
           <p>Loading...</p>
