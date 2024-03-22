@@ -4,17 +4,20 @@ import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchHabits, Habit } from './api'
+import { fetchHabits, Habit } from '../../api'
 
-const MyHabitsPage: React.FC = () => {
+export default function MyHabitsPage() {
   // State variables to hold habits data and loading status
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
+  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
+  const userId = '0'
+
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
-    fetchHabits()
+    fetchHabits(userId)
       .then((response: Habit[]) => {
         // Check if response is not empty
         if (response.length > 0) {
@@ -23,7 +26,6 @@ const MyHabitsPage: React.FC = () => {
             habitId: habit.habitId,
             habitName: habit.habitName,
             habitType: habit.habitType,
-            deviceId: habit.deviceId,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
         }
@@ -79,5 +81,3 @@ const MyHabitsPage: React.FC = () => {
     </div>
   )
 }
-
-export default MyHabitsPage
