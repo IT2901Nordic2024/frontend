@@ -1,6 +1,6 @@
 // Page for showing different analytics when clicking on a habit card
 
-import Chart from '@/Components/Charts/Chart'
+// import Chart from '@/Components/charts/chart'
 import { Button } from '@/Components/shadcnComponents/button'
 import {
   Card,

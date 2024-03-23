@@ -1,30 +1,30 @@
 // This page represents a login page where users can input their credentials to log in.
 // It utilizes React hooks and form handling using react-hook-form and zod for validation.
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { Button } from "@/Components/shadcnComponents/button"
+import { Button } from '@/Components/shadcnComponents/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
+import { Input } from '@/Components/shadcnComponents/input'
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/Components/shadcnComponents/form"
-import { Input } from "@/Components/shadcnComponents/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/Components/shadcnComponents/card"
-import { useNavigate } from "react-router-dom";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/Components/shadcnComponents/card'
+import { useNavigate } from 'react-router-dom'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: "Username must be at least 2 characters long.",
+    message: 'Username must be at least 2 characters long.',
   }),
   password: z.string().min(6, {
-    message: "Password must be at least 6 characters long.",
+    message: 'Password must be at least 6 characters long.',
   }),
 })
 
@@ -33,31 +33,34 @@ export function LoginPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
   })
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate()
+
   // Defines a submit handler function
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values, for example, check if the information match a user on the server
     console.log(values)
     //placeholder for actual login logic
-    navigate('/sensor-data');
+    navigate('/sensor-data')
   }
 
   // Navigate to the signup page
   function goToSignupPage() {
     // Functionality for sending the user to the signup page
-    navigate('/signup');
-  } 
+    navigate('/signup')
+  }
 
   return (
-    <div className="flex justify-center items-center h-screen" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
-        <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
+    <div
+      className="flex justify-center items-center h-screen"
+      style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}
+    >
+      <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
-            <CardTitle>Login</CardTitle>
+          <CardTitle>Login</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -98,14 +101,16 @@ export function LoginPage() {
             />
           </Form>
         </CardContent>
-            <CardFooter className="flex flex-col items-start">
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <Button type="submit">Login</Button>
-            </form>
-            <div style={{ marginBottom: '20px' }} />
-            <CardDescription style={{ cursor: "pointer" }} onClick={goToSignupPage}>Don't have an account? <span style={{ textDecoration: "underline" }}>Sign up</span></CardDescription>        
-            </CardFooter>
-        </Card>
+        <CardFooter className="flex flex-col items-start">
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Button type="submit">Login</Button>
+          </form>
+          <div style={{ marginBottom: '20px' }} />
+          <CardDescription style={{ cursor: 'pointer' }} onClick={goToSignupPage}>
+            Don't have an account? <span style={{ textDecoration: 'underline' }}>Sign up</span>
+          </CardDescription>
+        </CardFooter>
+      </Card>
     </div>
   )
 }
