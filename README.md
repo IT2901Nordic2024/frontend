@@ -13,6 +13,7 @@ List of the project's main features.
 - **Add Habit Page**: Page for the user to add new habits to their system. The user must choose a name, side and type for the tracking, which are validated as needed. This data will then display on the main page (My Habits Page).
 - **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit.
 - **My Habits Page**: This is the main page for users once they have logged in. Fetches and displays the user's habits from an AWS API Gateway.
+- **Edit Habit Page**: This is the page for changing a habit, which you can reach by clicking "Edit Habit" inside the analytics page connencted to a habit. The user must fill in the name, side and type they wish to change to, which are validated as needed. The new data will then display on the main page (My Habits Page).
 
 ## Folder Structure
 - **src**: The root directory of the source code.
