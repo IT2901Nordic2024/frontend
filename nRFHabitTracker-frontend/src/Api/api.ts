@@ -5,6 +5,7 @@ export interface Habit {
   habitName: string;
   habitId: number;
   habitType: string;
+  deviceSide: string;
 }
 
 // Function to fetch habits data from an AWS API Gateway endpoint
@@ -50,4 +51,10 @@ export async function addHabit(userId: string, deviceId: string, habitName: stri
       console.error('Error adding habit:', error);
       throw error;
   }
+}
+
+// Function to edit a habit via AWS API Gateway
+export async function EditHabit(userId: string, deviceId: string, habitName: string, habitType: string, deviceSide: string, habitId: number): Promise<void> {
+  // TODO: Add functionality once the API is set up by the backend
+  console.log("Habit not changed. Currently: " + userId + deviceId + habitName + habitType + deviceSide + habitId);
 }

@@ -13,7 +13,7 @@ import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage'
 import { RemoveScroll } from 'react-remove-scroll'
 import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
 import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
-
+import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
   <>
@@ -63,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: '/my-habits/:id/addGoal',
         element: <AddGoalPage />,
+      },
+      {
+        path: '/my-habits/:id/editHabit',
+        element: <EditHabitPage />,
       },
 
       // Add more routes as necessary

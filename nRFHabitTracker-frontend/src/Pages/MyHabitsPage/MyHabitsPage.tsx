@@ -26,6 +26,7 @@ export default function MyHabitsPage() {
             habitId: habit.habitId,
             habitName: habit.habitName,
             habitType: habit.habitType,
+            deviceSide: habit.deviceSide,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
         }
@@ -35,20 +36,16 @@ export default function MyHabitsPage() {
   }, []) // Empty dependency array ensures this effect runs only once on component mount
 
   // Function to handle selecting a habit card
-  const handleHabitSelect = (id: number, name: string) => {
-    navigate(`/my-habits/${id}`, { state: { name: name } })
+  const handleHabitSelect = (id: number, name: string, side: string, type: string) => {
+    navigate(`/my-habits/${id}`, { state: { id: id, name: name, side: side, type: type } })
   }
 
   return (
-    <div className="my-5" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
+    <div className="m-5">
       {/* Heading and Add Habit button */}
-      <div className="flex items-center justify-between mb-8 px-4">
-        <h1 className="text-4xl font-bold leading-tight">My Habits</h1>
-        <Button
-          variant="secondary"
-          className="flex items-center gap-2 bg-[black] text-white hover:bg-[#4A5568]"
-          onClick={() => navigate('/add-habit')}
-        >
+      <div className="flex justify-between">
+        <h1 className="text-4xl font-bold leading-tight text-slate-900">My Habits</h1>
+        <Button onClick={() => navigate('/add-habit')}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -73,7 +70,7 @@ export default function MyHabitsPage() {
               id={habit.habitId.toString()}
               name={habit.habitName}
               bgColor={index % 2 === 0 ? 'bg-[#94A3B8]' : 'bg-[#CBD5E1]'}
-              onClick={() => handleHabitSelect(habit.habitId, habit.habitName)}
+              onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.deviceSide, habit.habitType)}
             />
           ))
         )}
