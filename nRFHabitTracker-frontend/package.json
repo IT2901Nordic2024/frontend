@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch"
-  },
+    },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-label": "^2.0.2",
@@ -23,6 +23,7 @@
     "lucide-react": "^0.325.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
+    "punycode": "^2.3.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-remove-scroll": "^2.5.7",
@@ -61,13 +62,12 @@
       "@testing-library/jest-dom"
     ],
     "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub"
     },
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.json"
-      }
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
     }
   }
 }
