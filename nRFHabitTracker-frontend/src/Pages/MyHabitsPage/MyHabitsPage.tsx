@@ -61,9 +61,9 @@ export default function MyHabitsPage() {
       </div>
       {/* Habit cards */}
       <div className="flex items-start h-auto flex-wrap">
-        {loading ? (
+      {loading ? (
           <p>Loading...</p>
-        ) : (
+        ) : habitsData.length > 0 ? (
           habitsData.map((habit, index) => (
             <HabitCard
               key={habit.habitId}
@@ -73,6 +73,9 @@ export default function MyHabitsPage() {
               onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.deviceSide, habit.habitType)}
             />
           ))
+        ) : (
+          // Display message if no habits have been created
+          <p>No habits have been created yet. Start by adding a new habit!</p>
         )}
       </div>
     </div>
