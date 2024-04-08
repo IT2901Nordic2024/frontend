@@ -5,7 +5,7 @@ export interface Habit {
   habitName: string;
   habitId: number;
   habitType: string;
-  deviceSide: string;
+  side: number;
 }
 
 // Function to fetch habits data from an AWS API Gateway endpoint
@@ -30,9 +30,9 @@ export async function fetchHabits(userId: string): Promise<Habit[]> {
 }
 
 // Function to add a new habit via AWS API Gateway
-export async function addHabit(userId: string, deviceId: string, habitName: string, habitType: string, deviceSide: string): Promise<void> {
+export async function addHabit(userId: string, deviceId: string, habitName: string, habitType: string, side: string): Promise<void> {
   try {
-      const response = await fetch(`https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/createHabit/${userId}/${deviceId}/${habitName}/${habitType}/${deviceSide}`, {
+      const response = await fetch(`https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/createHabit/${userId}/${deviceId}/${habitName}/${habitType}/${side}`, {
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ export async function addHabit(userId: string, deviceId: string, habitName: stri
 }
 
 // Function to edit a habit via AWS API Gateway
-export async function EditHabit(userId: string, deviceId: string, habitName: string, habitType: string, deviceSide: string, habitId: number): Promise<void> {
+export async function EditHabit(userId: string, deviceId: string, habitName: string, habitType: string, side: string, habitId: number): Promise<void> {
   // TODO: Add functionality once the API is set up by the backend
-  console.log("Habit not changed. Currently: " + userId + deviceId + habitName + habitType + deviceSide + habitId);
+  console.log("Habit not changed. Tried changing to: " + 'userId ' + userId + ', deviceId ' + deviceId + ', habitName ' + habitName + ', habitType ' + habitType + ', side ' + side + ', habitId ' + habitId);
 }

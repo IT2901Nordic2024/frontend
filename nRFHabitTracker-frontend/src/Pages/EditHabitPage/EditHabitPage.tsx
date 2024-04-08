@@ -62,7 +62,7 @@ export default function EditHabitPage() {
   const location = useLocation()
 
   // Destructure values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
+  const { id, name, side, type } = location.state as { id: number; name: string; side: number; type: string }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({

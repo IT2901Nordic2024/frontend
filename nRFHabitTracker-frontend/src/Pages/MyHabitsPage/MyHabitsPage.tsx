@@ -26,7 +26,7 @@ export default function MyHabitsPage() {
             habitId: habit.habitId,
             habitName: habit.habitName,
             habitType: habit.habitType,
-            deviceSide: habit.deviceSide,
+            side: habit.side,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
         }
@@ -36,7 +36,7 @@ export default function MyHabitsPage() {
   }, []) // Empty dependency array ensures this effect runs only once on component mount
 
   // Function to handle selecting a habit card
-  const handleHabitSelect = (id: number, name: string, side: string, type: string) => {
+  const handleHabitSelect = (id: number, name: string, side: number, type: string) => {
     navigate(`/my-habits/${id}`, { state: { id: id, name: name, side: side, type: type } })
   }
 
@@ -70,7 +70,7 @@ export default function MyHabitsPage() {
               id={habit.habitId.toString()}
               name={habit.habitName}
               bgColor={index % 2 === 0 ? 'bg-[#94A3B8]' : 'bg-[#CBD5E1]'}
-              onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.deviceSide, habit.habitType)}
+              onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.side, habit.habitType)}
             />
           ))
         )}
