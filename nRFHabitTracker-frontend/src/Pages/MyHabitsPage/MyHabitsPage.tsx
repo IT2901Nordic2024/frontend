@@ -5,6 +5,7 @@ import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchHabits, Habit } from '../../Api/api'
+import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
 
 export default function MyHabitsPage() {
   // State variables to hold habits data and loading status
@@ -62,7 +63,9 @@ export default function MyHabitsPage() {
       {/* Habit cards */}
       <div className="flex items-start h-auto flex-wrap">
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex items-center justify-center w-full h-full fixed top-0 left-0">
+            <LoadingSpinner />
+          </div>
         ) : (
           habitsData.map((habit, index) => (
             <HabitCard
