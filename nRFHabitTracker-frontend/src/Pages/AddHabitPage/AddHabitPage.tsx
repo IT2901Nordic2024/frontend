@@ -25,7 +25,7 @@ export function AddHabitPage() {
     try {
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = '0'
-      const deviceId = 'firmwareSimulatorThing'
+      const deviceId = 'MyIotThing'
 
       // Call the addHabit function with form field values
       await addHabit(userId, deviceId, values.name, values.type, values.side)

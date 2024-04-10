@@ -62,7 +62,7 @@ export default function EditHabitPage() {
   const location = useLocation()
 
   // Destructure values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
+  const { id, name, side, type } = location.state as { id: number; name: string; side: number; type: string }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +79,8 @@ export default function EditHabitPage() {
         <CardHeader>
           <CardTitle>Edit '{name}'</CardTitle>
           <CardDescription>
-            Make changes to your habit. If you wish to keep a value, fill in the old one as you can see above.
+            Make changes to your habit. If you wish to keep a value as it is, fill in the old one as you can see above
+            the field.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
@@ -106,7 +107,7 @@ export default function EditHabitPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Current side: {side}</FormLabel>
+                    <FormLabel>Current side: {side || 'None'}</FormLabel>
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
