@@ -54,7 +54,7 @@ export async function addHabit(userId: string, deviceId: string, habitName: stri
 }
 
 // Function to edit a habit via AWS API Gateway
-export async function EditHabit(userId: string, deviceId: string, habitName: string, habitType: string, side: string, habitId: number): Promise<void> {
+export async function EditHabit(userId: string, deviceId: string, habitName: string, side: string, habitId: number): Promise<void> {
   // TODO: Add functionality once the API is set up by the backend
-  console.log("Habit not changed. Tried changing to: " + 'userId ' + userId + ', deviceId ' + deviceId + ', habitName ' + habitName + ', habitType ' + habitType + ', side ' + side + ', habitId ' + habitId);
+  console.log("Habit not changed. Tried changing to: " + 'userId ' + userId + ', deviceId ' + deviceId + ', habitName ' + habitName + ', side ' + side + ', habitId ' + habitId);
 }

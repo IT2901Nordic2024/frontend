@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import React from 'react'
 
 export default function EditHabitPage() {
   // Function to handle adding a habit
@@ -28,7 +29,7 @@ export default function EditHabitPage() {
       const deviceId = 'firmwareSimulatorThing'
 
       // Call the addHabit function with form field values
-      await EditHabit(userId, deviceId, values.name, values.type, values.side, id)
+      await EditHabit(userId, deviceId, values.name, values.side, id)
 
       // Navigate back to the previous page
       navigateBack()
@@ -44,7 +45,6 @@ export default function EditHabitPage() {
       message: 'Name must be at least 2 characters.',
     }),
     side: z.string(),
-    type: z.string(),
   })
 
   // Get the navigation function
@@ -62,7 +62,7 @@ export default function EditHabitPage() {
   const location = useLocation()
 
   // Destructure values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: number; type: string }
+  const { id, name, side } = location.state as { id: number; name: string; side: number }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -130,29 +130,6 @@ export default function EditHabitPage() {
                     </SelectContent>
                   </Select>
                   {form.formState.errors.side && <FormMessage>{form.formState.errors.side.message}</FormMessage>}
-                </FormItem>
-              )}
-            ></FormField>
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Current type: {type}</FormLabel>
-                  </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent position="popper">
-                      <SelectItem value="count">Count</SelectItem>
-                      <SelectItem value="time">Time</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {form.formState.errors.type && <FormMessage>{form.formState.errors.type.message}</FormMessage>}
                 </FormItem>
               )}
             ></FormField>
