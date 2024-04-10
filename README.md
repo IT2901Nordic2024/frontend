@@ -39,6 +39,8 @@ List the technologies, frameworks, and libraries used in the project.
 - [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
 - [ApexCharts] (https://apexcharts.com/) - A modern charting library for interactive visualizations of data.
+- [Cypress] (https://www.cypress.io/)- Comprehensive e2e testing framework 
+- [Jest] (https://jestjs.io/)- Javascript testing framwork, used to test components
 
 ## Getting Started
 
@@ -70,3 +72,37 @@ This command starts a local development server, typically accessible via `http:/
 <!-- ## Testing
 To run automated tests, use the following command:
 **npm test** -->
+
+## E2E-tests
+ For the nRFHabitTracker-frontend project, we use Cypress, a powerful and easy-to-use E2E testing framework that allows us to simulate real user interactions with the application.
+
+### Prerequisites
+
+Before you can run Cypress tests, you need to have the following installed:
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+
+
+### Opening Cypress Test Runner
+
+To open the Cypress Test Runner, which provides a graphical interface for running your tests interactively, use the following command:
+
+`npx cypress open`
+
+
+The Test Runner will open in a new window, listing all the test files. You can click on any test file to run it interactively within the Cypress environment.
+
+### Running Cypress Tests Headlessly
+
+To run Cypress tests headlessly, use the following command:
+
+`npx cypress run`
+
+This command runs all your tests in headless mode and outputs the results to your terminal.
+
+### Running Specific Test Files
+
+If you wish to run a specific test file instead of all tests, you can use the `--spec` flag followed by the path to the test file:
+
+`npx cypress run --spec "cypress/e2e/test_file.spec.ts"`

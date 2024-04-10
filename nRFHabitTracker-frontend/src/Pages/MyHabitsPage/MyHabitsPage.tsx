@@ -66,7 +66,7 @@ export default function MyHabitsPage() {
           <div className="flex items-center justify-center w-full h-full fixed top-0 left-0">
             <LoadingSpinner />
           </div>
-        ) : (
+        ) : habitsData.length > 0 ? (
           habitsData.map((habit, index) => (
             <HabitCard
               key={habit.habitId}
@@ -76,6 +76,9 @@ export default function MyHabitsPage() {
               onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.side, habit.habitType)}
             />
           ))
+        ) : (
+          // Display message if no habits have been created
+          <p>No habits have been created yet. Start by adding a new habit!</p>
         )}
       </div>
     </div>
