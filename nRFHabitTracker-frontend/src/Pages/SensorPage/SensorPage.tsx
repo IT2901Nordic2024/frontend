@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react'
 
 import { fetchSensorData } from './apiService'
-import { LoadingSpinner } from '@/Components/loadingSpinner/loadingSpinner'
+import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Components/shadcnComponents/card'
 import { ApiResponse } from './apiService'
 
