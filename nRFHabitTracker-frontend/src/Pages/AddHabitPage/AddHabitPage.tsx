@@ -17,9 +17,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
 
 export function AddHabitPage() {
+  // Toast for user confirmation
+  const { toast } = useToast()
+
   // Function to handle adding a habit
   async function handleAdd(values: z.infer<typeof formSchema>) {
     try {
@@ -68,6 +72,13 @@ export function AddHabitPage() {
   // Navigate back to the previous page
   function navigateBack() {
     navigate(-1) // This navigates back to the previous page in the history
+
+    // If successfull as confirmation toast will appear on the screen
+    toast({
+      variant: 'success',
+      title: 'Success!',
+      description: 'Your habit is added.',
+    })
   }
 
   return (
