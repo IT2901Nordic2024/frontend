@@ -1,6 +1,6 @@
 // Page for showing different analytics when clicking on a habit card
 
-import Chart from '@/Components/Charts/Chart'
+//import Chart from '@/Components/Charts/Chart'
 import GoalsChart from '@/Components/Charts/GoalsChart/GoalsChart'
 import { Button } from '@/Components/shadcnComponents/button'
 import {
@@ -18,8 +18,8 @@ export default function AnalyticsPage() {
   // Get the current location
   const location = useLocation()
 
-  // Destructure the 'name' from the location state
-  const { name } = location.state as { name: string }
+  // Destructure the values from the location state
+  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
 
   const navigate = useNavigate()
 
@@ -27,6 +27,12 @@ export default function AnalyticsPage() {
   function goToAddGoalPage() {
     // Functionality for sending the user to the page for adding goals
     navigate(`${location.pathname}/addGoal`, { state: { name: name } })
+  }
+
+  // Navigate to the "edit habit" page
+  function goToEditHabitPage() {
+    // Functionality for sending the user to the page for changing their habit
+    navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, type: type } })
   }
 
   // Temp variable for holding information about whether there exist a goal
@@ -47,8 +53,8 @@ export default function AnalyticsPage() {
     <div className="flex flex-col m-5">
       {/* Heading with the habit's name */}
       <div className="flex justify-between">
-        <h1 className="text-4xl font-bold leading-tight text-slate-900">{name}</h1>
-        <Button className={`${goalExist ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
+        <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">{name}</h1>
+        <Button className={`ml-4 ${goalExist ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
           Add Goal
         </Button>
       </div>
@@ -84,6 +90,13 @@ export default function AnalyticsPage() {
         </CardHeader>
         <CardContent>Just to show what is possible and how it will look</CardContent>
       </Card>
+      <div className="flex justify-between">
+        {/* Button to edit habit */}
+        <Button onClick={goToEditHabitPage}>Edit Habit</Button>
+        {/* Button to delete habit */}
+        {/* TODO: Make this functional */}
+        <Button variant="destructive">Delete Habit</Button>
+      </div>
     </div>
   )
 }

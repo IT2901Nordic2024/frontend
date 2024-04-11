@@ -1,4 +1,4 @@
-// Page for addin habits to their device
+// Page for changing an exisiting habit
 
 import { Button } from '@/Components/shadcnComponents/button'
 import {
@@ -11,30 +11,30 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
-import { addHabit } from '../../Api/api'
+import { EditHabit } from '../../Api/api'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-export function AddHabitPage() {
+export default function EditHabitPage() {
   // Function to handle adding a habit
-  async function handleAdd(values: z.infer<typeof formSchema>) {
+  async function handleSave(values: z.infer<typeof formSchema>) {
     try {
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = '0'
-      const deviceId = 'MyIotThing'
+      const deviceId = 'firmwareSimulatorThing'
 
       // Call the addHabit function with form field values
-      await addHabit(userId, deviceId, values.name, values.type, values.side)
+      await EditHabit(userId, deviceId, values.name, values.type, values.side, id)
 
       // Navigate back to the previous page
       navigateBack()
     } catch (error) {
       // Handle error
-      setErrorMessage('Failed to add habit. Please try again.')
+      setErrorMessage('Failed to edit habit. Please try again.')
     }
   }
 
@@ -43,20 +43,8 @@ export function AddHabitPage() {
     name: z.string().min(2, {
       message: 'Name must be at least 2 characters.',
     }),
-    side: z.string({
-      required_error: 'Please select a side.',
-    }),
-    type: z.string({
-      required_error: 'Please select a type.',
-    }),
-  })
-
-  // Defines form using useForm hook
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-    },
+    side: z.string(),
+    type: z.string(),
   })
 
   // Get the navigation function
@@ -70,16 +58,33 @@ export function AddHabitPage() {
     navigate(-1) // This navigates back to the previous page in the history
   }
 
+  // Get the current location
+  const location = useLocation()
+
+  // Destructure values from the location state
+  const { id, name, side, type } = location.state as { id: number; name: string; side: number; type: string }
+
+  // Defines form using useForm hook
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+    },
+  })
+
   return (
     <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
-      {/* Card component for adding a new habit */}
+      {/* Card component for changing a habit */}
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
-          <CardTitle>Add Habit</CardTitle>
-          <CardDescription>Add a new habit tracking to your device</CardDescription>
+          <CardTitle>Edit '{name}'</CardTitle>
+          <CardDescription>
+            Make changes to your habit. If you wish to keep a value as it is, fill in the old one as you can see above
+            the field.
+          </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {/* Form for adding a new habit */}
+          {/* Form for changing the habit */}
           <Form {...form}>
             <FormField
               control={form.control}
@@ -87,10 +92,10 @@ export function AddHabitPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Current name: {name}</FormLabel>
                   </div>
                   <FormControl>
-                    <Input placeholder="Name of your habit" value={field.value || ''} onChange={field.onChange} />
+                    <Input placeholder="New name of your habit" value={field.value || ''} onChange={field.onChange} />
                   </FormControl>
                   {form.formState.errors.name && <FormMessage>{form.formState.errors.name.message}</FormMessage>}
                 </FormItem>
@@ -102,7 +107,7 @@ export function AddHabitPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Side</FormLabel>
+                    <FormLabel>Current side: {side || 'None'}</FormLabel>
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
@@ -134,7 +139,7 @@ export function AddHabitPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>Current type: {type}</FormLabel>
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
@@ -153,14 +158,16 @@ export function AddHabitPage() {
             ></FormField>
           </Form>
         </CardContent>
-        <CardFooter>
-          {/* Button to add the habit */}
-          <div className="flex flex-col gap-2">
-            <form onSubmit={form.handleSubmit(handleAdd)}>
-              <Button variant="secondary">Add</Button>
-            </form>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          </div>
+        <CardFooter className="flex flex-row justify-between">
+          {/* Button to save the changes */}
+          <form onSubmit={form.handleSubmit(handleSave)}>
+            <Button variant="secondary">Save changes</Button>
+          </form>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {/* Button to cancel changing the habit */}
+          <Button variant="destructive" onClick={navigateBack}>
+            Cancel
+          </Button>
         </CardFooter>
       </Card>
     </div>

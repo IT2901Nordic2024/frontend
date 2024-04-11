@@ -4,17 +4,21 @@ import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchHabits, Habit } from './api'
+import { fetchHabits, Habit } from '../../Api/api'
+import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
 
-const MyHabitsPage: React.FC = () => {
+export default function MyHabitsPage() {
   // State variables to hold habits data and loading status
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
+  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
+  const userId = '0'
+
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
-    fetchHabits()
+    fetchHabits(userId)
       .then((response: Habit[]) => {
         // Check if response is not empty
         if (response.length > 0) {
@@ -23,7 +27,7 @@ const MyHabitsPage: React.FC = () => {
             habitId: habit.habitId,
             habitName: habit.habitName,
             habitType: habit.habitType,
-            deviceId: habit.deviceId,
+            side: habit.side,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
         }
@@ -33,20 +37,16 @@ const MyHabitsPage: React.FC = () => {
   }, []) // Empty dependency array ensures this effect runs only once on component mount
 
   // Function to handle selecting a habit card
-  const handleHabitSelect = (id: number, name: string) => {
-    navigate(`/my-habits/${id}`, { state: { name: name } })
+  const handleHabitSelect = (id: number, name: string, side: number, type: string) => {
+    navigate(`/my-habits/${id}`, { state: { id: id, name: name, side: side, type: type } })
   }
 
   return (
-    <div className="my-5" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
+    <div className="m-5">
       {/* Heading and Add Habit button */}
-      <div className="flex items-center justify-between mb-8 px-4">
-        <h1 className="text-4xl font-bold leading-tight">My Habits</h1>
-        <Button
-          variant="secondary"
-          className="flex items-center gap-2 bg-[black] text-white hover:bg-[#4A5568]"
-          onClick={() => navigate('/add-habit')}
-        >
+      <div className="flex justify-between">
+        <h1 className="text-4xl font-bold leading-tight text-slate-900">My Habits</h1>
+        <Button onClick={() => navigate('/add-habit')}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -63,21 +63,24 @@ const MyHabitsPage: React.FC = () => {
       {/* Habit cards */}
       <div className="flex items-start h-auto flex-wrap">
         {loading ? (
-          <p>Loading...</p>
-        ) : (
+          <div className="flex items-center justify-center w-full h-full fixed top-0 left-0">
+            <LoadingSpinner />
+          </div>
+        ) : habitsData.length > 0 ? (
           habitsData.map((habit, index) => (
             <HabitCard
               key={habit.habitId}
               id={habit.habitId.toString()}
               name={habit.habitName}
               bgColor={index % 2 === 0 ? 'bg-[#94A3B8]' : 'bg-[#CBD5E1]'}
-              onClick={() => handleHabitSelect(habit.habitId, habit.habitName)}
+              onClick={() => handleHabitSelect(habit.habitId, habit.habitName, habit.side, habit.habitType)}
             />
           ))
+        ) : (
+          // Display message if no habits have been created
+          <p>No habits have been created yet. Start by adding a new habit!</p>
         )}
       </div>
     </div>
   )
 }
-
-export default MyHabitsPage

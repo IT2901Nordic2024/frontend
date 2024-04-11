@@ -1,3 +1,5 @@
+// NOT USED
+
 // Fetches data from AWS API Gateway for use in the SensorPage Page
 
 export interface ApiResponse {
