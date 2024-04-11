@@ -28,7 +28,19 @@ export default function EditHabitPage() {
       const userId = '0'
       const deviceId = 'firmwareSimulatorThing'
 
-      // Call the addHabit function with form field values
+      // Call the EditdHabit function with form field values
+      console.log(
+        'userid: ' +
+          userId +
+          ', deviceid: ' +
+          deviceId +
+          ', name: ' +
+          values.name +
+          ', side: ' +
+          values.side +
+          ', habitid: ' +
+          id
+      )
       await EditHabit(userId, deviceId, values.name, values.side, id)
 
       // Navigate back to the previous page
