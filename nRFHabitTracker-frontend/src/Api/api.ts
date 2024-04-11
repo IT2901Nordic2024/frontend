@@ -90,7 +90,7 @@ export async function EditHabit(
     console.log('Habit added successfully')
   } catch (error) {
     // Handle error here
-    console.error('Error adding ahbit:', error)
+    console.error('Error adding habit:', error)
     throw error
   }
 }

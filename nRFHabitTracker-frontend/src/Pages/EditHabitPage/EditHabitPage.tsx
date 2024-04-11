@@ -18,9 +18,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 import React from 'react'
 
 export default function EditHabitPage() {
+  // Toast for user confirmation
+  const { toast } = useToast()
+
   // Function to handle adding a habit
   async function handleSave(values: z.infer<typeof formSchema>) {
     try {
@@ -89,6 +93,13 @@ export default function EditHabitPage() {
 
     // Navigate back to the previous page with the updated state
     navigate(`/my-habits/${id}`, { state: updatedState })
+
+    // If successfull as confirmation toast will appear on the screen
+    toast({
+      variant: 'success',
+      title: 'Success!',
+      description: 'Your changes have been saved.',
+    })
   }
 
   // Get the current location
