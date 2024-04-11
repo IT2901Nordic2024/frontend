@@ -28,6 +28,10 @@ export default function EditHabitPage() {
       const userId = '0'
       const deviceId = 'firmwareSimulatorThing'
 
+      // Set default values if not provided
+      const habitName = values.name || 'noChange'
+      const side = values.side || 'noChange'
+
       // Call the EditdHabit function with form field values
       console.log(
         'userid: ' +
@@ -41,7 +45,7 @@ export default function EditHabitPage() {
           ', habitid: ' +
           id
       )
-      await EditHabit(userId, deviceId, values.name, values.side, id)
+      await EditHabit(userId, deviceId, habitName, side, id)
 
       // Navigate back to the previous page
       navigateBack()
@@ -52,12 +56,18 @@ export default function EditHabitPage() {
   }
 
   // Defining form validation schema using zod
-  const formSchema = z.object({
-    name: z.string().min(2, {
-      message: 'Name must be at least 2 characters.',
-    }),
-    side: z.string(),
-  })
+  const formSchema = z
+    .object({
+      name: z.string().optional(),
+      side: z.string().optional(),
+    })
+    .refine((data) => {
+      // Check if either name or side is different from initial values and not empty
+      const nameChanged = data.name !== undefined && data.name !== '' && data.name !== name
+      const sideChanged = data.side !== undefined && data.side !== '' && data.side !== String(side)
+
+      return nameChanged || sideChanged
+    })
 
   // Get the navigation function
   const navigate = useNavigate()
@@ -91,8 +101,7 @@ export default function EditHabitPage() {
         <CardHeader>
           <CardTitle>Edit '{name}'</CardTitle>
           <CardDescription>
-            Make changes to your habit. If you wish to keep a value as it is, fill in the old one as you can see above
-            the field.
+            Make changes to your habit. If you wish to keep a value as it is, leave the field empty.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
@@ -109,7 +118,6 @@ export default function EditHabitPage() {
                   <FormControl>
                     <Input placeholder="New name of your habit" value={field.value || ''} onChange={field.onChange} />
                   </FormControl>
-                  {form.formState.errors.name && <FormMessage>{form.formState.errors.name.message}</FormMessage>}
                 </FormItem>
               )}
             ></FormField>
@@ -141,7 +149,10 @@ export default function EditHabitPage() {
                       <SelectItem value="11">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.side && <FormMessage>{form.formState.errors.side.message}</FormMessage>}
+                  {/* Display a single error message if there are any form errors */}
+                  {Object.keys(form.formState.errors).length > 0 && (
+                    <p className="text-red-500">At least one field must be changed.</p>
+                  )}
                 </FormItem>
               )}
             ></FormField>
@@ -152,7 +163,6 @@ export default function EditHabitPage() {
           <form onSubmit={form.handleSubmit(handleSave)}>
             <Button variant="secondary">Save changes</Button>
           </form>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           {/* Button to cancel changing the habit */}
           <Button variant="destructive" onClick={navigateBack}>
             Cancel
