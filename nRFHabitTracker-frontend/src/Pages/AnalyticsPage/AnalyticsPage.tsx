@@ -31,7 +31,7 @@ export default function AnalyticsPage() {
   // Navigate to the "edit habit" page
   function goToEditHabitPage() {
     // Functionality for sending the user to the page for changing their habit
-    navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, type: type } })
+    navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side } })
   }
 
   // Temp variable for holding information about whether there exist a goal

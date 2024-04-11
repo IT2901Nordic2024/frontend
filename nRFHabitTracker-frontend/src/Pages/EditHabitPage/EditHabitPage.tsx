@@ -33,22 +33,10 @@ export default function EditHabitPage() {
       const side = values.side || 'noChange'
 
       // Call the EditdHabit function with form field values
-      console.log(
-        'userid: ' +
-          userId +
-          ', deviceid: ' +
-          deviceId +
-          ', name: ' +
-          values.name +
-          ', side: ' +
-          values.side +
-          ', habitid: ' +
-          id
-      )
       await EditHabit(userId, deviceId, habitName, side, id)
 
       // Navigate back to the previous page
-      navigateBack()
+      navigateBackAfterSave({ id: id, name: habitName, side: side })
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to edit habit. Please try again.')
@@ -78,6 +66,29 @@ export default function EditHabitPage() {
   // Navigate back to the previous page
   function navigateBack() {
     navigate(-1) // This navigates back to the previous page in the history
+  }
+
+  // Navigate back to the analytics page with updated values
+  function navigateBackAfterSave(updatedValues: { id: number; name?: string; side?: string }) {
+    // Define an object to hold the updated values
+    const updatedState: { id: number; name?: string; side?: string } = { id }
+
+    // Check if there's a change in the name, if yes, update the name field
+    if (updatedValues.name && updatedValues.name !== 'noChange') {
+      updatedState.name = updatedValues.name
+    } else {
+      updatedState.name = name // If no change, keep the original name
+    }
+
+    // Check if there's a change in the side, if yes, update the side field
+    if (updatedValues.side && updatedValues.side !== 'noChange') {
+      updatedState.side = updatedValues.side
+    } else {
+      updatedState.side = String(side) // If no change, keep the original side
+    }
+
+    // Navigate back to the previous page with the updated state
+    navigate(`/my-habits/${id}`, { state: updatedState })
   }
 
   // Get the current location
