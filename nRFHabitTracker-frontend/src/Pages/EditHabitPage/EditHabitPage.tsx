@@ -11,23 +11,28 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
-import { EditHabit } from '../../Api/api'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
+import { EditHabit } from '@/Api/api'
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/Components/shadcnComponents/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
-import React from 'react'
 
 export default function EditHabitPage() {
+  // State to track saving process
+  const [isLoading, setIsLoading] = useState(false) // State to track loading
+
   // Toast for user confirmation
   const { toast } = useToast()
 
   // Function to handle adding a habit
   async function handleSave(values: z.infer<typeof formSchema>) {
     try {
+      // Set loading to true
+      setIsLoading(true)
+
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = '0'
       const deviceId = 'firmwareSimulatorThing'
@@ -44,6 +49,9 @@ export default function EditHabitPage() {
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to edit habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
     }
   }
 
@@ -171,20 +179,26 @@ export default function EditHabitPage() {
                       <SelectItem value="11">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
-                  {/* Display a single error message if there are any form errors */}
+                  {/* Display error messages */}
                   {Object.keys(form.formState.errors).length > 0 && (
                     <p className="text-red-500">At least one field must be changed.</p>
                   )}
+                  {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                 </FormItem>
               )}
             ></FormField>
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
+          {/* Conditionally render loading spinner */}
           {/* Button to save the changes */}
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <Button variant="secondary">Save changes</Button>
-          </form>
+          {isLoading ? (
+            <p>Saving changes...</p>
+          ) : (
+            <form onSubmit={form.handleSubmit(handleSave)}>
+              <Button variant="secondary">Save changes</Button>
+            </form>
+          )}
           {/* Button to cancel changing the habit */}
           <Button variant="destructive" onClick={navigateBack}>
             Cancel

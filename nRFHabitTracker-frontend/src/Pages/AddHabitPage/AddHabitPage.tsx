@@ -11,7 +11,7 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
-import { addHabit } from '../../Api/api'
+import { addHabit } from '@/Api/api'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

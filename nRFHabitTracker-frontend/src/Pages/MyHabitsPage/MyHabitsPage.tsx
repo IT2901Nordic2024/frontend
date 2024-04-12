@@ -4,7 +4,7 @@ import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchHabits, Habit } from '../../Api/api'
+import { fetchHabits, Habit } from '@/Api/api'
 import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
 
 export default function MyHabitsPage() {
