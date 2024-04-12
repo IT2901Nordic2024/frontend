@@ -179,25 +179,27 @@ export default function EditHabitPage() {
                       <SelectItem value="11">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
-                  {/* Display error messages */}
+                  {/* Display error message */}
                   {Object.keys(form.formState.errors).length > 0 && (
                     <p className="text-red-500">At least one field must be changed.</p>
                   )}
-                  {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                 </FormItem>
               )}
             ></FormField>
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
-          {/* Conditionally render loading spinner */}
+          {/* Conditionally render loading indicator */}
           {/* Button to save the changes */}
           {isLoading ? (
             <p>Saving changes...</p>
           ) : (
-            <form onSubmit={form.handleSubmit(handleSave)}>
-              <Button variant="secondary">Save changes</Button>
-            </form>
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(handleSave)}>
+                <Button variant="secondary">Save changes</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
           )}
           {/* Button to cancel changing the habit */}
           <Button variant="destructive" onClick={navigateBack}>

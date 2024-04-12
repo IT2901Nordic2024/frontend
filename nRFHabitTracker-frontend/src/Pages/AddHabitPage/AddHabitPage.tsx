@@ -21,12 +21,18 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
 
 export function AddHabitPage() {
+  // State to track saving process
+  const [isLoading, setIsLoading] = useState(false) // State to track loading
+
   // Toast for user confirmation
   const { toast } = useToast()
 
   // Function to handle adding a habit
   async function handleAdd(values: z.infer<typeof formSchema>) {
     try {
+      // Set loading to true
+      setIsLoading(true)
+
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = '0'
       const deviceId = 'MyIotThing'
@@ -39,6 +45,9 @@ export function AddHabitPage() {
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to add habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
     }
   }
 
@@ -165,13 +174,18 @@ export function AddHabitPage() {
           </Form>
         </CardContent>
         <CardFooter>
+          {/* Conditionally render loading indicator */}
           {/* Button to add the habit */}
-          <div className="flex flex-col gap-2">
-            <form onSubmit={form.handleSubmit(handleAdd)}>
-              <Button variant="secondary">Add</Button>
-            </form>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          </div>
+          {isLoading ? (
+            <p>Adding habit...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(handleAdd)}>
+                <Button variant="secondary">Add</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
         </CardFooter>
       </Card>
     </div>
