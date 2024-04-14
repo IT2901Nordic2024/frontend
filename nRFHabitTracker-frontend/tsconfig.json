@@ -28,7 +28,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "cypress/integration/login.spec.ts"],
+  "include": ["src", "src/**/*.ts", "cypress/integration/login.spec.ts"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

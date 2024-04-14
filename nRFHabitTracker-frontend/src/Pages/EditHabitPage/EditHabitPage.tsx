@@ -11,41 +11,63 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
-import { EditHabit } from '../../Api/api'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
+import { EditHabit } from '@/Api/api'
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/Components/shadcnComponents/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 
 export default function EditHabitPage() {
+  // State to track saving process
+  const [isLoading, setIsLoading] = useState(false) // State to track loading
+
+  // Toast for user confirmation
+  const { toast } = useToast()
+
   // Function to handle adding a habit
   async function handleSave(values: z.infer<typeof formSchema>) {
     try {
+      // Set loading to true
+      setIsLoading(true)
+
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = '0'
       const deviceId = 'firmwareSimulatorThing'
 
-      // Call the addHabit function with form field values
-      await EditHabit(userId, deviceId, values.name, values.type, values.side, id)
+      // Set default values if not provided
+      const habitName = values.name || 'noChange'
+      const side = values.side || 'noChange'
+
+      // Call the EditdHabit function with form field values
+      await EditHabit(userId, deviceId, habitName, side, id)
 
       // Navigate back to the previous page
-      navigateBack()
+      navigateBackAfterSave({ id: id, name: habitName, side: side })
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to edit habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
     }
   }
 
   // Defining form validation schema using zod
-  const formSchema = z.object({
-    name: z.string().min(2, {
-      message: 'Name must be at least 2 characters.',
-    }),
-    side: z.string(),
-    type: z.string(),
-  })
+  const formSchema = z
+    .object({
+      name: z.string().optional(),
+      side: z.string().optional(),
+    })
+    .refine((data) => {
+      // Check if either name or side is different from initial values and not empty
+      const nameChanged = data.name !== undefined && data.name !== '' && data.name !== name
+      const sideChanged = data.side !== undefined && data.side !== '' && data.side !== String(side)
+
+      return nameChanged || sideChanged
+    })
 
   // Get the navigation function
   const navigate = useNavigate()
@@ -58,11 +80,41 @@ export default function EditHabitPage() {
     navigate(-1) // This navigates back to the previous page in the history
   }
 
+  // Navigate back to the analytics page with updated values
+  function navigateBackAfterSave(updatedValues: { id: number; name?: string; side?: string }) {
+    // Define an object to hold the updated values
+    const updatedState: { id: number; name?: string; side?: string } = { id }
+
+    // Check if there's a change in the name, if yes, update the name field
+    if (updatedValues.name && updatedValues.name !== 'noChange') {
+      updatedState.name = updatedValues.name
+    } else {
+      updatedState.name = name // If no change, keep the original name
+    }
+
+    // Check if there's a change in the side, if yes, update the side field
+    if (updatedValues.side && updatedValues.side !== 'noChange') {
+      updatedState.side = updatedValues.side
+    } else {
+      updatedState.side = String(side) // If no change, keep the original side
+    }
+
+    // Navigate back to the previous page with the updated state
+    navigate(`/my-habits/${id}`, { state: updatedState })
+
+    // If successfull as confirmation toast will appear on the screen
+    toast({
+      variant: 'success',
+      title: 'Success!',
+      description: 'Your changes have been saved.',
+    })
+  }
+
   // Get the current location
   const location = useLocation()
 
   // Destructure values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: number; type: string }
+  const { id, name, side } = location.state as { id: number; name: string; side: number }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,8 +131,7 @@ export default function EditHabitPage() {
         <CardHeader>
           <CardTitle>Edit '{name}'</CardTitle>
           <CardDescription>
-            Make changes to your habit. If you wish to keep a value as it is, fill in the old one as you can see above
-            the field.
+            Make changes to your habit. If you wish to keep a value as it is, leave the field empty.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
@@ -97,7 +148,6 @@ export default function EditHabitPage() {
                   <FormControl>
                     <Input placeholder="New name of your habit" value={field.value || ''} onChange={field.onChange} />
                   </FormControl>
-                  {form.formState.errors.name && <FormMessage>{form.formState.errors.name.message}</FormMessage>}
                 </FormItem>
               )}
             ></FormField>
@@ -129,41 +179,28 @@ export default function EditHabitPage() {
                       <SelectItem value="11">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.side && <FormMessage>{form.formState.errors.side.message}</FormMessage>}
-                </FormItem>
-              )}
-            ></FormField>
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Current type: {type}</FormLabel>
-                  </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent position="popper">
-                      <SelectItem value="count">Count</SelectItem>
-                      <SelectItem value="time">Time</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {form.formState.errors.type && <FormMessage>{form.formState.errors.type.message}</FormMessage>}
+                  {/* Display error message */}
+                  {Object.keys(form.formState.errors).length > 0 && (
+                    <p className="text-red-500">At least one field must be changed.</p>
+                  )}
                 </FormItem>
               )}
             ></FormField>
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
+          {/* Conditionally render loading indicator */}
           {/* Button to save the changes */}
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <Button variant="secondary">Save changes</Button>
-          </form>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {isLoading ? (
+            <p>Saving changes...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(handleSave)}>
+                <Button variant="secondary">Save changes</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
           {/* Button to cancel changing the habit */}
           <Button variant="destructive" onClick={navigateBack}>
             Cancel

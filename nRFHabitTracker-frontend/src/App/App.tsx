@@ -14,6 +14,8 @@ import { RemoveScroll } from 'react-remove-scroll'
 import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
 import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
+import { Toaster } from '@/Components/shadcnComponents/toaster'
+
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
   <>
@@ -22,6 +24,7 @@ const Layout = () => (
       <div style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
         {/* Will make the content alone scrollable */}
         <Outlet /> {/* Main content outlet */}
+        <Toaster /> {/* Confirmation toaster */}
       </div>
     </RemoveScroll>
     <Footer /> {/* Footer to be displayed on every page */}
