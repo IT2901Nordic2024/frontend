@@ -13,15 +13,55 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { DeleteHabit } from '@/Api/api'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
+import { ToastAction } from '@/Components/shadcnComponents/toast'
 
 export default function AnalyticsPage() {
+  // State to track saving process
+  const [isLoading, setIsLoading] = useState(false) // State to track loading
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   // Get the current location
   const location = useLocation()
 
   // Destructure the values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
+  const { id, name, side } = location.state as { id: number; name: string; side: string; type: string }
 
   const navigate = useNavigate()
+
+  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
+  const userId = '0'
+
+  const { toast } = useToast()
+
+  async function deleteHabit(userId: string, habitId: number) {
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // API function
+      await DeleteHabit(userId, habitId)
+
+      // Navigate back to the main page
+      navigate(`/my-habits`)
+
+      // If successfull as confirmation toast will appear on the screen
+      toast({
+        variant: 'success',
+        title: 'Success!',
+        description: 'Your habit was deleted.',
+      })
+    } catch (error) {
+      // Handle error
+      setErrorMessage('Failed to delete habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
+  }
 
   // Navigate to the "add goal" page
   function goToAddGoalPage() {
@@ -65,7 +105,17 @@ export default function AnalyticsPage() {
           <CardDescription>Your goal for this habit</CardDescription>
         </CardHeader>
         {/* Sample data => to be replaced */}
-        <CardContent>{<GoalsChart today={1} week={7} target={14} question={'How many hours did i hug threes?'} frequency={'week'}/>}</CardContent>
+        <CardContent>
+          {
+            <GoalsChart
+              today={1}
+              week={7}
+              target={14}
+              question={'How many hours did i hug threes?'}
+              frequency={'week'}
+            />
+          }
+        </CardContent>
         <CardFooter className="flex flex-row justify-between">
           <Button variant="secondary" onClick={handleEditGoal}>
             Edit
@@ -90,12 +140,40 @@ export default function AnalyticsPage() {
         </CardHeader>
         <CardContent>Just to show what is possible and how it will look</CardContent>
       </Card>
+      {/* Error message */}
+      {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
       <div className="flex justify-between">
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>
         {/* Button to delete habit */}
         {/* TODO: Make this functional */}
-        <Button variant="destructive">Delete Habit</Button>
+        {isLoading ? (
+          <p>Deleting habit...</p>
+        ) : (
+          <Button
+            variant="destructive"
+            onClick={() => {
+              toast({
+                variant: 'destructive',
+                title: 'Confirm your action',
+                description: `Are you sure you want to delete ${name}?`,
+                action: (
+                  // TODO: Make it more visually appealing
+                  <ToastAction
+                    altText="Yes"
+                    onClick={() => {
+                      deleteHabit(userId, id)
+                    }}
+                  >
+                    Yes
+                  </ToastAction>
+                ),
+              })
+            }}
+          >
+            Delete Habit
+          </Button>
+        )}
       </div>
     </div>
   )

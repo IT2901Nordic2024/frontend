@@ -7,7 +7,6 @@ import {
   ToastViewport,
 } from '../../Components/shadcnComponents/toast'
 import { useToast } from '../../Components/shadcnComponents/use-toast'
-import React from 'react'
 
 export function Toaster() {
   const { toasts } = useToast()
