@@ -14,19 +14,21 @@ List of the project's main features.
 - **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit.
 - **My Habits Page**: This is the main page for users once they have logged in. Fetches and displays the user's habits from an AWS API Gateway.
 - **Edit Habit Page**: This is the page for editing a habit, which you can reach by clicking "Edit Habit" inside the analytics page connencted to a habit. The user must fill in one of the fields to be able to save changes, where no changes are made if nothing is filled in. The new data will then display on the main page (My Habits Page).
+- **Profile Page**: This is the page for editing user information, reachable by clicking on the profile icon in the footer.
 
 ## Folder Structure
+
 - **src**: The root directory of the source code.
-    - **Api**: Contains the API configuration and endpoints for interacting with backend services.
-    - **App**: Contains the main entry point of the application.
-    - **Components**: Holds reusable UI components used throughout the application.
-        - **charts**: Components related to charting functionality.
-        - **footer**: Component for displaying footers.
-        - **habitCard**: Component for displaying habit cards.
-        - **loadingSpinner**: Component for graphics when something loads.
-        - **navBar**: Component for displaying navigation bars.
-        - **shadcnComponents**: Components provided by the Shadcn UI library.
-    - **Pages**: Contains the pages listed above.
+  - **Api**: Contains the API configuration and endpoints for interacting with backend services.
+  - **App**: Contains the main entry point of the application.
+  - **Components**: Holds reusable UI components used throughout the application.
+    - **charts**: Components related to charting functionality.
+    - **footer**: Component for displaying footers.
+    - **habitCard**: Component for displaying habit cards.
+    - **loadingSpinner**: Component for graphics when something loads.
+    - **navBar**: Component for displaying navigation bars.
+    - **shadcnComponents**: Components provided by the Shadcn UI library.
+  - **Pages**: Contains the pages listed above.
 
 ## Technologies
 
@@ -39,7 +41,7 @@ List the technologies, frameworks, and libraries used in the project.
 - [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
 - [ApexCharts] (https://apexcharts.com/) - A modern charting library for interactive visualizations of data.
-- [Cypress] (https://www.cypress.io/)- Comprehensive e2e testing framework 
+- [Cypress] (https://www.cypress.io/)- Comprehensive e2e testing framework
 - [Jest] (https://jestjs.io/)- Javascript testing framwork, used to test components
 
 ## Getting Started
@@ -56,13 +58,13 @@ Before you begin, ensure you have met the following requirements:
 After ensuring you have the correct versions of Node.js and npm installed, follow these steps to install the project dependencies:
 
 1. **Clone the repository** (if you haven't already done so):
-**git clone https://github.com/IT2901Nordic2024/frontend.git**
-**cd nRFHabitTracker-frontend**
+   **git clone https://github.com/IT2901Nordic2024/frontend.git**
+   **cd nRFHabitTracker-frontend**
 
 1. **Install dependencies** by running:
-**npm install**
+   **npm install**
 
-### Running the Application 
+### Running the Application
 
 To run the application in development mode, execute the following command:
 
@@ -74,7 +76,8 @@ To run automated tests, use the following command:
 **npm test** -->
 
 ## E2E-tests
- For the nRFHabitTracker-frontend project, we use Cypress, a powerful and easy-to-use E2E testing framework that allows us to simulate real user interactions with the application.
+
+For the nRFHabitTracker-frontend project, we use Cypress, a powerful and easy-to-use E2E testing framework that allows us to simulate real user interactions with the application.
 
 ### Prerequisites
 
@@ -83,13 +86,11 @@ Before you can run Cypress tests, you need to have the following installed:
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/)
 
-
 ### Opening Cypress Test Runner
 
 To open the Cypress Test Runner, which provides a graphical interface for running your tests interactively, use the following command:
 
 `npx cypress open`
-
 
 The Test Runner will open in a new window, listing all the test files. You can click on any test file to run it interactively within the Cypress environment.
 
