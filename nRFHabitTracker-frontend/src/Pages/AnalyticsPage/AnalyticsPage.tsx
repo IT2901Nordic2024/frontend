@@ -52,7 +52,7 @@ export default function AnalyticsPage() {
       toast({
         variant: 'success',
         title: 'Success!',
-        description: 'Your habit was deleted.',
+        description: 'Your habit has been deleted.',
       })
     } catch (error) {
       // Handle error
@@ -146,7 +146,6 @@ export default function AnalyticsPage() {
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>
         {/* Button to delete habit */}
-        {/* TODO: Make this functional */}
         {isLoading ? (
           <p>Deleting habit...</p>
         ) : (
@@ -158,7 +157,6 @@ export default function AnalyticsPage() {
                 title: 'Confirm your action',
                 description: 'Are you sure you want to delete your habit forever?',
                 action: (
-                  // TODO: Make it more visually appealing
                   <ToastAction
                     altText="Yes"
                     onClick={() => {

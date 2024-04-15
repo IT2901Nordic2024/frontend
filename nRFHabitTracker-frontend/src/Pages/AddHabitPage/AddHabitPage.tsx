@@ -86,7 +86,7 @@ export function AddHabitPage() {
     toast({
       variant: 'success',
       title: 'Success!',
-      description: 'Your habit is added.',
+      description: 'Your habit has been added.',
     })
   }
 
