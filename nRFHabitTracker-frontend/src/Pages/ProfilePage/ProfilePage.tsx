@@ -57,7 +57,7 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="m-5 flex justify-center items-center">
+    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
       {/* Tabs component for switching between account and password sections */}
       <Tabs defaultValue="account" className="w-[30%] mx-auto" style={{ minWidth: '350px' }}>
         {/* TabsList to display tab triggers */}
