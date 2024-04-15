@@ -1,6 +1,7 @@
 // Page for showing different analytics when clicking on a habit card
 
-// import Chart from '@/Components/charts/chart'
+//import Chart from '@/Components/Charts/Chart'
+import GoalsChart from '@/Components/Charts/GoalsChart/GoalsChart'
 import { Button } from '@/Components/shadcnComponents/button'
 import {
   Card,
@@ -63,7 +64,8 @@ export default function AnalyticsPage() {
           <CardTitle>Goal</CardTitle>
           <CardDescription>Your goal for this habit</CardDescription>
         </CardHeader>
-        <CardContent>GoalChart</CardContent>
+        {/* Sample data => to be replaced */}
+        <CardContent>{<GoalsChart today={1} week={7} target={14} question={'How many hours did i hug threes?'} frequency={'week'}/>}</CardContent>
         <CardFooter className="flex flex-row justify-between">
           <Button variant="secondary" onClick={handleEditGoal}>
             Edit
