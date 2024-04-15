@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
               toast({
                 variant: 'destructive',
                 title: 'Confirm your action',
-                description: `Are you sure you want to delete ${name}?`,
+                description: 'Are you sure you want to delete your habit forever?',
                 action: (
                   // TODO: Make it more visually appealing
                   <ToastAction

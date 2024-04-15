@@ -18,6 +18,7 @@ const ToastViewport = React.forwardRef<
       'fixed bottom-4 right-4 z-[100] flex flex-col-reverse items-end',
       className
     )}
+    style={{ maxWidth: '300px' }}
     {...props}
   />
 ))

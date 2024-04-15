@@ -14,7 +14,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ id, name, bgColor, onClick }) => 
     <Card
       key={id}
       style={{ cursor: 'pointer' }}
-      className={`w-full md:w-[30%] h-[70px] mx-auto flex flex-col justify-center my-2 relative ${bgColor}`}
+      className={`w-full md:w-[30%] h-[70px] mx-auto flex flex-col justify-center my-2 relative overflow-hidden ${bgColor}`}
       onClick={onClick}
     >
       {/* Description of the habit */}
