@@ -16,6 +16,7 @@ import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
 import { Toaster } from '@/Components/shadcnComponents/toaster'
 import { ProfilePage } from '@/Pages/ProfilePage/ProfilePage'
+import DevicePage from '@/Pages/DevicePage/DevicePage'
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <ProfilePage />,
+      },
+      {
+        path: '/your-device',
+        element: <DevicePage />,
       },
 
       // Add more routes as necessary
