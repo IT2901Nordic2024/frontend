@@ -103,6 +103,36 @@ export async function EditHabit(
   }
 }
 
+// Function to delete a habit via AWS API Gateway
+export async function DeleteHabit(
+  userId: string,
+  habitId: number
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/deleteHabit/${userId}/${habitId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to delete habit')
+    }
+
+    // TODO: Handle success response here
+    console.log('Habit deleted successfully')
+  } catch (error) {
+    // Handle error here
+    console.error('Error deleting habit:', error)
+    throw error
+  }
+}
+
 // Function to get user information
 export async function getUserInformation(userId: string): Promise<UserInformation> {
   try {
