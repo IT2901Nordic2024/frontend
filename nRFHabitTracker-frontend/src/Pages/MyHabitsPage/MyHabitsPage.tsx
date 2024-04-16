@@ -61,7 +61,7 @@ export default function MyHabitsPage() {
         </Button>
       </div>
       {/* Habit cards */}
-      <div className="flex items-start h-auto flex-wrap">
+      <div className="flex items-start h-auto flex-wrap mt-10">
         {loading ? (
           <div className="flex items-center justify-center w-full h-full fixed top-0 left-0">
             <LoadingSpinner />
