@@ -13,7 +13,7 @@ export default function MyHabitsPage() {
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
-  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
+  // TODO: Replace the user ID with the actual user ID when users are implemented
   const userId = '0'
 
   // Effect hook to fetch habits data when the component mounts
@@ -30,6 +30,7 @@ export default function MyHabitsPage() {
             side: habit.side,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
+          console.log(transformedData)
         }
         setLoading(false) // Set loading status to false after fetching data
       })
