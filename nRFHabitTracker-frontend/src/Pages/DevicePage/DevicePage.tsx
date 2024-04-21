@@ -69,7 +69,7 @@ export default function DevicePage() {
     <div className="flex flex-col m-5">
       {/* Heading with the habit's name */}
       <div className="flex justify-between">
-        <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">Your Device</h1>
+        <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">My Device</h1>
         {connected ? (
           <Button className={'ml-4'} onClick={disconnect}>
             Disconnect

@@ -46,7 +46,7 @@ export default function MyHabitsPage() {
       {/* Heading and Add Habit button */}
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold leading-tight text-slate-900">My Habits</h1>
-        <Button onClick={() => navigate('/add-habit')}>
+        <Button onClick={() => navigate(`${location.pathname}/add-habit`)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

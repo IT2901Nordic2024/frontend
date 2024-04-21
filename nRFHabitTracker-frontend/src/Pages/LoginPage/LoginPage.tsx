@@ -44,7 +44,7 @@ export function LoginPage() {
     // Do something with the form values, for example, check if the information match a user on the server
     console.log(values)
     //placeholder for actual login logic
-    navigate('/sensor-data')
+    navigate('/my-habits')
   }
 
   // Navigate to the signup page

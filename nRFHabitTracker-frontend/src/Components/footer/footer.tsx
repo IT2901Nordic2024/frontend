@@ -18,7 +18,7 @@ export function Footer() {
 
   // Navigation function to the device page
   function goToDevicePage() {
-    navigate('/your-device')
+    navigate('/my-device')
   }
 
   return (
@@ -45,7 +45,7 @@ export function Footer() {
         <div
           onClick={goToDevicePage}
           className="cursor-pointer flex items-center justify-center w-1/3"
-          style={{ backgroundColor: location.pathname === '/your-device' ? '#1E293B' : 'transparent' }}
+          style={{ backgroundColor: location.pathname === '/my-device' ? '#1E293B' : 'transparent' }}
         >
           {/* Custom SVG */}
           <svg

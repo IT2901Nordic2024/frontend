@@ -2,7 +2,6 @@
 // utilizes the react-router-dom library to handle routing
 
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import SensorData from '../Pages/SensorPage/SensorPage'
 import { LoginPage } from '@/Pages/LoginPage/LoginPage'
 import { NavBar } from '@/Components/navBar/navBar'
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage'
@@ -42,24 +41,20 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/sensor-data',
-        element: <SensorData />,
+        path: '/signup',
+        element: <SignupPage />,
       },
       {
         path: '/connect-device',
         element: <ConnectDevicePage />,
       },
       {
-        path: '/signup',
-        element: <SignupPage />,
-      },
-      {
-        path: '/add-habit',
-        element: <AddHabitPage />,
-      },
-      {
         path: '/my-habits',
         element: <MyHabitsPage />,
+      },
+      {
+        path: '/my-habits/add-habit',
+        element: <AddHabitPage />,
       },
       {
         path: '/my-habits/:id',
@@ -78,7 +73,7 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: '/your-device',
+        path: '/my-device',
         element: <DevicePage />,
       },
 
