@@ -5,7 +5,7 @@ interface ChartProps {
   events: Array<[number, number]>;
 }
 
-export const Chart: React.FC<ChartProps> = ({ events }) => {
+export const TimeChart: React.FC<ChartProps> = ({ events }) => {
   if (!events || events.length === 0) {
     console.log('No data found');
     return <p>No data logged yet</p>;
@@ -77,4 +77,4 @@ export const Chart: React.FC<ChartProps> = ({ events }) => {
   );
 };
 
-export default Chart;
+export default TimeChart;

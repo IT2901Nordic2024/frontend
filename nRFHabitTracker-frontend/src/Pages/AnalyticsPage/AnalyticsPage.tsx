@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import { DeleteHabit, FetchHabit } from '@/Api/api'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
-import { Chart } from '@/Components/Charts/Chart'
+import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
 
 interface Habit {
@@ -160,7 +160,7 @@ useEffect(() => {
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
         {/*if type is time, use TimeChart, else use CountChart*/}
-        <CardContent>{habit ? (type === 'time' ? <Chart events={habit.habitEvents}/> : <CountChart events={habit.habitEvents}/>) : (
+        <CardContent>{habit ? (type === 'time' ? <TimeChart events={habit.habitEvents}/> : <CountChart events={habit.habitEvents}/>) : (
         <p>Loading data...</p>
         )}
         </CardContent>
