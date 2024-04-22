@@ -1,5 +1,5 @@
 // This page sign-up form for new users,
-// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the sensor data page upon successful sign-up or to the login page for existing users.
+// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the main page upon successful sign-up or to the login page for existing users.
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -54,7 +54,7 @@ export function SignupPage() {
     console.log(values)
     // TODO: Implement your signup logic
     //placeholder for actual login logic
-    navigate('/sensor-data')
+    navigate('/my-habits')
   }
 
   // Navigate to the login page

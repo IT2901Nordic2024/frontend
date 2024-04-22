@@ -16,7 +16,7 @@ describe('LoginPage', () => {
       cy.get('form').submit()
   
       // Verify navigation to the destination page (to be changed)
-      cy.url().should('include', '/sensor-data')
+      cy.url().should('include', '/my-habits')
     })
     
     it('allows a user to sign up', () => {
@@ -29,7 +29,7 @@ describe('LoginPage', () => {
         cy.get('form').submit()
 
         // Verify navigation to the destination page (to be changed)
-        cy.url().should('include', '/sensor-data')
+        cy.url().should('include', '/my-habits')
 
     })
     it('validates sign up correctly', () => {

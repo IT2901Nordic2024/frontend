@@ -2,7 +2,6 @@
 // utilizes the react-router-dom library to handle routing
 
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import SensorData from '../Pages/SensorPage/SensorPage'
 import { LoginPage } from '@/Pages/LoginPage/LoginPage'
 import { NavBar } from '@/Components/navBar/navBar'
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage'
@@ -16,6 +15,7 @@ import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
 import { Toaster } from '@/Components/shadcnComponents/toaster'
 import { ProfilePage } from '@/Pages/ProfilePage/ProfilePage'
+import DevicePage from '@/Pages/DevicePage/DevicePage'
 
 // Layout component that includes the navigation bar and the main content outlet
 const Layout = () => (
@@ -41,24 +41,20 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/sensor-data',
-        element: <SensorData />,
+        path: '/signup',
+        element: <SignupPage />,
       },
       {
         path: '/connect-device',
         element: <ConnectDevicePage />,
       },
       {
-        path: '/signup',
-        element: <SignupPage />,
-      },
-      {
-        path: '/add-habit',
-        element: <AddHabitPage />,
-      },
-      {
         path: '/my-habits',
         element: <MyHabitsPage />,
+      },
+      {
+        path: '/my-habits/add-habit',
+        element: <AddHabitPage />,
       },
       {
         path: '/my-habits/:id',
@@ -75,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <ProfilePage />,
+      },
+      {
+        path: '/my-device',
+        element: <DevicePage />,
       },
 
       // Add more routes as necessary
