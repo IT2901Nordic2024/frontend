@@ -23,11 +23,15 @@ interface Habit {
 export default function DevicePage() {
   const navigate = useNavigate()
 
-  // State variables to hold habits data, device data, connection data and selected side
+  // State variables to hold habits data, device data, connection data, selected side, whether there should be mobile view, and svgHeight based on view
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [deviceData, setDeviceData] = useState<Device[]>([])
   const [connected, setConnected] = useState<boolean>(true)
   const [selectedSide, setSelectedSide] = useState<number>(12)
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768)
+  const [svgHeight, setSvgHeight] = useState<number>(
+    window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4
+  )
 
   // TODO: Replace the user ID with the actual user ID when users are implemented
   const userId = '0'
@@ -63,6 +67,15 @@ export default function DevicePage() {
     }
   }, [habitsData]) // Update device data whenever habits data changes
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768)
+      setSvgHeight(window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Navigation function to the connectDevice page
   function goToConnectDevicePage() {
     navigate('/connect-device')
@@ -77,10 +90,6 @@ export default function DevicePage() {
   const handleButtonClick = (side: number) => {
     setSelectedSide(side)
   }
-
-  // Check window size and create variable holding SVG height based on window size
-  const isMobile = window.innerWidth <= 768
-  const svgHeight = isMobile ? window.innerWidth * 0.9 : window.innerWidth * 0.4
 
   return (
     <div className="flex flex-col m-5">
@@ -98,7 +107,7 @@ export default function DevicePage() {
         )}
       </div>
       <p className="flex justify-center mt-10 mb-5 text-sm text-slate-500 dark:text-slate-400">
-        Click on the side you wish to see information about:
+        Select the side you wish to see information about:
       </p>
       <div className="flex flex-wrap justify-center gap-4">
         {Array.from(Array(11).keys()).map((side) => (
