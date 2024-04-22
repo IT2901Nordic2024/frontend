@@ -96,7 +96,7 @@ export function AddHabitPage() {
   }
 
   return (
-    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
+    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
       {/* Card component for adding a new habit */}
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
