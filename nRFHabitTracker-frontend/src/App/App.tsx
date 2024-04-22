@@ -14,7 +14,7 @@ import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
 import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
 import { Toaster } from '@/Components/shadcnComponents/toaster'
-import { ProfilePage } from '@/Pages/ProfilePage/ProfilePage'
+import { AccountPage } from '@/Pages/AccountPage/AccountPage'
 import DevicePage from '@/Pages/DevicePage/DevicePage'
 import { useEffect, useState } from 'react'
 
@@ -82,8 +82,8 @@ const router = createBrowserRouter([
         element: <EditHabitPage />,
       },
       {
-        path: '/profile',
-        element: <ProfilePage />,
+        path: '/account',
+        element: <AccountPage />,
       },
       {
         path: '/my-device',

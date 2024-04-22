@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/shadcnCom
 import { UserInformation, getUserInformation } from '@/Api/api'
 import { useEffect, useState } from 'react'
 
-export function ProfilePage() {
+export function AccountPage() {
   // State to store user data
   const [userData, setUserData] = useState<UserInformation | null>(null)
   // State to store username

@@ -27,8 +27,8 @@ export function NavBar() {
       <div className="flex items-center pr-4">
         <button
           className="text-white text-lg font-medium mr-10"
-          style={{ color: isActive('/profile') }}
-          onClick={() => navigateTo('/profile')}
+          style={{ color: isActive('/account') }}
+          onClick={() => navigateTo('/account')}
         >
           Account
         </button>

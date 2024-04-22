@@ -13,7 +13,6 @@ export interface UserInformation {
   username: string
   email: string
   password: string
-  profilePicture: string
 }
 
 // Function to fetch habits data from an AWS API Gateway endpoint
@@ -159,7 +158,6 @@ export async function getUserInformation(userId: string): Promise<UserInformatio
       username: 'dummy_user',
       email: 'dummy@example.com',
       password: '********', // You might want to handle passwords differently in production
-      profilePicture: 'https://dummyimage.com/300', // Placeholder URL for profile picture
     }
 
     return userData

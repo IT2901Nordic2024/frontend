@@ -8,7 +8,7 @@ export function Footer() {
 
   // Navigation function to the profil page
   function goToProfilePage() {
-    navigate('/profile')
+    navigate('/account')
   }
 
   // Navigation function to the habit/home page
@@ -29,7 +29,7 @@ export function Footer() {
         <div
           onClick={goToProfilePage}
           className="cursor-pointer flex items-center justify-center w-1/3"
-          style={{ backgroundColor: location.pathname === '/profile' ? '#1E293B' : 'transparent' }}
+          style={{ backgroundColor: location.pathname === '/account' ? '#1E293B' : 'transparent' }}
         >
           <TbUserEdit size={35} color="white" />
         </div>
