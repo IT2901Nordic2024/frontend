@@ -92,10 +92,10 @@ export default function DevicePage() {
   }
 
   return (
-    <div className="flex flex-col m-5">
+    <div className="flex flex-col h-screen" style={{ height: 'calc(100vh - 56px)' }}>
       {/* Heading with the habit's name */}
-      <div className="flex justify-between">
-        <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">My Device</h1>
+      <div className="flex justify-between p-5">
+        <h1 className="text-4xl font-bold leading-tight text-slate-900">My Device</h1>
         {connected ? (
           <Button className={'ml-4'} onClick={disconnect}>
             Disconnect
@@ -106,22 +106,26 @@ export default function DevicePage() {
           </Button>
         )}
       </div>
-      <p className="flex justify-center mt-10 mb-5 text-sm text-slate-500 dark:text-slate-400">
-        Select the side you wish to see information about:
-      </p>
-      <div className="flex flex-wrap justify-center gap-4">
-        {Array.from(Array(11).keys()).map((side) => (
-          <Button
-            key={side}
-            variant={selectedSide === side ? 'default' : 'secondary'} // Change button style based on selected side
-            onClick={() => handleButtonClick(side)}
-          >
-            Side {side + 1}
-          </Button>
-        ))}
+      <div className="flex flex-grow justify-center items-center p-5">
+        <div className="flex flex-col">
+          <p className="flex justify-center mb-5 text-sm text-slate-500 dark:text-slate-400">
+            Select the side you wish to see information about:
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {Array.from(Array(11).keys()).map((side) => (
+              <Button
+                key={side}
+                variant={selectedSide === side ? 'default' : 'secondary'} // Change button style based on selected side
+                onClick={() => handleButtonClick(side)}
+              >
+                Side {side + 1}
+              </Button>
+            ))}
+          </div>
+          {/* SVG element for polygon */}
+          <SVGComponent svgHeight={svgHeight} selectedSide={selectedSide} deviceData={deviceData} />
+        </div>
       </div>
-      {/* SVG element for polygon */}
-      <SVGComponent svgHeight={svgHeight} selectedSide={selectedSide} deviceData={deviceData} />
     </div>
   )
 }
