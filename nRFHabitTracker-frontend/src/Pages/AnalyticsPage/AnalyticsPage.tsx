@@ -12,10 +12,18 @@ import {
   CardFooter,
 } from '@/Components/shadcnComponents/card'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { DeleteHabit } from '@/Api/api'
+import { useEffect, useState } from 'react'
+import { DeleteHabit, FetchHabit } from '@/Api/api'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
+import { Chart } from '@/Components/Charts/Chart'
+import CountChart from '@/Components/Charts/CountChart'
+
+interface Habit {
+  habitId: number,
+  userId: number,
+  habitEvents: Array<[number, number]>
+}
 
 export default function AnalyticsPage() {
   // State to track saving process
@@ -28,9 +36,12 @@ export default function AnalyticsPage() {
   const location = useLocation()
 
   // Destructure the values from the location state
-  const { id, name, side } = location.state as { id: number; name: string; side: string; type: string }
+  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
 
   const navigate = useNavigate()
+
+  //set Habit
+  const [habit, setHabit] = useState<Habit | null>(null);
 
   // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
   const userId = '0'
@@ -62,6 +73,23 @@ export default function AnalyticsPage() {
       setIsLoading(false)
     }
   }
+  
+  async function fetchHabitData(userId: string, habitId: number) {
+      setIsLoading(true);
+      try{
+        const habitData = await FetchHabit(userId, habitId);
+        setHabit(habitData);
+
+        console.log(JSON.stringify(habitData, null, 2));
+      } catch (error) {
+        console.error('Error fetching habit data:', error)
+      } finally {
+        setIsLoading(false);
+      }
+}
+useEffect(() => {
+  fetchHabitData(userId, id);
+} , [id, userId]);
 
   // Navigate to the "add goal" page
   function goToAddGoalPage() {
@@ -131,7 +159,11 @@ export default function AnalyticsPage() {
           <CardTitle>History</CardTitle>
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
-        <CardContent>{/* <Chart></Chart> */}</CardContent>
+        {/*if type is time, use TimeChart, else use CountChart*/}
+        <CardContent>{habit ? (type === 'time' ? <Chart events={habit.habitEvents}/> : <CountChart events={habit.habitEvents}/>) : (
+        <p>Loading data...</p>
+        )}
+        </CardContent>
       </Card>
       {/* Example card */}
       <Card className="w-[100%] mx-auto">

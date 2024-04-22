@@ -5,7 +5,7 @@ interface ChartProps {
   events: Array<[number, number]>;
 }
 
-export const Chart: React.FC<ChartProps> = ({ events }) => {
+export const CountChart: React.FC<ChartProps> = ({ events }) => {
   if (!events || events.length === 0) {
     console.log('No data found');
     return <p>No data logged yet</p>;
@@ -14,19 +14,19 @@ export const Chart: React.FC<ChartProps> = ({ events }) => {
   // Data processing
   const dataGroupedByDay: { [key: string]: number } = {};
 
-  events.forEach((session) => {
-    const startDate = new Date(session[0] * 1000);
-    const dayKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+  events.forEach(([timestamp, count]) => {
+    const date = new Date(timestamp * 1000);
+    const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     if (!dataGroupedByDay[dayKey]) {
       dataGroupedByDay[dayKey] = 0;
     }
-    dataGroupedByDay[dayKey] += (session[1] - session[0]);
+    dataGroupedByDay[dayKey] += count;
   });
 
-  // Format the grouped data for ApexCharts
-  const formattedData = Object.keys(dataGroupedByDay).map(day => ({
+   // Format the grouped data for ApexCharts
+   const formattedData = Object.keys(dataGroupedByDay).map(day => ({
     x: new Date(day).getTime(),
-    y: parseFloat((dataGroupedByDay[day] / 3600).toFixed(2)),  // Convert seconds to hours
+    y: dataGroupedByDay[day]
   }));
 
   // Options for ApexCharts
@@ -54,7 +54,7 @@ export const Chart: React.FC<ChartProps> = ({ events }) => {
     },
     yaxis: {
       title: {
-        text: 'Total Hours',
+        text: 'Total Count',
       },
     },
     stroke: {
@@ -65,16 +65,16 @@ export const Chart: React.FC<ChartProps> = ({ events }) => {
         format: 'dd MMM yyyy'
       },
       y: {
-        formatter: (value) => `${value} Hours`
+        formatter: (value) => `${value} Times`
       }
     },
   };
 
   return (
     <div>
-      <ReactApexChart options={options} series={[{ name: 'Total Hours', data: formattedData }]} type="line" />
+      <ReactApexChart options={options} series={[{ name: 'Total Count', data: formattedData }]} type="line" />
     </div>
   );
 };
 
-export default Chart;
+export default CountChart;

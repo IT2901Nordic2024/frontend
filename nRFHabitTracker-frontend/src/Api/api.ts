@@ -8,6 +8,12 @@ export interface Habit {
   side: number
 }
 
+export interface HabitEvents {
+  habitId: number
+  userId: number
+  habitEvents: Array<[number, number]>
+}
+
 // Interface representing the structure of user information
 export interface UserInformation {
   username: string
@@ -129,6 +135,21 @@ export async function DeleteHabit(
   } catch (error) {
     // Handle error here
     console.error('Error deleting habit:', error)
+    throw error
+  }
+}
+export async function FetchHabit(userId: string, habitId: number): Promise<HabitEvents> {
+  try {
+    const response = await fetch(`https://im23rsp03a.execute-api.eu-north-1.amazonaws.com/getHabitEvents/${userId}/${habitId}`)
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch habit')
+    }
+
+    const data: HabitEvents = await response.json()
+    return data
+  } catch (error) {
+    console.error('There was a problem with fetching from api:', error)
     throw error
   }
 }
