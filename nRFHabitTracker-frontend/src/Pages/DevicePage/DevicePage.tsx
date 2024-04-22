@@ -53,11 +53,11 @@ export default function DevicePage() {
   useEffect(() => {
     if (habitsData.length > 0) {
       // Create device data based on habit data
-      const deviceDataFromHabits: Device = habitsData.reduce((acc: Device, habit: Habit) => {
+      const deviceDataFromHabits: Device = habitsData.reduce((dod: Device, habit: Habit) => {
         if (habit.side !== undefined) {
-          acc[habit.side] = habit.habitName
+          dod[habit.side] = habit.habitName
         }
-        return acc
+        return dod
       }, {})
       setDeviceData([deviceDataFromHabits])
     }
