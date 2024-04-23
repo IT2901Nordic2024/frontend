@@ -27,7 +27,6 @@ interface Habit {
 
 export default function AnalyticsPage() {
   // State to track saving process
-  const [isLoading, setIsLoading] = useState(false) // State to track loading
   const [isDeleting, setIsDeleting] = useState(false) // State to track loading
 
   // Error handling
@@ -76,7 +75,6 @@ export default function AnalyticsPage() {
   }
 
   async function fetchHabitData(userId: string, habitId: number) {
-    setIsLoading(true)
     try {
       const habitData = await FetchHabit(userId, habitId)
       setHabit(habitData)
@@ -84,8 +82,6 @@ export default function AnalyticsPage() {
       console.log(JSON.stringify(habitData, null, 2))
     } catch (error) {
       console.error('Error fetching habit data:', error)
-    } finally {
-      setIsLoading(false)
     }
   }
   useEffect(() => {
