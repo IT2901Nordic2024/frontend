@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import GoalsChart from './GoalsChart';
 
 
@@ -8,7 +8,7 @@ describe('GoalsChart Component', () => {
         today: 5,
         week: 35,
         target: 7,
-        question: "How many coffies did i drink?",
+        question: "How many coffees did i drink?",
         frequency: "day"
     };
   
@@ -20,9 +20,9 @@ describe('GoalsChart Component', () => {
         frequency: "week"
     };
 
+
     test('renders with correct question for day frequency', () => {
         render(<GoalsChart {...propsDay} />);
-        console.log(screen.debug());
         expect(screen.getByText(propsDay.question)).toBeInTheDocument();
     });
 

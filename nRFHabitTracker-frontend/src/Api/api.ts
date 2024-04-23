@@ -8,6 +8,12 @@ export interface Habit {
   side: number
 }
 
+export interface HabitEvents {
+  habitId: number
+  userId: number
+  habitEvents: Array<[number, number]>
+}
+
 // Interface representing the structure of user information
 export interface UserInformation {
   username: string
@@ -17,6 +23,10 @@ export interface UserInformation {
 
 // API-ID for editing, adding, fetching and deleting habits
 const apiID = "prg7rbhyt8"
+
+
+//API-ID for fetching habit events
+const apiID2 = "4lze1bagzk"
 
 // Function to fetch habits data from an AWS API Gateway endpoint
 export async function fetchHabits(userId: string): Promise<Habit[]> {
@@ -131,6 +141,21 @@ export async function DeleteHabit(
   } catch (error) {
     // Handle error here
     console.error('Error deleting habit:', error)
+    throw error
+  }
+}
+export async function FetchHabit(userId: string, habitId: number): Promise<HabitEvents> {
+  try {
+    const response = await fetch(`https://${apiID2}.execute-api.eu-north-1.amazonaws.com/getHabitEvents/${userId}/${habitId}`)
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch habit')
+    }
+
+    const data: HabitEvents = await response.json()
+    return data
+  } catch (error) {
+    console.error('There was a problem with fetching from api:', error)
     throw error
   }
 }
