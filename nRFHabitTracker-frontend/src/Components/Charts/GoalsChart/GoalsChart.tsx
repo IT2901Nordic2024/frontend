@@ -55,12 +55,12 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ today, week, target, frequency,
       formatter: function (val, opts) {
         // Format labels to show the value and the goal
         const goal = opts.dataPointIndex === 0 ? dailyGoal : weeklyGoal
-        return `${val}/${goal}`
+        return `${val} / ${goal}`
       },
       offsetY: 0, // Y offset for labels
       style: {
         fontSize: '12px', // Label font size
-        colors: ['#304758'], // Label color
+        colors: ['white'], // Label color
       },
     },
     stroke: {
