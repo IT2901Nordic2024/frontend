@@ -15,11 +15,14 @@ export interface UserInformation {
   password: string
 }
 
+// API-ID for editing, adding, fetching and deleting habits
+const apiID = "prg7rbhyt8"
+
 // Function to fetch habits data from an AWS API Gateway endpoint
 export async function fetchHabits(userId: string): Promise<Habit[]> {
   try {
     // Fetch data from the API endpoint
-    const response = await fetch(`https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/habits/${userId}`)
+    const response = await fetch(`https://${apiID}.execute-api.eu-north-1.amazonaws.com/habits/${userId}`)
 
     // Check if the response is ok
     if (!response.ok) {
@@ -46,7 +49,7 @@ export async function addHabit(
 ): Promise<void> {
   try {
     const response = await fetch(
-      `https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/createHabit/${userId}/${deviceId}/${habitName}/${habitType}/${side}`,
+      `https://${apiID}.execute-api.eu-north-1.amazonaws.com/createHabit/${userId}/${deviceId}/${habitName}/${habitType}/${side}`,
       {
         method: 'PUT',
         headers: {
@@ -79,7 +82,7 @@ export async function EditHabit(
 ): Promise<void> {
   try {
     const response = await fetch(
-      `https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/editHabit/${userId}/${deviceId}/${habitId}/${habitName}/${side}`,
+      `https://${apiID}.execute-api.eu-north-1.amazonaws.com/editHabit/${userId}/${deviceId}/${habitId}/${habitName}/${side}`,
       {
         method: 'PUT',
         headers: {
@@ -109,7 +112,7 @@ export async function DeleteHabit(
 ): Promise<void> {
   try {
     const response = await fetch(
-      `https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/deleteHabit/${userId}/${habitId}`,
+      `https://${apiID}.execute-api.eu-north-1.amazonaws.com/deleteHabit/${userId}/${habitId}`,
       {
         method: 'DELETE',
         headers: {

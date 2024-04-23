@@ -14,7 +14,7 @@ export default function MyHabitsPage() {
   const navigate = useNavigate()
 
   // TODO: Replace the user ID with the actual user ID when users are implemented
-  const userId = '0'
+  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
