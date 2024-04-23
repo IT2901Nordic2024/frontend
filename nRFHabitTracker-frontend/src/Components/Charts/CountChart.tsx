@@ -23,28 +23,32 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     dataGroupedByDay[dayKey] += count;
   });
 
-   // Format the grouped data for ApexCharts
-   const formattedData = Object.keys(dataGroupedByDay).map(day => ({
-    x: new Date(day).getTime(),
+  // Format the grouped data for ApexCharts
+  const formattedData = Object.keys(dataGroupedByDay).map(day => ({
+    x: day,
     y: dataGroupedByDay[day]
   }));
 
   // Options for ApexCharts
   const options: ApexOptions = {
     chart: {
-      type: 'line',
+      type: 'bar', 
       toolbar: {
         show: true,
         tools: {
           download: true,
-          selection: false,
-          zoom: true,
-          zoomin: true,
-          zoomout: true,
+          zoom: false, 
+          zoomin: false,
+          zoomout: false,
           pan: false,
           reset: false,
         },
       },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false 
+      }
     },
     xaxis: {
       type: 'datetime',
@@ -57,9 +61,6 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
         text: 'Total Count',
       },
     },
-    stroke: {
-      curve: 'smooth',
-    },
     tooltip: {
       x: {
         format: 'dd MMM yyyy'
@@ -71,8 +72,8 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
   };
 
   return (
-    <div>
-      <ReactApexChart options={options} series={[{ name: 'Total Count', data: formattedData }]} type="line" />
+    <div className=''>
+      <ReactApexChart options={options} series={[{ name: 'Total Count', data: formattedData }]} type="bar" />
     </div>
   );
 };
