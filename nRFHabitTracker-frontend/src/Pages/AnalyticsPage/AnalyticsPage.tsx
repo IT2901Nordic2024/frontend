@@ -20,14 +20,15 @@ import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
 
 interface Habit {
-  habitId: number,
-  userId: number,
+  habitId: number
+  userId: number
   habitEvents: Array<[number, number]>
 }
 
 export default function AnalyticsPage() {
   // State to track saving process
   const [isLoading, setIsLoading] = useState(false) // State to track loading
+  const [isDeleting, setIsDeleting] = useState(false) // State to track loading
 
   // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -41,7 +42,7 @@ export default function AnalyticsPage() {
   const navigate = useNavigate()
 
   //set Habit
-  const [habit, setHabit] = useState<Habit | null>(null);
+  const [habit, setHabit] = useState<Habit | null>(null)
 
   // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
   const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
@@ -51,7 +52,7 @@ export default function AnalyticsPage() {
   async function deleteHabit(userId: string, habitId: number) {
     try {
       // Set loading to true
-      setIsLoading(true)
+      setIsDeleting(true)
 
       // API function
       await DeleteHabit(userId, habitId)
@@ -70,26 +71,26 @@ export default function AnalyticsPage() {
       setErrorMessage('Failed to delete habit. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)
+      setIsDeleting(false)
+    }
+  }
+
+  async function fetchHabitData(userId: string, habitId: number) {
+    setIsLoading(true)
+    try {
+      const habitData = await FetchHabit(userId, habitId)
+      setHabit(habitData)
+
+      console.log(JSON.stringify(habitData, null, 2))
+    } catch (error) {
+      console.error('Error fetching habit data:', error)
+    } finally {
       setIsLoading(false)
     }
   }
-  
-  async function fetchHabitData(userId: string, habitId: number) {
-      setIsLoading(true);
-      try{
-        const habitData = await FetchHabit(userId, habitId);
-        setHabit(habitData);
-
-        console.log(JSON.stringify(habitData, null, 2));
-      } catch (error) {
-        console.error('Error fetching habit data:', error)
-      } finally {
-        setIsLoading(false);
-      }
-}
-useEffect(() => {
-  fetchHabitData(userId, id);
-} , [id, userId]);
+  useEffect(() => {
+    fetchHabitData(userId, id)
+  }, [id, userId])
 
   // Navigate to the "add goal" page
   function goToAddGoalPage() {
@@ -160,9 +161,16 @@ useEffect(() => {
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
         {/*if type is time, use TimeChart, else use CountChart*/}
-        <CardContent>{habit ? (type === 'time' ? <TimeChart events={habit.habitEvents}/> : <CountChart events={habit.habitEvents}/>) : (
-        <p>Loading data...</p>
-        )}
+        <CardContent>
+          {habit ? (
+            type === 'time' ? (
+              <TimeChart events={habit.habitEvents} />
+            ) : (
+              <CountChart events={habit.habitEvents} />
+            )
+          ) : (
+            <p>Loading data...</p>
+          )}
         </CardContent>
       </Card>
       {/* Example card */}
@@ -178,7 +186,7 @@ useEffect(() => {
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>
         {/* Button to delete habit */}
-        {isLoading ? (
+        {isDeleting ? (
           <p>Deleting habit...</p>
         ) : (
           <Button
