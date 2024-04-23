@@ -32,11 +32,11 @@ export default function DevicePage() {
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
     fetchHabits(userId)
-      .then((response: Habit[]) => {
+      .then((response: { habits: Habit[]; deviceId: string }) => {
         // Check if response is not empty
-        if (response.length > 0) {
+        if (response.habits.length > 0) {
           // Transform the fetched data to match the structure expected by the component
-          const transformedData: Habit[] = response.map((habit) => ({
+          const transformedData: Habit[] = response.habits.map((habit) => ({
             habitId: habit.habitId,
             habitName: habit.habitName,
             side: habit.side,
