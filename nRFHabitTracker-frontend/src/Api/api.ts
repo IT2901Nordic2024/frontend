@@ -29,7 +29,7 @@ const apiID = "prg7rbhyt8"
 const apiID2 = "4lze1bagzk"
 
 // Function to fetch habits data from an AWS API Gateway endpoint
-export async function fetchHabits(userId: string): Promise<Habit[]> {
+export async function fetchHabits(userId: string): Promise<{ habits: Habit[], deviceId: string }> {
   try {
     // Fetch data from the API endpoint
     const response = await fetch(`https://${apiID}.execute-api.eu-north-1.amazonaws.com/habits/${userId}`)
@@ -40,8 +40,8 @@ export async function fetchHabits(userId: string): Promise<Habit[]> {
     }
 
     // Parse the JSON response and extract the 'habits' array
-    const data: { habits: Habit[] } = await response.json()
-    return data.habits // Return the array of habits
+    const data: { username: string, deviceId: string, habits: Habit[] } = await response.json()
+    return { habits: data.habits, deviceId: data.deviceId }; // Return the array of habits and deviceId
   } catch (error) {
     // Handle errors if any occur during the fetch operation
     console.error('There was a problem with fetching from api:', error)
@@ -100,7 +100,7 @@ export async function EditHabit(
         },
       }
     )
-
+    
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to edit habit')

@@ -35,7 +35,6 @@ export default function EditHabitPage() {
 
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
-      const deviceId = 'firmwareSimulatorThing'
 
       // Set default values if not provided
       const habitName = values.name || 'noChange'
@@ -114,7 +113,7 @@ export default function EditHabitPage() {
   const location = useLocation()
 
   // Destructure values from the location state
-  const { id, name, side } = location.state as { id: number; name: string; side: number }
+  const { id, name, side, deviceId } = location.state as { id: number; name: string; side: number; deviceId: string }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({

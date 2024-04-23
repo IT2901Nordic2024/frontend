@@ -36,7 +36,13 @@ export default function AnalyticsPage() {
   const location = useLocation()
 
   // Destructure the values from the location state
-  const { id, name, side, type } = location.state as { id: number; name: string; side: string; type: string }
+  const { id, name, side, type, deviceId } = location.state as {
+    id: number
+    name: string
+    side: string
+    type: string
+    deviceId: string
+  }
 
   const navigate = useNavigate()
 
@@ -97,7 +103,7 @@ export default function AnalyticsPage() {
   // Navigate to the "edit habit" page
   function goToEditHabitPage() {
     // Functionality for sending the user to the page for changing their habit
-    navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side } })
+    navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, deviceId: deviceId } })
   }
 
   // Temp variable for holding information about whether there exist a goal
