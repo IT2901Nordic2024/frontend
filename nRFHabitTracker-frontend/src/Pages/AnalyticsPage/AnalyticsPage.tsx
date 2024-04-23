@@ -137,15 +137,7 @@ export default function AnalyticsPage() {
         </CardHeader>
         {/* Sample data => to be replaced */}
         <CardContent>
-          {
-            <GoalsChart
-              today={1}
-              week={7}
-              target={14}
-              question={'How many hours did i hug threes?'}
-              frequency={'week'}
-            />
-          }
+          {<GoalsChart today={1} week={7} target={14} question={'How is my progress?'} frequency={'week'} />}
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
           <Button variant="secondary" onClick={handleEditGoal}>
