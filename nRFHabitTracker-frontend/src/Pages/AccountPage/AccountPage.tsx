@@ -19,7 +19,6 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 export function AccountPage() {
   // State to store user data
   const [userData, setUserData] = useState<UserInformation | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   // Toast for user confirmation
   const { toast } = useToast()
@@ -146,27 +145,6 @@ export function AccountPage() {
           </Tabs>
         </div>
       </div>
-      {errorMessage && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-5" role="alert">
-          <strong className="font-bold">Error:</strong>
-          <span className="block sm:inline"> {errorMessage}</span>
-          <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg
-              onClick={() => setErrorMessage(null)}
-              className="fill-current h-6 w-6 text-red-500 cursor-pointer"
-              role="button"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <title>Close</title>
-              <path
-                fillRule="evenodd"
-                d="M14.348 5.652a.5.5 0 0 1 0 .707L10.707 10l3.64 3.64a.5.5 0 0 1-.708.708L10 10.707l-3.64 3.64a.5.5 0 0 1-.708-.708L9.293 10 5.652 6.36a.5.5 0 0 1 .708-.708L10 9.293l3.64-3.64a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-          </span>
-        </div>
-      )}
     </div>
   )
 }
