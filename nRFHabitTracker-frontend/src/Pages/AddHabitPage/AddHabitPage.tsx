@@ -34,7 +34,7 @@ export function AddHabitPage() {
       setIsLoading(true)
 
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-      const userId = '0'
+      const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
       const deviceId = 'MyIotThing'
 
       // Call the addHabit function with form field values
@@ -53,9 +53,14 @@ export function AddHabitPage() {
 
   // Defining form validation schema using zod
   const formSchema = z.object({
-    name: z.string().min(2, {
-      message: 'Name must be at least 2 characters.',
-    }),
+    name: z
+      .string()
+      .min(2, {
+        message: 'Name must be at least 2 characters.',
+      })
+      .max(20, {
+        message: 'Name can not be longer than 20 characters.',
+      }),
     side: z.string({
       required_error: 'Please select a side.',
     }),
@@ -91,7 +96,7 @@ export function AddHabitPage() {
   }
 
   return (
-    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
+    <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
       {/* Card component for adding a new habit */}
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>

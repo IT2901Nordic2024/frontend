@@ -44,7 +44,7 @@ export function LoginPage() {
     // Do something with the form values, for example, check if the information match a user on the server
     console.log(values)
     //placeholder for actual login logic
-    navigate('/sensor-data')
+    navigate('/my-habits')
   }
 
   // Navigate to the signup page
@@ -56,7 +56,7 @@ export function LoginPage() {
   return (
     <div
       className="flex justify-center items-center h-screen"
-      style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}
+      style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}
     >
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>

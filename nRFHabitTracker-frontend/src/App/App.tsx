@@ -2,7 +2,6 @@
 // utilizes the react-router-dom library to handle routing
 
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import SensorData from '../Pages/SensorPage/SensorPage'
 import { LoginPage } from '@/Pages/LoginPage/LoginPage'
 import { NavBar } from '@/Components/navBar/navBar'
 import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage'
@@ -15,22 +14,36 @@ import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
 import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
 import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
 import { Toaster } from '@/Components/shadcnComponents/toaster'
-import { ProfilePage } from '@/Pages/ProfilePage/ProfilePage'
+import { AccountPage } from '@/Pages/AccountPage/AccountPage'
+import DevicePage from '@/Pages/DevicePage/DevicePage'
+import { useEffect, useState } from 'react'
 
-// Layout component that includes the navigation bar and the main content outlet
-const Layout = () => (
-  <>
-    <NavBar /> {/* Nav bar to be displayed on every page */}
-    <RemoveScroll>
-      <div style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}>
-        {/* Will make the content alone scrollable */}
-        <Outlet /> {/* Main content outlet */}
-        <Toaster /> {/* Confirmation toaster */}
-      </div>
-    </RemoveScroll>
-    <Footer /> {/* Footer to be displayed on every page */}
-  </>
-)
+// Layout component that includes the navigation bar and the main content outlet, as well as checking window size and choosing between navbar and footer based on this
+const Layout: React.FC = () => {
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return (
+    <>
+      {!isMobileView && <NavBar />} {/* Nav bar to be displayed on desktop view */}
+      {/* Will make the content alone scrollable */}
+      <RemoveScroll>
+        <div style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
+          <Outlet /> {/* Main content outlet */}
+          <Toaster /> {/* Confirmation toaster */}
+        </div>
+      </RemoveScroll>
+      {isMobileView && <Footer />} {/* Footer to be displayed on mobile view */}
+    </>
+  )
+}
 
 const router = createBrowserRouter([
   {
@@ -41,24 +54,20 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/sensor-data',
-        element: <SensorData />,
+        path: '/signup',
+        element: <SignupPage />,
       },
       {
         path: '/connect-device',
         element: <ConnectDevicePage />,
       },
       {
-        path: '/signup',
-        element: <SignupPage />,
-      },
-      {
-        path: '/add-habit',
-        element: <AddHabitPage />,
-      },
-      {
         path: '/my-habits',
         element: <MyHabitsPage />,
+      },
+      {
+        path: '/my-habits/add-habit',
+        element: <AddHabitPage />,
       },
       {
         path: '/my-habits/:id',
@@ -73,8 +82,12 @@ const router = createBrowserRouter([
         element: <EditHabitPage />,
       },
       {
-        path: '/profile',
-        element: <ProfilePage />,
+        path: '/account',
+        element: <AccountPage />,
+      },
+      {
+        path: '/my-device',
+        element: <DevicePage />,
       },
 
       // Add more routes as necessary

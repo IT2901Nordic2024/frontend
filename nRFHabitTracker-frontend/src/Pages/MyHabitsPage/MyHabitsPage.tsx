@@ -13,8 +13,8 @@ export default function MyHabitsPage() {
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
-  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-  const userId = '0'
+  // TODO: Replace the user ID with the actual user ID when users are implemented
+  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
@@ -30,6 +30,7 @@ export default function MyHabitsPage() {
             side: habit.side,
           }))
           setHabitsData(transformedData) // Set the transformed data to state
+          console.log(transformedData)
         }
         setLoading(false) // Set loading status to false after fetching data
       })
@@ -46,7 +47,7 @@ export default function MyHabitsPage() {
       {/* Heading and Add Habit button */}
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold leading-tight text-slate-900">My Habits</h1>
-        <Button onClick={() => navigate('/add-habit')}>
+        <Button onClick={() => navigate(`${location.pathname}/add-habit`)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -61,7 +62,7 @@ export default function MyHabitsPage() {
         </Button>
       </div>
       {/* Habit cards */}
-      <div className="flex items-start h-auto flex-wrap">
+      <div className="flex items-start h-auto flex-wrap mt-10">
         {loading ? (
           <div className="flex items-center justify-center w-full h-full fixed top-0 left-0">
             <LoadingSpinner />

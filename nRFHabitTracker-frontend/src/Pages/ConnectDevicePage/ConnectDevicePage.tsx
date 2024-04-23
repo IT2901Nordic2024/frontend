@@ -1,9 +1,8 @@
-// Page that alloww users to connect a device to their account
+// Page that allows users to connect a device to their account
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
 import { Button } from '@/Components/shadcnComponents/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
 import { Input } from '@/Components/shadcnComponents/input'
@@ -34,19 +33,19 @@ export function ConnectDevicePage() {
 
   // Defines a submit handler function
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values, for example, submit to server
+    // TODO: Do something with the form value, submit to server
     console.log(values)
   }
 
   return (
     <div
       className="flex justify-center items-center h-screen"
-      style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}
+      style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}
     >
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
-          <CardTitle>Connect a device</CardTitle>
-          <CardDescription>Use your devide ID to connect a device</CardDescription>
+          <CardTitle>Connect device</CardTitle>
+          <CardDescription>Use the device ID to connect to your device.</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Form component for handling form submission */}

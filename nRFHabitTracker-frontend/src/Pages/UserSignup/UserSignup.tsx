@@ -1,5 +1,5 @@
 // This page sign-up form for new users,
-// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the sensor data page upon successful sign-up or to the login page for existing users.
+// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the main page upon successful sign-up or to the login page for existing users.
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -54,7 +54,7 @@ export function SignupPage() {
     console.log(values)
     // TODO: Implement your signup logic
     //placeholder for actual login logic
-    navigate('/sensor-data')
+    navigate('/my-habits')
   }
 
   // Navigate to the login page
@@ -65,7 +65,7 @@ export function SignupPage() {
   return (
     <div
       className="flex justify-center items-center h-screen"
-      style={{ height: 'calc(100vh - 112px)', overflow: 'auto' }}
+      style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}
     >
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
