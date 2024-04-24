@@ -1,3 +1,4 @@
+// Currently unused
 // Page that allows users to connect a device to their account
 
 import { zodResolver } from '@hookform/resolvers/zod'

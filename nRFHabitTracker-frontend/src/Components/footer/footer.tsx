@@ -41,7 +41,7 @@ export function Footer() {
         >
           <FiHome size={35} color="white" />
         </div>
-        {/* Connect Device icon */}
+        {/* Device icon */}
         <div
           onClick={goToDevicePage}
           className="cursor-pointer flex items-center justify-center w-1/3"

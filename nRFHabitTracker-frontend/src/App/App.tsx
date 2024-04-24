@@ -4,7 +4,6 @@
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import { LoginPage } from '@/Pages/LoginPage/LoginPage'
 import { NavBar } from '@/Components/navBar/navBar'
-import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage'
 import { SignupPage } from '@/Pages/UserSignup/UserSignup'
 import { Footer } from '@/Components/footer/footer'
 import { AddHabitPage } from '@/Pages/AddHabitPage/AddHabitPage'
@@ -56,10 +55,6 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignupPage />,
-      },
-      {
-        path: '/connect-device',
-        element: <ConnectDevicePage />,
       },
       {
         path: '/my-habits',

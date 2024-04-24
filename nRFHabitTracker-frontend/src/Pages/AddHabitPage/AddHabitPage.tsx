@@ -16,13 +16,19 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
 
 export function AddHabitPage() {
   // State to track saving process
   const [isLoading, setIsLoading] = useState(false) // State to track loading
+
+  // Get the current location
+  const location = useLocation()
+
+  // Destructure values from the location state
+  const { deviceId } = location.state as { deviceId: string }
 
   // Toast for user confirmation
   const { toast } = useToast()
@@ -35,7 +41,6 @@ export function AddHabitPage() {
 
       // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
       const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
-      const deviceId = 'MyIotThing'
 
       // Call the addHabit function with form field values
       await addHabit(userId, deviceId, values.name, values.type, values.side)

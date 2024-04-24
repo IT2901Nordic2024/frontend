@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom'
 
 // Defining form validation schema using zod
 const signupSchema = z
+  // TODO: Update validation to be accurate
   .object({
     username: z.string().min(2, {
       message: 'Username must be at least 2 characters long.',
@@ -31,6 +32,9 @@ const signupSchema = z
     }),
     confirmPassword: z.string().min(6, {
       message: 'Confirm password must be at least 6 characters long.',
+    }),
+    deviceid: z.string().min(6, {
+      message: 'Device ID must be at least 6 characters long.',
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -46,6 +50,7 @@ export function SignupPage() {
       email: '',
       password: '',
       confirmPassword: '',
+      deviceid: '',
     },
   })
   const navigate = useNavigate()
@@ -131,6 +136,22 @@ export function SignupPage() {
                   </FormControl>
                   {form.formState.errors.confirmPassword && (
                     <FormMessage>{form.formState.errors.confirmPassword.message}</FormMessage>
+                  )}
+                </FormItem>
+              )}
+            />
+            {/* Device ID Field */}
+            <FormField
+              name="deviceid"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Device ID</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Enter your device ID" {...field} />
+                  </FormControl>
+                  {form.formState.errors.deviceid && (
+                    <FormMessage>{form.formState.errors.deviceid.message}</FormMessage>
                   )}
                 </FormItem>
               )}

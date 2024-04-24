@@ -14,14 +14,14 @@ import { Label } from '@/Components/shadcnComponents/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/shadcnComponents/tabs'
 import { UserInformation, getUserInformation } from '@/Api/api'
 import { useEffect, useState } from 'react'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 
 export function AccountPage() {
   // State to store user data
   const [userData, setUserData] = useState<UserInformation | null>(null)
-  // State to store username
-  const [username, setUsername] = useState<string>('')
-  // State to store email
-  const [email, setEmail] = useState<string>('')
+
+  // Toast for user confirmation
+  const { toast } = useToast()
 
   useEffect(() => {
     // Fetch user information when the component mounts
@@ -34,38 +34,37 @@ export function AccountPage() {
         console.error('Error fetching user information:', error)
       }
     }
-
     fetchUserData() // Call the function to fetch user information
   }, []) // Empty dependency array ensures useEffect runs only once
 
-  useEffect(() => {
-    // Update local state when userData changes
-    if (userData) {
-      setUsername(userData.username)
-      setEmail(userData.email)
-    }
-  }, [userData])
-
-  // Function to handle username change
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
-  }
-
-  // Function to handle email change
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-
   function saveChanges() {
     // TODO: Add functionality for saving changes to the account
+    // For now a toast will appear
+    toast({
+      variant: 'destructive',
+      title: 'Error',
+      description: 'Failed to save changes.',
+    })
   }
 
   function savePassword() {
     // TODO: Add functionality for saving password changes
+    // For now a toast will appear
+    toast({
+      variant: 'destructive',
+      title: 'Error',
+      description: 'Failed to save changes.',
+    })
   }
 
   function signOut() {
     // TODO: Add functionality for signing out
+    // For now a toast will appear
+    toast({
+      variant: 'destructive',
+      title: 'Error',
+      description: 'Failed to sign out.',
+    })
   }
 
   return (
@@ -75,6 +74,7 @@ export function AccountPage() {
         <h1 className="text-4xl font-bold leading-tight text-slate-900">My Account</h1>
         <Button onClick={signOut}>Sign out</Button>
       </div>
+
       <div className="flex flex-grow justify-center items-center p-5">
         <div className="flex flex-col w-full max-w-lg">
           {/* Tabs component for switching between account and password sections */}
@@ -98,7 +98,6 @@ export function AccountPage() {
                     <Input
                       id="username"
                       placeholder={userData ? userData.username : 'Trouble fetching your information...'}
-                      onChange={handleUsernameChange}
                     />
                   </div>
                   {/* Input for email */}
@@ -107,7 +106,6 @@ export function AccountPage() {
                     <Input
                       id="email"
                       placeholder={userData ? userData.email : 'Trouble fetching your information...'}
-                      onChange={handleEmailChange}
                     />
                   </div>
                 </CardContent>
