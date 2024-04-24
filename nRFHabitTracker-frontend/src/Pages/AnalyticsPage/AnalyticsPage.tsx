@@ -18,6 +18,7 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
+import Calendar from '@/Components/Calender/Calender'
 
 interface Habit {
   habitId: number,
@@ -168,9 +169,11 @@ useEffect(() => {
       {/* Example card */}
       <Card className="w-[100%] mx-auto">
         <CardHeader>
-          <CardTitle>Example card</CardTitle>
+          <CardTitle>Calender</CardTitle>
         </CardHeader>
-        <CardContent>Just to show what is possible and how it will look</CardContent>
+        <CardContent>{habit ? (type === 'time' ? <Calendar events={habit.habitEvents} timerHabit= {true}/> : <Calendar events={habit.habitEvents} timerHabit= {false}/>) : (
+        <p>Loading data...</p> )}
+        </CardContent>
       </Card>
       {/* Error message */}
       {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
