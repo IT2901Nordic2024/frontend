@@ -76,10 +76,10 @@ export default function DevicePage() {
   return (
     <div className="flex flex-col h-screen" style={{ height: 'calc(100vh - 56px)' }}>
       {/* Heading */}
-      <div className="flex justify-between p-5">
+      <div className="flex justify-between pt-5 px-5">
         <h1 className="text-4xl font-bold leading-tight text-slate-900">My Device</h1>
       </div>
-      <div className="flex flex-grow justify-center items-center p-5">
+      <div className="flex flex-grow justify-center items-center px-5 pt-2">
         <div className="flex flex-col">
           <p className="flex justify-center mb-5 text-sm text-slate-500 dark:text-slate-400">
             Select the side you wish to see information about:
