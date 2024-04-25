@@ -19,6 +19,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { Login } from '@/Api/api'
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
@@ -58,8 +59,11 @@ export function LoginPage() {
       const response = await Login(values.username, values.password)
       const userId = response.userId
 
+      // Save userId in a cookie
+      Cookies.set('userId', userId, { expires: 1 }) // expires in 1 day
+
       // Navigate to the verification page if user is successfully created
-      navigate('/my-habits', { state: { userId: userId } })
+      navigate('/my-habits')
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to log in. Please try again.')

@@ -3,25 +3,29 @@
 import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { fetchHabits, Habit } from '@/Api/api'
 import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
+import Cookies from 'js-cookie'
 
 export default function MyHabitsPage() {
   // State variables to hold habits data and loading status
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [deviceId, setDeviceId] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
+
   const navigate = useNavigate()
-
-  // Get the current location
-  const location = useLocation()
-
-  // Destructure values from the location state
-  const { userId } = location.state as { userId: string }
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
+    const userId = Cookies.get('userId') // Get userId from cookie
+
+    if (!userId) {
+      // Redirect the user to the login page if userId is not found in the cookie
+      navigate('/login')
+      return // Exit early if userId is not available
+    }
+
     fetchHabits(userId)
       .then((response: { habits: Habit[]; deviceId: string }) => {
         // Check if response is not empty
@@ -39,7 +43,7 @@ export default function MyHabitsPage() {
         setLoading(false) // Set loading status to false after fetching data
       })
       .catch((error) => console.error('Error fetching habit data:', error))
-  }, []) // Empty dependency array ensures this effect runs only once on component mount
+  }, [navigate]) // Empty dependency array ensures this effect runs only once on component mount
 
   // Function to handle selecting a habit card
   const handleHabitSelect = (id: number, name: string, side: number, type: string, deviceId: string) => {

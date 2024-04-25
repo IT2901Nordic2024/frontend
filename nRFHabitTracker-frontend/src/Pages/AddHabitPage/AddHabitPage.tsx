@@ -19,6 +19,7 @@ import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 export function AddHabitPage() {
   // State to track saving process
@@ -39,11 +40,13 @@ export function AddHabitPage() {
       // Set loading to true
       setIsLoading(true)
 
-      // Get the current location
-      const location = useLocation()
+      const userId = Cookies.get('userId') // Get userId from cookie
 
-      // Destructure values from the location state
-      const { userId } = location.state as { userId: string }
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in the cookie
+        navigate('/login')
+        return // Exit early if userId is not available
+      }
 
       // Call the addHabit function with form field values
       await addHabit(userId, deviceId, values.name, values.type, values.side)

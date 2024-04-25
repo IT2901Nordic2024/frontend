@@ -4,6 +4,8 @@ import { fetchHabits } from '@/Api/api'
 import SVGComponent from '@/Components/deviceSVG/deviceSVG'
 import { Button } from '@/Components/shadcnComponents/button'
 import { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 // Interface representing the structure of a device object
 export interface Device {
@@ -26,11 +28,17 @@ export default function DevicePage() {
     window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4
   )
 
-  // TODO: Replace the user ID with the actual user ID when users are implemented
-  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
+  const navigate = useNavigate()
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
+    const userId = Cookies.get('userId') // Get userId from cookie
+
+    if (!userId) {
+      // Redirect the user to the login page if userId is not found in the cookie
+      navigate('/login')
+      return // Exit early if userId is not available
+    }
     fetchHabits(userId)
       .then((response: { habits: Habit[]; deviceId: string }) => {
         // Check if response is not empty
@@ -45,7 +53,7 @@ export default function DevicePage() {
         }
       })
       .catch((error) => console.error('Error fetching habit data:', error))
-  }, []) // Empty dependency array ensures this effect runs only once on component mount
+  }, [navigate]) // Empty dependency array ensures this effect runs only once on component mount
 
   useEffect(() => {
     if (habitsData.length > 0) {

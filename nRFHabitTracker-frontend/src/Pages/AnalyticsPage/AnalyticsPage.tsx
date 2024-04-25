@@ -18,6 +18,7 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
+import Cookies from 'js-cookie'
 
 interface Habit {
   habitId: number
@@ -35,6 +36,11 @@ export default function AnalyticsPage() {
   // Get the current location
   const location = useLocation()
 
+  const navigate = useNavigate()
+
+  // Get userId from cookie
+  const userId = Cookies.get('userId')
+
   // Destructure the values from the location state
   const { id, name, side, type, deviceId } = location.state as {
     id: number
@@ -44,13 +50,8 @@ export default function AnalyticsPage() {
     deviceId: string
   }
 
-  const navigate = useNavigate()
-
   //set Habit
   const [habit, setHabit] = useState<Habit | null>(null)
-
-  // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
 
   const { toast } = useToast()
 
@@ -90,9 +91,14 @@ export default function AnalyticsPage() {
       console.error('Error fetching habit data:', error)
     }
   }
+
   useEffect(() => {
-    fetchHabitData(userId, id)
-  }, [id, userId])
+    if (userId) {
+      fetchHabitData(userId, id)
+    } else {
+      navigate('/login')
+    }
+  }, [id, userId, navigate])
 
   // Navigate to the "add goal" page
   function goToAddGoalPage() {
@@ -194,7 +200,9 @@ export default function AnalyticsPage() {
                   <ToastAction
                     altText="Yes"
                     onClick={() => {
-                      deleteHabit(userId, id)
+                      if (userId) {
+                        deleteHabit(userId, id)
+                      }
                     }}
                   >
                     Yes

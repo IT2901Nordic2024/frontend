@@ -19,6 +19,7 @@ import { z } from 'zod'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
+import Cookies from 'js-cookie'
 
 export default function EditHabitPage() {
   // State to track saving process
@@ -33,8 +34,13 @@ export default function EditHabitPage() {
       // Set loading to true
       setIsLoading(true)
 
-      // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-      const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
+      const userId = Cookies.get('userId') // Get userId from cookie
+
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in the cookie
+        navigate('/login')
+        return // Exit early if userId is not available
+      }
 
       // Set default values if not provided
       const habitName = values.name || 'noChange'
