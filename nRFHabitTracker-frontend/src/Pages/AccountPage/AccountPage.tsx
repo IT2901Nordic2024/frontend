@@ -16,6 +16,8 @@ import { UserInformation, getUserInformation } from '@/Api/api'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 
+// TODO: Connect this page to userID
+
 export function AccountPage() {
   // State to store user data
   const [userData, setUserData] = useState<UserInformation | null>(null)

@@ -44,7 +44,7 @@ export function AddHabitPage() {
 
       if (!userId) {
         // Redirect the user to the login page if userId is not found in the cookie
-        navigate('/login')
+        navigate('/')
         return // Exit early if userId is not available
       }
 

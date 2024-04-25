@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
     if (userId) {
       fetchHabitData(userId, id)
     } else {
-      navigate('/login')
+      navigate('/')
     }
   }, [id, userId, navigate])
 
