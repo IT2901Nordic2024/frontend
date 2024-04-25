@@ -96,7 +96,7 @@ export default function VerificationPage() {
                 <FormItem>
                   <FormLabel>Confirmation Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter the confirmation code sent to your email" {...field} />
+                    <Input placeholder="Enter the code sent to your email" {...field} />
                   </FormControl>
                   {form.formState.errors.confirmationcode && (
                     <FormMessage>{form.formState.errors.confirmationcode.message}</FormMessage>

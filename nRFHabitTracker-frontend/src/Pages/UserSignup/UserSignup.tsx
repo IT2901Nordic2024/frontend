@@ -78,7 +78,16 @@ export function SignupPage() {
       navigate('/verify-user', { state: { username: values.username } })
     } catch (error) {
       // Handle error
-      setErrorMessage('Failed to sign up. Please try again.')
+      if (error instanceof Error) {
+        if (error.message.includes('usernameexistsexception')) {
+          setErrorMessage('Failed to sign up due to a limit exceeded error. Please try again later.')
+        } else if (error.message.includes('AnotherSpecificError')) {
+          setErrorMessage('Another specific error message.')
+        } else {
+          // Default error message for other types of errors
+          setErrorMessage('Failed to sign up. Please try again.')
+        }
+      }
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)
       setIsLoading(false)
@@ -183,7 +192,7 @@ export function SignupPage() {
         </CardContent>
         <CardFooter className="flex flex-col items-start">
           {isLoading ? (
-            <p>Saving changes...</p>
+            <p>Signing up...</p>
           ) : (
             <div className="flex flex-col gap-2">
               <form onSubmit={form.handleSubmit(onSubmit)}>

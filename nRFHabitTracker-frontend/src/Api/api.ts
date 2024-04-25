@@ -172,7 +172,7 @@ export async function UserRegistration(
   email: string,
   deviceId: string,
   password: string
-): Promise<void> {
+){
   try {
     const response = await fetch(
       `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/signup/${username}/${email}/${deviceId}/${password}`,
@@ -186,14 +186,15 @@ export async function UserRegistration(
     
     // Check if the response is ok
     if (!response.ok) {
-      throw new Error('Failed to create user')
+      const data = JSON.stringify(await response.json())
+      throw new Error(data)
     }
 
     // TODO: Handle success response here
     console.log('User created successfully')
   } catch (error) {
     // Handle error here
-    console.error('Error creating user:', error)
+    console.error(error)
     throw error
   }
 }
@@ -246,14 +247,14 @@ export async function Login(
     
     // Check if the response is ok
     if (!response.ok) {
-      throw new Error('Failed to login')
+      throw new Error('Failed to log in')
     }
     
     const data = await response.json();
     return data
   } catch (error) {
     // Handle error here
-    console.error('Error:', error)
+    console.error(error)
     throw error
   }
 }

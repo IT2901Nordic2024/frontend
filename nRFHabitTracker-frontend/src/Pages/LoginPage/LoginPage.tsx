@@ -23,10 +23,10 @@ import { useState } from 'react'
 // Defining form validation schema using zod
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: 'Username must be at least 2 characters long.',
+    message: 'A valid username must be entered.',
   }),
   password: z.string().min(6, {
-    message: 'Password must be at least 6 characters long.',
+    message: 'A valid password must be entered.',
   }),
 })
 
@@ -124,9 +124,16 @@ export function LoginPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col items-start">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Button type="submit">Login</Button>
-          </form>
+          {isLoading ? (
+            <p>Logging in...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Button type="submit">Login</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
           <div style={{ marginBottom: '20px' }} />
           <CardDescription style={{ cursor: 'pointer' }} onClick={goToSignupPage}>
             Don't have an account? <span style={{ textDecoration: 'underline' }}>Sign up</span>
