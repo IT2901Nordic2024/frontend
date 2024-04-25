@@ -19,7 +19,8 @@ import { useNavigate } from 'react-router-dom'
 import { UserRegistration } from '@/Api/api'
 import { useState } from 'react'
 
-// TODO: Add error handling
+// Define the password regex
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
 
 // Defining form validation schema using zod
 const signupSchema = z
@@ -31,12 +32,15 @@ const signupSchema = z
     email: z.string().email({
       message: 'Invalid email address.',
     }),
-    password: z.string().min(6, {
-      message: 'Password must be at least 6 characters long.',
-    }),
-    confirmPassword: z.string().min(6, {
-      message: 'Confirm password must be at least 6 characters long.',
-    }),
+    password: z
+      .string()
+      .min(6, {
+        message: 'Password must be at least 6 characters long.',
+      })
+      .refine((value) => passwordRegex.test(value), {
+        message: 'Password must contain at least one lowercase letter, one uppercase letter, and one number.',
+      }),
+    confirmPassword: z.string(),
     deviceid: z.string().min(6, {
       message: 'Device ID must be at least 6 characters long.',
     }),
@@ -79,10 +83,10 @@ export function SignupPage() {
     } catch (error) {
       // Handle error
       if (error instanceof Error) {
-        if (error.message.includes('usernameexistsexception')) {
+        if (error.message.includes('LimitExceededException')) {
           setErrorMessage('Failed to sign up due to a limit exceeded error. Please try again later.')
-        } else if (error.message.includes('AnotherSpecificError')) {
-          setErrorMessage('Another specific error message.')
+        } else if (error.message.includes('UsernameExistsException')) {
+          setErrorMessage('The username already exists. Please choose another username.')
         } else {
           // Default error message for other types of errors
           setErrorMessage('Failed to sign up. Please try again.')

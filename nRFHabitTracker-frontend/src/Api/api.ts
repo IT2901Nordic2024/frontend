@@ -190,7 +190,6 @@ export async function UserRegistration(
       throw new Error(data)
     }
 
-    // TODO: Handle success response here
     console.log('User created successfully')
   } catch (error) {
     // Handle error here
