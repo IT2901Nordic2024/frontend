@@ -16,6 +16,7 @@ import { Toaster } from '@/Components/shadcnComponents/toaster'
 import { AccountPage } from '@/Pages/AccountPage/AccountPage'
 import DevicePage from '@/Pages/DevicePage/DevicePage'
 import { useEffect, useState } from 'react'
+import VerificationPage from '@/Pages/VerificationPage/VerificationPage'
 
 // Layout component that includes the navigation bar and the main content outlet, as well as checking window size and choosing between navbar and footer based on this
 const Layout: React.FC = () => {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: '/my-device',
         element: <DevicePage />,
+      },
+      {
+        path: '/verify-user',
+        element: <VerificationPage />,
       },
 
       // Add more routes as necessary

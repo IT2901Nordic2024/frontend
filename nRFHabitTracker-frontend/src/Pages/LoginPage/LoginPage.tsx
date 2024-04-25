@@ -17,6 +17,8 @@ import {
   CardTitle,
 } from '@/Components/shadcnComponents/card'
 import { useNavigate } from 'react-router-dom'
+import { Login } from '@/Api/api'
+import { useState } from 'react'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
@@ -29,6 +31,12 @@ const formSchema = z.object({
 })
 
 export function LoginPage() {
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,11 +48,25 @@ export function LoginPage() {
   const navigate = useNavigate()
 
   // Defines a submit handler function
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values, for example, check if the information match a user on the server
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    //placeholder for actual login logic
-    navigate('/my-habits')
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // Call the Login function with form field values
+      const response = await Login(values.username, values.password)
+      const userId = response.userId
+
+      // Navigate to the verification page if user is successfully created
+      navigate('/my-habits', { state: { userId: userId } })
+    } catch (error) {
+      // Handle error
+      setErrorMessage('Failed to log in. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   // Navigate to the signup page

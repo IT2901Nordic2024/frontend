@@ -3,7 +3,7 @@
 import { Button } from '@/Components/shadcnComponents/button'
 import HabitCard from '@/Components/habitCard/habitCard'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { fetchHabits, Habit } from '@/Api/api'
 import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
 
@@ -14,8 +14,11 @@ export default function MyHabitsPage() {
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
-  // TODO: Replace the user ID with the actual user ID when users are implemented
-  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
+  // Get the current location
+  const location = useLocation()
+
+  // Destructure values from the location state
+  const { userId } = location.state as { userId: string }
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {

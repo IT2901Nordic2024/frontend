@@ -16,6 +16,10 @@ import {
   CardTitle,
 } from '@/Components/shadcnComponents/card'
 import { useNavigate } from 'react-router-dom'
+import { UserRegistration } from '@/Api/api'
+import { useState } from 'react'
+
+// TODO: Add error handling
 
 // Defining form validation schema using zod
 const signupSchema = z
@@ -43,6 +47,12 @@ const signupSchema = z
   })
 
 export function SignupPage() {
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -55,11 +65,24 @@ export function SignupPage() {
   })
   const navigate = useNavigate()
 
-  function onSubmit(values: z.infer<typeof signupSchema>) {
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
     console.log(values)
-    // TODO: Implement your signup logic
-    //placeholder for actual login logic
-    navigate('/my-habits')
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // Call the UserRegistration function with form field values
+      await UserRegistration(values.username, values.email, values.deviceid, values.password)
+
+      // Navigate to the verification page if user is successfully created
+      navigate('/verify-user', { state: { username: values.username } })
+    } catch (error) {
+      // Handle error
+      setErrorMessage('Failed to sign up. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   // Navigate to the login page
@@ -148,7 +171,7 @@ export function SignupPage() {
                 <FormItem>
                   <FormLabel>Device ID</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Enter your device ID" {...field} />
+                    <Input placeholder="Enter your device ID" {...field} />
                   </FormControl>
                   {form.formState.errors.deviceid && (
                     <FormMessage>{form.formState.errors.deviceid.message}</FormMessage>
@@ -159,9 +182,16 @@ export function SignupPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col items-start">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Button type="submit">Sign Up</Button>
-          </form>
+          {isLoading ? (
+            <p>Saving changes...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Button type="submit">Sign Up</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
           <CardDescription style={{ cursor: 'pointer', marginTop: '20px' }} onClick={goToLoginPage}>
             Already have an account? <span style={{ textDecoration: 'underline' }}>Log in</span>
           </CardDescription>

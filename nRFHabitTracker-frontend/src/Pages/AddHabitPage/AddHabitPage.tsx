@@ -39,8 +39,11 @@ export function AddHabitPage() {
       // Set loading to true
       setIsLoading(true)
 
-      // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-      const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
+      // Get the current location
+      const location = useLocation()
+
+      // Destructure values from the location state
+      const { userId } = location.state as { userId: string }
 
       // Call the addHabit function with form field values
       await addHabit(userId, deviceId, values.name, values.type, values.side)

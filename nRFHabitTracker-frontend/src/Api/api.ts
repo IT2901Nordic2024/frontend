@@ -14,6 +14,10 @@ export interface HabitEvents {
   habitEvents: Array<[number, number]>
 }
 
+export interface LoginResponse {
+  userId: string;
+}
+
 // Interface representing the structure of user information
 export interface UserInformation {
   username: string
@@ -24,9 +28,11 @@ export interface UserInformation {
 // API-ID for editing, adding, fetching and deleting habits
 const apiID = "prg7rbhyt8"
 
-
 //API-ID for fetching habit events
 const apiID2 = "4lze1bagzk"
+
+//API-ID for user functionality
+const apiID3 = "mg7sr4uvql"
 
 // Function to fetch habits data from an AWS API Gateway endpoint
 export async function fetchHabits(userId: string): Promise<{ habits: Habit[], deviceId: string }> {
@@ -156,6 +162,98 @@ export async function FetchHabit(userId: string, habitId: number): Promise<Habit
     return data
   } catch (error) {
     console.error('There was a problem with fetching from api:', error)
+    throw error
+  }
+}
+
+// Function for user registration
+export async function UserRegistration(
+  username: string,
+  email: string,
+  deviceId: string,
+  password: string
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/signup/${username}/${email}/${deviceId}/${password}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to create user')
+    }
+
+    // TODO: Handle success response here
+    console.log('User created successfully')
+  } catch (error) {
+    // Handle error here
+    console.error('Error creating user:', error)
+    throw error
+  }
+}
+
+// Function for user verification
+export async function VerifyUser(
+  username: string,
+  confirmationCode: string
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/verifyUser/${username}/${confirmationCode}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to verify user')
+    }
+
+    // TODO: Handle success response here
+    console.log('User verified successfully')
+  } catch (error) {
+    // Handle error here
+    console.error('Error verifying user:', error)
+    throw error
+  }
+}
+
+// Function for user login
+export async function Login(
+  username: string,
+  password: string
+): Promise<{ userId: string }> {
+  try {
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/login/${username}/${password}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to login')
+    }
+    
+    const data = await response.json();
+    return data
+  } catch (error) {
+    // Handle error here
+    console.error('Error:', error)
     throw error
   }
 }
