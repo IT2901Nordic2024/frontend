@@ -140,24 +140,24 @@ export function AddHabitPage() {
                   <div className="flex-col justify-start items-start gap-2 flex">
                     <FormLabel>Side</FormLabel>
                   </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a side" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="overflow-y-scroll max-h-60">
-                      <SelectItem value="1">Side 1</SelectItem>
-                      <SelectItem value="2">Side 2</SelectItem>
-                      <SelectItem value="3">Side 3</SelectItem>
-                      <SelectItem value="4">Side 4</SelectItem>
-                      <SelectItem value="5">Side 5</SelectItem>
-                      <SelectItem value="6">Side 6</SelectItem>
-                      <SelectItem value="7">Side 7</SelectItem>
-                      <SelectItem value="8">Side 8</SelectItem>
-                      <SelectItem value="9">Side 9</SelectItem>
-                      <SelectItem value="10">Side 10</SelectItem>
-                      <SelectItem value="11">Side 11</SelectItem>
+                      <SelectItem value="0">Side 1</SelectItem>
+                      <SelectItem value="1">Side 2</SelectItem>
+                      <SelectItem value="2">Side 3</SelectItem>
+                      <SelectItem value="3">Side 4</SelectItem>
+                      <SelectItem value="4">Side 5</SelectItem>
+                      <SelectItem value="5">Side 6</SelectItem>
+                      <SelectItem value="6">Side 7</SelectItem>
+                      <SelectItem value="7">Side 8</SelectItem>
+                      <SelectItem value="8">Side 9</SelectItem>
+                      <SelectItem value="9">Side 10</SelectItem>
+                      <SelectItem value="10">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
                   {form.formState.errors.side && <FormMessage>{form.formState.errors.side.message}</FormMessage>}

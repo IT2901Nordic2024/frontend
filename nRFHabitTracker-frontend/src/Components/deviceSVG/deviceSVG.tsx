@@ -49,8 +49,8 @@ const SVGComponent: React.FC<SVGProps> = ({ svgHeight, selectedSide, deviceData 
         >
           {/* Show habit information based on selected side */}
           {selectedSide !== 12
-            ? deviceData[0][selectedSide + 1] !== undefined
-              ? deviceData[0][selectedSide + 1]
+            ? deviceData[0][selectedSide] !== undefined
+              ? deviceData[0][selectedSide]
               : 'No habit connected'
             : 'Select a side'}
         </text>

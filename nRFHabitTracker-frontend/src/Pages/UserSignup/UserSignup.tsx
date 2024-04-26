@@ -84,9 +84,9 @@ export function SignupPage() {
       // Handle error
       if (error instanceof Error) {
         if (error.message.includes('LimitExceededException')) {
-          setErrorMessage('Failed to sign up due to a limit exceeded error. Please try again later.')
+          setErrorMessage('Failed to sign up due to too many tries today. Please try again later.')
         } else if (error.message.includes('UsernameExistsException')) {
-          setErrorMessage('The username already exists. Please choose another username.')
+          setErrorMessage('The chosen username already exists. Please choose another username.')
         } else {
           // Default error message for other types of errors
           setErrorMessage('Failed to sign up. Please try again.')
