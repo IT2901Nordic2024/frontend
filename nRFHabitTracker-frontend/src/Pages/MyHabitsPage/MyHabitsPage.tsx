@@ -43,7 +43,7 @@ export default function MyHabitsPage() {
         setLoading(false) // Set loading status to false after fetching data
       })
       .catch((error) => console.error('Error fetching habit data:', error))
-  }, [navigate]) // Empty dependency array ensures this effect runs only once on component mount
+  }, [navigate])
 
   // Function to handle selecting a habit card
   const handleHabitSelect = (id: number, name: string, side: number, type: string, deviceId: string) => {

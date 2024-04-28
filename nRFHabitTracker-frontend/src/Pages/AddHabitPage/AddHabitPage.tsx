@@ -22,25 +22,32 @@ import { useState } from 'react'
 import Cookies from 'js-cookie'
 
 export function AddHabitPage() {
+  // Get the navigation function
+  const navigate = useNavigate()
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   // State to track saving process
   const [isLoading, setIsLoading] = useState(false) // State to track loading
 
   // Get the current location
   const location = useLocation()
 
-  // Destructure values from the location state
-  const { deviceId } = location.state as { deviceId: string }
-
   // Toast for user confirmation
   const { toast } = useToast()
+
+  // Get userId from cookie
+  const userId = Cookies.get('userId')
+
+  // Destructure values from the location state
+  const { deviceId } = location.state as { deviceId: string }
 
   // Function to handle adding a habit
   async function handleAdd(values: z.infer<typeof formSchema>) {
     try {
       // Set loading to true
       setIsLoading(true)
-
-      const userId = Cookies.get('userId') // Get userId from cookie
 
       if (!userId) {
         // Redirect the user to the login page if userId is not found in the cookie
@@ -88,17 +95,16 @@ export function AddHabitPage() {
     },
   })
 
-  // Get the navigation function
-  const navigate = useNavigate()
+  // Navigate back to the previous page if the user cancels the action
+  function cancel() {
+    navigate(-1) // This navigates back to the previous page in the history
+  }
 
-  // Error handling
-  const [errorMessage, setErrorMessage] = useState<string>('')
-
-  // Navigate back to the previous page
+  // Navigate back to the previous page if successfully adding a new habit
   function navigateBack() {
     navigate(-1) // This navigates back to the previous page in the history
 
-    // If successfull as confirmation toast will appear on the screen
+    // If successfull a confirmation toast will appear on the screen
     toast({
       variant: 'success',
       title: 'Success!',
@@ -189,7 +195,7 @@ export function AddHabitPage() {
             ></FormField>
           </Form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-row justify-between">
           {/* Conditionally render loading indicator */}
           {/* Button to add the habit */}
           {isLoading ? (
@@ -202,6 +208,10 @@ export function AddHabitPage() {
               {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             </div>
           )}
+          {/* Button to cancel adding a habit */}
+          <Button variant="destructive" onClick={cancel}>
+            Cancel
+          </Button>
         </CardFooter>
       </Card>
     </div>
