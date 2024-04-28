@@ -38,14 +38,25 @@ export function NavBar() {
     return islogoutHovered ? '#94A3B8' : 'white' // Color changes if the logout button is hovered over
   }
 
+  // Function for checking if the user is logged in or not
+  function userId() {
+    if (Cookies.get('userId')) {
+      return true
+    }
+    return false
+  }
+
   // Log out function
   function logout() {
     Cookies.remove('userId') // Remove the userId cookie
     // Navigate to user login if successfully removing userId
-    if (!Cookies.get('userId')) {
+    if (!userId()) {
       navigate('/')
     }
   }
+
+  // Render the navBar only if the user is logged in
+  if (!userId()) return null
 
   return (
     <div className="sticky w-full h-14 bg-[#334155] flex items-center justify-between top-0 left-0 border-b border-[#E4E4E7] z-50">

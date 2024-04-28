@@ -12,11 +12,19 @@ export function Footer() {
   // Toast for user confirmation
   const { toast } = useToast()
 
+  // Function for checking if the user is logged in or not
+  function userId() {
+    if (Cookies.get('userId')) {
+      return true
+    }
+    return false
+  }
+
   // Log out function
   function logout() {
     Cookies.remove('userId') // Remove the userId cookie
     // Navigate to user login if successfully removing userId
-    if (!Cookies.get('userId')) {
+    if (!userId()) {
       navigate('/')
     }
   }
@@ -30,6 +38,9 @@ export function Footer() {
   function goToDevicePage() {
     navigate('/my-device')
   }
+
+  // Render the footer only if the user is logged in
+  if (!userId()) return null
 
   return (
     <>
