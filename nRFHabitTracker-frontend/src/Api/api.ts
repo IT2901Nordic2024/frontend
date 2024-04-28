@@ -8,12 +8,14 @@ export interface Habit {
   side: number
 }
 
+// Interface representing the structure of a Habit events object
 export interface HabitEvents {
   habitId: number
   userId: number
   habitEvents: Array<[number, number]>
 }
 
+// Interface representing the structure of a Login response
 export interface LoginResponse {
   userId: string;
 }
@@ -254,42 +256,6 @@ export async function Login(
   } catch (error) {
     // Handle error here
     console.error(error)
-    throw error
-  }
-}
-
-// Function to get user information
-export async function getUserInformation(userId: string): Promise<UserInformation> {
-  try {
-    // // TODO: Currently not connected to an actual API, add this connection
-    // const response = await fetch(`https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/userInformation/${userId}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-
-    // // Check if the response is ok
-    // if (!response.ok) {
-    //   throw new Error('Failed to retrieve user information')
-    // }
-
-    // // Parse the JSON response and extract the user information
-    // const userData: UserInformation = await response.json()
-
-    console.log(userId)
-
-    // Dummy user data
-    const userData: UserInformation = {
-      username: 'dummy_user',
-      email: 'dummy@example.com',
-      password: '********', // You might want to handle passwords differently in production
-    }
-
-    return userData
-  } catch (error) {
-    // Handle error here
-    console.error('Error retrieving user information:', error)
     throw error
   }
 }

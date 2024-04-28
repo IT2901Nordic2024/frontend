@@ -1,3 +1,4 @@
+// CURRENTLY UNUSED
 // Page for updating user information
 
 import { Button } from '@/Components/shadcnComponents/button'
@@ -12,18 +13,13 @@ import {
 import { Input } from '@/Components/shadcnComponents/input'
 import { Label } from '@/Components/shadcnComponents/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/shadcnComponents/tabs'
-import { UserInformation, getUserInformation } from '@/Api/api'
-import { useEffect, useState } from 'react'
+import { UserInformation } from '@/Api/api'
+import { useState } from 'react'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 
-// TODO: Connect this page to userID
-
 export function AccountPage() {
-  // State to store user data
-  const [userData, setUserData] = useState<UserInformation | null>(null)
-
   // State to track loading
   const [isLoading, setIsLoading] = useState(false)
 
@@ -32,27 +28,12 @@ export function AccountPage() {
   // Toast for user confirmation
   const { toast } = useToast()
 
-  useEffect(() => {
-    const userId = Cookies.get('userId') // Get userId from cookie
-
-    if (!userId) {
-      // Redirect the user to the login page if userId is not found in the cookie
-      navigate('/')
-      return // Exit early if userId is not available
-    }
-
-    // Fetch user information when the component mounts
-    const fetchUserData = async () => {
-      try {
-        const userInfo = await getUserInformation('0') // TODO: replace '0' with the actual user ID
-        setUserData(userInfo)
-      } catch (error) {
-        // TODO: Handle errors
-        console.error('Error fetching user information:', error)
-      }
-    }
-    fetchUserData() // Call the function to fetch user information
-  }, [navigate]) // Empty dependency array ensures useEffect runs only once
+  // Dummy user data
+  const userData: UserInformation = {
+    username: 'dummy_user',
+    email: 'dummy@example.com',
+    password: '********', // You might want to handle passwords differently in production
+  }
 
   function saveChanges() {
     // TODO: Add functionality for saving changes to the account

@@ -1,7 +1,5 @@
-// CURRENTLY UNUSED
 // Page for showing different analytics when clicking on a habit card
 
-//import Chart from '@/Components/Charts/Chart'
 import GoalsChart from '@/Components/Charts/GoalsChart/GoalsChart'
 import { Button } from '@/Components/shadcnComponents/button'
 import {

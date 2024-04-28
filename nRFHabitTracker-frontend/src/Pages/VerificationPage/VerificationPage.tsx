@@ -1,5 +1,4 @@
-// This page sign-up form for new users,
-// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the main page upon successful sign-up or to the login page for existing users.
+// This is a verification page for new users after signing up. The user writes in the verification code they were emailed after signing up to be able to then log in.
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -18,8 +17,6 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom'
 import { VerifyUser } from '@/Api/api'
 import { useState } from 'react'
-
-// TODO: Add error handling
 
 // Defining form validation schema using zod
 const confirmationSchema = z.object({
