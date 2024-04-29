@@ -8,48 +8,43 @@ interface SummaryProps {
 
 const Summary: React.FC<SummaryProps> = ({ events, timerHabit }) => {
   if (!events || events.length === 0) {
-    return <CoolCard title="Summary" children={<p>No data logged yet</p>} />;
+    return <CoolCard title="No data logged yet" children={<p>...</p>} />;
   }
 
-  let totalMilliseconds = 0;
-
-  // Calculating total time spent
-  if (timerHabit) {
-    events.forEach(([start, end]) => {
-      totalMilliseconds += (end - start) * 1000;
-    });
-  } else {
-    events.forEach(([timestamp, count]) => {
-      totalMilliseconds += count;
-    });
-  }
-
-  const totalHours = totalMilliseconds / 3600000;
-
-    // Grouping data by day for average calculation
   const dataGroupedByDay: { [key: string]: number } = {};
-  events.forEach(([timestamp]) => {
+  let totalValue = 0; // total hours for timer habits or total counts for counter habits.
+
+  events.forEach(([timestamp, value]) => {
     const date = new Date(timestamp * 1000);
     const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
+    // Initialize day key if not already set
     if (!dataGroupedByDay[dayKey]) {
       dataGroupedByDay[dayKey] = 0;
     }
+
     if (timerHabit) {
-      dataGroupedByDay[dayKey] += totalMilliseconds / 3600000; // Converting milliseconds to hours for total hours display
+      // Timer habits - convert seconds to hours and sum up
+      const durationHours = (value - timestamp) / 3600;
+      dataGroupedByDay[dayKey] += durationHours;
+      totalValue += durationHours;
     } else {
-      dataGroupedByDay[dayKey] += 1; // Counting occurrences
+      // Counter habits - sum counts directly
+      dataGroupedByDay[dayKey] += value;
+      totalValue += value;
     }
   });
 
+  // Calculate averages based on tracked days
   const daysCovered = Object.keys(dataGroupedByDay).length;
-  const weeklyAverage = (totalHours / (daysCovered / 7)).toFixed(0);
-  const dailyAverage = (totalHours / daysCovered).toFixed(0);
+  const dailyAverage = daysCovered > 0 ? (totalValue / daysCovered).toFixed(0) : '0';
+  const weeklyAverage = daysCovered > 0 ? (totalValue / (daysCovered / 7)).toFixed(0) : '0';
 
   return (
     <div className='flex flex-col w-full'>
-      <CoolCard title="Total Hours Spent" children={<p>{timerHabit ? `${totalHours.toFixed(0)} hours` : `${totalMilliseconds} times`}</p>} />
-      <CoolCard title="Weekly Average" children={<p>{timerHabit ? `${weeklyAverage} hours per week` : `${(totalMilliseconds / 7).toFixed(0)} times per week`}</p>} />
-      <CoolCard title="Daily Average" children={<p>{timerHabit ? `${dailyAverage} hours per day` : `${(totalMilliseconds / daysCovered).toFixed(0)} times per day`}</p>} />
+      <CoolCard title="Total Tracked" children={<p>{timerHabit ? `${totalValue.toFixed(0)} hours` : `${totalValue} times`}</p>} />
+      <CoolCard title="Weekly Average" children={<p>{timerHabit ? `${weeklyAverage} hours per week` : `${weeklyAverage} times per week`}</p>} />
+      <CoolCard title="Daily Average" children={<p>{timerHabit ? `${dailyAverage} hours per day` : `${dailyAverage} times per day`}</p>} />
     </div>
   );
 };
