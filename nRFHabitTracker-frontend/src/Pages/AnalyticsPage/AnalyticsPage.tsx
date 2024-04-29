@@ -193,8 +193,8 @@ export default function AnalyticsPage() {
         <CardContent>
           {goal ? (
             <GoalsChart
-              today={1}
-              week={7}
+              events={habit ? habit.habitEvents : []}
+              type={type}
               unit={goal.unit}
               target={Number(goal.target)}
               question={goal.question + '?'}
