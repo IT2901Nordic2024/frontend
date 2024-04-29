@@ -132,7 +132,7 @@ export default function AddGoalPage() {
                   </div>
                   <FormControl>
                     <Input
-                      placeholder="e.g. How many hours did I sleep?"
+                      placeholder="e.g. How many hours did I sleep"
                       value={field.value || ''}
                       onChange={field.onChange}
                     />

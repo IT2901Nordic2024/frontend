@@ -278,8 +278,11 @@ export async function setHabitGoal(
   frequency: string
 ): Promise<void> {
   try {
+    // Remove all question marks from the question, due to backend not supporting question marks
+    const cleanedQuestion = question.replace(/\?/g, '')
+
     const response = await fetch(
-      `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/setHabitGoal/${userId}/${habitId}/${question}/${target}/${unit}/${frequency}`,
+      `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/setHabitGoal/${userId}/${habitId}/${cleanedQuestion}/${target}/${unit}/${frequency}`,
       {
         method: 'PUT',
         headers: {

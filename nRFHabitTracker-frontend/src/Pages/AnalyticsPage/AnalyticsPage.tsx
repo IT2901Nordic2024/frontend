@@ -197,7 +197,7 @@ export default function AnalyticsPage() {
               week={7}
               unit={goal.unit}
               target={Number(goal.target)}
-              question={goal.question}
+              question={goal.question + '?'}
               frequency={goal.frequency}
             />
           ) : (
