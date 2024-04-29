@@ -131,7 +131,7 @@ useEffect(() => {
       {/* Card for displaying goal chart */}
       <Card className={`w-[100%] mx-auto ${goalExist ? 'visible' : 'hidden'}`}>
         <CardHeader>
-          <CardTitle>Goal</CardTitle>
+          <CardTitle>Goal ⭐</CardTitle>
           <CardDescription>Your goal for this habit</CardDescription>
         </CardHeader>
         {/* Sample data => to be replaced */}
@@ -158,7 +158,7 @@ useEffect(() => {
       {/* Card for displaying history chart */}
       <Card className="w-[100%] mx-auto">
         <CardHeader>
-          <CardTitle>History</CardTitle>
+          <CardTitle>History 📜</CardTitle>
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
         {/*if type is time, use TimeChart, else use CountChart*/}
@@ -170,29 +170,24 @@ useEffect(() => {
       {/* Analytics section */}
       <Card className="w-[100%] mx-auto">
   <CardHeader>
-    <CardTitle>Analytics</CardTitle>
+    <CardTitle>Analytics 🔎</CardTitle>
   </CardHeader>
-  <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
-  <Card className="flex-1">
-        <CardHeader>
-          <CardTitle>Calender</CardTitle>
-        </CardHeader>
+  <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
         {habit ? (
       type === 'time' ? 
-      <div className="w-full px-2 sm:px-0">
+      <div className="flex-1">
         <Calendar events={habit.habitEvents} timerHabit={true}/>
       </div> : 
-      <div className="w-full px-2 sm:px-0">
+      <div className="flex-1">
         <Calendar events={habit.habitEvents} timerHabit={false}/>
       </div>
     ) : (
       <p>Loading data...</p>
     )}
-      </Card>
+      
     <div className="flex-1">
-      <Card>
         <CardHeader>
-          <CardTitle>Summary</CardTitle>
+          <CardTitle>Summary ⏰</CardTitle>
         </CardHeader>
         {habit ? (
       type === 'time' ? 
@@ -205,7 +200,6 @@ useEffect(() => {
     ) : (
       <p>Loading data...</p>
     )}
-      </Card>
     </div>
   </CardContent>
 </Card>
