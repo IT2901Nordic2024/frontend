@@ -37,9 +37,10 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
         show: true,
         tools: {
           download: true,
-          zoom: false, 
-          zoomin: false,
-          zoomout: false,
+          selection: false,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
           pan: false,
           reset: false,
         },
