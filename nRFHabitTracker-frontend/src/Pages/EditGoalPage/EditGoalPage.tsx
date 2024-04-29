@@ -1,3 +1,5 @@
+// Page for editing an existing goal for a habit
+
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
@@ -36,7 +38,7 @@ const formSchema = z
     }
   )
 
-export default function AddGoalPage() {
+export default function EditGoalPage() {
   // State to track loading
   const [isLoading, setIsLoading] = useState(false)
 
@@ -99,7 +101,7 @@ export default function AddGoalPage() {
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
     } catch (error) {
       // Handle error
-      setErrorMessage('Failed to add goal. Please try again.')
+      setErrorMessage('Failed to edit goal. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)
       setIsLoading(false)
@@ -194,11 +196,11 @@ export default function AddGoalPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
-          {/* Button to cancel adding a goal */}
+          {/* Button to cancel editing a goal */}
           <Button variant="destructive" onClick={navigateBack}>
             Cancel
           </Button>
-          {/* Button to add goal */}
+          {/* Button to save changes */}
           {isLoading ? (
             <p>Saving changes...</p>
           ) : (
