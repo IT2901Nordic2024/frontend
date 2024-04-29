@@ -19,6 +19,7 @@ import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
 import Calendar from '@/Components/Calender/Calender'
+import Summary from '@/Components/Summary/Summary'
 
 interface Habit {
   habitId: number,
@@ -168,13 +169,46 @@ useEffect(() => {
       </Card>
       {/* Example card */}
       <Card className="w-[100%] mx-auto">
+  <CardHeader>
+    <CardTitle>Analytics</CardTitle>
+  </CardHeader>
+  <CardContent className="flex flex-row justify-between">
+  <Card>
         <CardHeader>
           <CardTitle>Calender</CardTitle>
         </CardHeader>
-        <CardContent>{habit ? (type === 'time' ? <Calendar events={habit.habitEvents} timerHabit= {true}/> : <Calendar events={habit.habitEvents} timerHabit= {false}/>) : (
-        <p>Loading data...</p> )}
-        </CardContent>
+        {habit ? (
+      type === 'time' ? 
+      <div className="flex-1">
+        <Calendar events={habit.habitEvents} timerHabit={true}/>
+      </div> : 
+      <div className="flex-1">
+        <Calendar events={habit.habitEvents} timerHabit={false}/>
+      </div>
+    ) : (
+      <p>Loading data...</p>
+    )}
       </Card>
+    <div className="flex-1">
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        {habit ? (
+      type === 'time' ? 
+      <div className="flex-1">
+        <Summary events={habit.habitEvents} timerHabit={true}/>
+      </div> : 
+      <div className="flex-1">
+        <Summary events={habit.habitEvents} timerHabit={false}/>
+      </div>
+    ) : (
+      <p>Loading data...</p>
+    )}
+      </Card>
+    </div>
+  </CardContent>
+</Card>
       {/* Error message */}
       {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
       <div className="flex justify-between">

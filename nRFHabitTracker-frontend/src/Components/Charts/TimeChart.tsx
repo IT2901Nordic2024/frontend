@@ -32,7 +32,7 @@ export const TimeChart: React.FC<ChartProps> = ({ events }) => {
   // Options for ApexCharts
   const options: ApexOptions = {
     chart: {
-      type: 'line',
+      type: 'bar',
       toolbar: {
         show: true,
         tools: {
@@ -46,6 +46,15 @@ export const TimeChart: React.FC<ChartProps> = ({ events }) => {
         },
       },
     },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+      },
+    },
+    dataLabels: {
+      enabled: false
+    },
     xaxis: {
       type: 'datetime',
       title: {
@@ -58,7 +67,9 @@ export const TimeChart: React.FC<ChartProps> = ({ events }) => {
       },
     },
     stroke: {
-      curve: 'smooth',
+      show: true,
+      width: 2,
+      colors: ['transparent']
     },
     tooltip: {
       x: {
@@ -72,7 +83,7 @@ export const TimeChart: React.FC<ChartProps> = ({ events }) => {
 
   return (
     <div>
-      <ReactApexChart options={options} series={[{ name: 'Total Hours', data: formattedData }]} type="line" />
+      <ReactApexChart options={options} series={[{ name: 'Total Hours', data: formattedData }]} type="bar" />
     </div>
   );
 };

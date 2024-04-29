@@ -1,4 +1,4 @@
-import {Calendar as CalenderComp} from "@/lib/utils/ui/calendar";
+import {Calendar as CalenderComp} from "@/Components/shadcnComponents/calendar";
 import { useState } from "react";
 
 interface CalendarProps {
@@ -15,7 +15,6 @@ export const Calendar: React.FC<CalendarProps> = ({ events, timerHabit }) => {
     const uniqueDays = new Set();
 
     if(timerHabit){
-        console.log('Timer habit');
         events.forEach((event) => {
             const startDate = new Date(event[0]*1000);
             const endDate = new Date(event[1]*1000);
@@ -31,13 +30,11 @@ export const Calendar: React.FC<CalendarProps> = ({ events, timerHabit }) => {
         });
     }
 
-    const highlightedDates = Array.from(uniqueDays).map((date) => new Date(date));
-    
-    const [startDate, setStartDate] = useState(new Date());
+    const highlightedDates = Array.from(uniqueDays).map((date) => new Date(date as string));
 
     return (
         <div>
-            <CalenderComp />
+            <CalenderComp selected={highlightedDates} />
         </div>
     );
 };
