@@ -14,6 +14,9 @@ import {
   CardTitle,
 } from '@/Components/shadcnComponents/card'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useState } from 'react'
+import { setHabitGoal } from '@/Api/api'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
@@ -32,20 +35,14 @@ const formSchema = z.object({
 })
 
 export default function AddGoalPage() {
-  // Defines form using useForm hook
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      question: '',
-    },
-  })
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
 
-  // Defines a submit handler function
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Send these values to the backend
-    console.log(values)
-    navigateBack()
-  }
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
+  // Get userId from cookie
+  const userId = Cookies.get('userId')
 
   // Get the navigation function
   const navigate = useNavigate()
@@ -58,8 +55,43 @@ export default function AddGoalPage() {
   // Get the current location
   const location = useLocation()
 
-  // Destructure the 'name' from the location state
-  const { name } = location.state as { name: string }
+  // Destructure the 'name' and habitId from the location state
+  const { name, habitId } = location.state as { name: string; habitId: string }
+
+  // Defines form using useForm hook
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      question: '',
+    },
+  })
+
+  // Defines a submit handler function
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in the cookie
+        navigate('/')
+        return // Exit early if userId is not available
+      }
+      console.log(userId + ' and ' + habitId)
+      // Call the setHabitGoal function with form field values
+      await setHabitGoal(userId, habitId, values.question, values.target, values.unit, values.frequency)
+
+      // Navigate to the main page if goal is successfully created
+      navigate('/my-habits')
+    } catch (error) {
+      // Handle error
+      setErrorMessage('Failed to add goal. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
@@ -170,17 +202,22 @@ export default function AddGoalPage() {
             ></FormField>
           </Form>
         </CardContent>
-
         <CardFooter className="flex flex-row justify-between">
           {/* Button to cancel adding a goal */}
           <Button variant="destructive" onClick={navigateBack}>
             Cancel
           </Button>
           {/* Button to add goal */}
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Button variant="secondary">Add</Button>
-          </form>
+          {isLoading ? (
+            <p>Adding goal...</p>
+          ) : (
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Button variant="secondary">Add</Button>
+            </form>
+          )}
         </CardFooter>
+        {/* Error message */}
+        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

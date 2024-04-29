@@ -4,6 +4,7 @@ import { ApexOptions } from 'apexcharts'
 interface GoalsChartProps {
   today: number
   week: number
+  unit: string
   target: number
   question: string
   frequency: string

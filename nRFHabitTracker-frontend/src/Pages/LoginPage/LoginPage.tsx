@@ -62,7 +62,7 @@ export function LoginPage() {
       // Save userId in a cookie
       Cookies.set('userId', userId, { expires: 1 }) // expires in 1 day
 
-      // Navigate to the verification page if user is successfully created
+      // Navigate to the main page if user is successfully logged in
       navigate('/my-habits')
     } catch (error) {
       // Handle error
