@@ -12,7 +12,7 @@ List of the project's main features (pages).
 - **Device Page**: Allows users to see information about their device and which habit is connected to which side.
 - **Add Goal Page**: This page makes it possible to add a new goal for a habit. The user has to type in a question, the target, unit and frequency wished for. These fields are validated, and the goal is added on the analytics page if valid. As of now charting the goal is not fully implemented as we are waiting for implementation from the backend. But if a goal is added, sample data showing the visuals are shown.
 - **Add Habit Page**: Page for the user to add new habits to their system. The user must choose a name, side and type for the tracking, which are validated as needed. This data will then display on the main page (My Habits Page).
-- **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit.
+- **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit. There is also a Calender with active days marked and a small summary section.
 - **My Habits Page**: This is the main page for users once they have logged in. Fetches and displays the user's habits from an AWS API Gateway.
 - **Edit Habit Page**: This is the page for editing a habit, which you can reach by clicking "Edit Habit" inside the analytics page connencted to a habit. The user must fill in one of the fields to be able to save changes, where no changes are made if nothing is filled in. The new data will then display on the main page (My Habits Page).
 - **Account Page [UNUSED]**: This is the page for editing user information. Since this feature was not supported in the backend by the end of the project, it is currently not used.
@@ -24,6 +24,7 @@ List of the project's main features (pages).
   - **Api**: Contains the API configuration and endpoints for interacting with backend services.
   - **App**: Contains the main entry point of the application.
   - **Components**: Holds reusable UI components used throughout the application.
+    - **calender**: Components related to calender functionality, used on the analytics page
     - **charts**: Components related to charting functionality.
     - **deviceSVG**: Component for rendering a DOD figure with text inside.
     - **footer**: Component for displaying a footer.
@@ -32,7 +33,9 @@ List of the project's main features (pages).
     - **navBar**: Component for displaying a navigation bar.
     - **shadcnComponents**: Components provided by the Shadcn UI library.
       - **button**: Displays a button or a component that looks like a button.
+      - **button2**: Button used by shadcn calender component.
       - **card**: Displays a card with header, content, and footer.
+      - **CoolCard**: functional component that shows text in a visualy appealing way
       - **form**: Building forms with React Hook Form and Zod.
       - **input**: Displays a form input field or a component that looks like an input field.
       - **label**: Renders an accessible label associated with controls.

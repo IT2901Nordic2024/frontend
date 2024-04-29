@@ -17,6 +17,8 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
+import Calendar from '@/Components/Calender/Calender'
+import Summary from '@/Components/Summary/Summary'
 import Cookies from 'js-cookie'
 
 interface Habit {
@@ -137,7 +139,7 @@ export default function AnalyticsPage() {
       {/* Card for displaying goal chart */}
       <Card className={`w-[100%] mx-auto ${goalExist ? 'visible' : 'hidden'}`}>
         <CardHeader>
-          <CardTitle>Goal</CardTitle>
+          <CardTitle>Goal ⭐</CardTitle>
           <CardDescription>Your goal for this habit</CardDescription>
         </CardHeader>
         {/* Sample data => to be replaced */}
@@ -156,7 +158,7 @@ export default function AnalyticsPage() {
       {/* Card for displaying history chart */}
       <Card className="w-[100%] mx-auto">
         <CardHeader>
-          <CardTitle>History</CardTitle>
+          <CardTitle>History 📜</CardTitle>
           <CardDescription>Your history for this habit</CardDescription>
         </CardHeader>
         {/*if type is time, use TimeChart, else use CountChart*/}
@@ -172,13 +174,39 @@ export default function AnalyticsPage() {
           )}
         </CardContent>
       </Card>
-      {/* Example card */}
+      {/* Analytics section */}
       <Card className="w-[100%] mx-auto">
-        <CardHeader>
-          <CardTitle>Example card</CardTitle>
-        </CardHeader>
-        <CardContent>Just to show what is possible and how it will look</CardContent>
-      </Card>
+  <CardHeader>
+    <CardTitle>Analytics 🔎</CardTitle>
+  </CardHeader>
+  <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+        {habit ? (
+      type === 'time' ? 
+      <div className="flex-1">
+        <Calendar events={habit.habitEvents} timerHabit={true}/>
+      </div> : 
+      <div className="flex-1">
+        <Calendar events={habit.habitEvents} timerHabit={false}/>
+      </div>
+    ) : (
+      <p>Loading data...</p>
+    )}
+      
+    <div className="flex-1">
+        {habit ? (
+      type === 'time' ? 
+      <div className="flex-1">
+        <Summary events={habit.habitEvents} timerHabit={true}/>
+      </div> : 
+      <div className="flex-1">
+        <Summary events={habit.habitEvents} timerHabit={false}/>
+      </div>
+    ) : (
+      <p>Loading data...</p>
+    )}
+    </div>
+  </CardContent>
+</Card>
       {/* Error message */}
       {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
       <div className="flex justify-between">
