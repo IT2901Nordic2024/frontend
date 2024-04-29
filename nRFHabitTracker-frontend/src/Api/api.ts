@@ -8,10 +8,16 @@ export interface Habit {
   side: number
 }
 
+// Interface representing the structure of a Habit events object
 export interface HabitEvents {
   habitId: number
   userId: number
   habitEvents: Array<[number, number]>
+}
+
+// Interface representing the structure of a Login response
+export interface LoginResponse {
+  userId: string;
 }
 
 // Interface representing the structure of user information
@@ -24,9 +30,11 @@ export interface UserInformation {
 // API-ID for editing, adding, fetching and deleting habits
 const apiID = "prg7rbhyt8"
 
-
 //API-ID for fetching habit events
 const apiID2 = "4lze1bagzk"
+
+//API-ID for user functionality
+const apiID3 = "mg7sr4uvql"
 
 // Function to fetch habits data from an AWS API Gateway endpoint
 export async function fetchHabits(userId: string): Promise<{ habits: Habit[], deviceId: string }> {
@@ -160,38 +168,94 @@ export async function FetchHabit(userId: string, habitId: number): Promise<Habit
   }
 }
 
-// Function to get user information
-export async function getUserInformation(userId: string): Promise<UserInformation> {
+// Function for user registration
+export async function UserRegistration(
+  username: string,
+  email: string,
+  deviceId: string,
+  password: string
+){
   try {
-    // // TODO: Currently not connected to an actual API, add this connection
-    // const response = await fetch(`https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/userInformation/${userId}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-
-    // // Check if the response is ok
-    // if (!response.ok) {
-    //   throw new Error('Failed to retrieve user information')
-    // }
-
-    // // Parse the JSON response and extract the user information
-    // const userData: UserInformation = await response.json()
-
-    console.log(userId)
-
-    // Dummy user data
-    const userData: UserInformation = {
-      username: 'dummy_user',
-      email: 'dummy@example.com',
-      password: '********', // You might want to handle passwords differently in production
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/signup/${username}/${email}/${deviceId}/${password}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      const data = JSON.stringify(await response.json())
+      throw new Error(data)
     }
 
-    return userData
+    console.log('User created successfully')
   } catch (error) {
     // Handle error here
-    console.error('Error retrieving user information:', error)
+    console.error(error)
+    throw error
+  }
+}
+
+// Function for user verification
+export async function VerifyUser(
+  username: string,
+  confirmationCode: string
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/verifyUser/${username}/${confirmationCode}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to verify user')
+    }
+
+    // TODO: Handle success response here
+    console.log('User verified successfully')
+  } catch (error) {
+    // Handle error here
+    console.error('Error verifying user:', error)
+    throw error
+  }
+}
+
+// Function for user login
+export async function Login(
+  username: string,
+  password: string
+): Promise<{ userId: string }> {
+  try {
+    const response = await fetch(
+      `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/login/${username}/${password}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to log in')
+    }
+    
+    const data = await response.json();
+    return data
+  } catch (error) {
+    // Handle error here
+    console.error(error)
     throw error
   }
 }

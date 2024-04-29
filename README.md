@@ -4,17 +4,19 @@ This is the frontend part of our habit tracker project. It is a web interface ma
 
 ## Features
 
-List of the project's main features.
+List of the project's main features (pages).
 
 - **Log In Page**: Includes real-time client-side validation to enhance user experience and data integrity. This is the page the user enters when they enter the web interface.
 - **Sign Up Page**: Features comprehensive input validation ensuring user data meets security and format standards.
+- **Verification Page**: Page for verification after signing up. The user must write in a valid verification code sent to thei email to be able to log in.
 - **Device Page**: Allows users to see information about their device and which habit is connected to which side.
 - **Add Goal Page**: This page makes it possible to add a new goal for a habit. The user has to type in a question, the target, unit and frequency wished for. These fields are validated, and the goal is added on the analytics page if valid. As of now charting the goal is not fully implemented as we are waiting for implementation from the backend. But if a goal is added, sample data showing the visuals are shown.
 - **Add Habit Page**: Page for the user to add new habits to their system. The user must choose a name, side and type for the tracking, which are validated as needed. This data will then display on the main page (My Habits Page).
 - **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit.
 - **My Habits Page**: This is the main page for users once they have logged in. Fetches and displays the user's habits from an AWS API Gateway.
 - **Edit Habit Page**: This is the page for editing a habit, which you can reach by clicking "Edit Habit" inside the analytics page connencted to a habit. The user must fill in one of the fields to be able to save changes, where no changes are made if nothing is filled in. The new data will then display on the main page (My Habits Page).
-- **Account Page**: This is the page for editing user information, reachable by clicking on the profile icon in the footer or account in the navbar.
+- **Account Page [UNUSED]**: This is the page for editing user information. Since this feature was not supported in the backend by the end of the project, it is currently not used.
+- **Connect Device Page [UNUSED]**: This is the page for connecting to a device. Since the user would only be able to connect a device when signing up as of now, it is currently not used.
 
 ## Folder Structure
 
@@ -24,12 +26,21 @@ List of the project's main features.
   - **Components**: Holds reusable UI components used throughout the application.
     - **charts**: Components related to charting functionality.
     - **deviceSVG**: Component for rendering a DOD figure with text inside.
-    - **footer**: Component for displaying footers.
+    - **footer**: Component for displaying a footer.
     - **habitCard**: Component for displaying habit cards.
     - **loadingSpinner**: Component for graphics when something loads.
-    - **navBar**: Component for displaying navigation bars.
+    - **navBar**: Component for displaying a navigation bar.
     - **shadcnComponents**: Components provided by the Shadcn UI library.
-  - **Pages**: Contains the pages listed above.
+      - **button**: Displays a button or a component that looks like a button.
+      - **card**: Displays a card with header, content, and footer.
+      - **form**: Building forms with React Hook Form and Zod.
+      - **input**: Displays a form input field or a component that looks like an input field.
+      - **label**: Renders an accessible label associated with controls.
+      - **select**: Displays a list of options for the user to pick from—triggered by a button.
+      - **tabs**: A set of layered sections of content—known as tab panels—that are displayed one at a time.
+      - **toast**, **toaster** and **use-toast**: A succinct message that is displayed temporarily.
+    - **utils**: Connected to the shadcn components.
+  - **Pages**: Contains the pages listed above under *Features*.
 
 ## Technologies
 
@@ -41,9 +52,12 @@ List the technologies, frameworks, and libraries used in the project.
 - [Zod](https://github.com/colinhacks/zod) - For schema definition and validation, ensuring data integrity throughout the app.
 - [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
-- [ApexCharts] (https://apexcharts.com/) - A modern charting library for interactive visualizations of data.
-- [Cypress] (https://www.cypress.io/)- Comprehensive e2e testing framework
-- [Jest] (https://jestjs.io/)- Javascript testing framwork, used to test components
+- [ApexCharts](https://apexcharts.com/) - A modern charting library for interactive visualizations of data.
+- [Cypress](https://www.cypress.io/) - Comprehensive e2e testing framework
+- [Jest](https://jestjs.io/) - Javascript testing framwork, used to test components
+- [React Icons](https://react-icons.github.io/react-icons/) - Library for customizable SVG icons
+- [useHooks](https://usehooks-ts.com/) - A React hooks library that provides a set of hooks that enables you to build your React applications faster
+- [js-cookie](https://github.com/js-cookie/js-cookie) - A JavaScript API for handling cookies
 
 ## Getting Started
 

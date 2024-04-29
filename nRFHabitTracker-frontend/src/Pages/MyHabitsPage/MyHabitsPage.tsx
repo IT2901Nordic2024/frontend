@@ -6,19 +6,26 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchHabits, Habit } from '@/Api/api'
 import { LoadingSpinner } from '@/Components/LoadingSpinner/LoadingSpinner'
+import Cookies from 'js-cookie'
 
 export default function MyHabitsPage() {
   // State variables to hold habits data and loading status
   const [habitsData, setHabitsData] = useState<Habit[]>([])
   const [deviceId, setDeviceId] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
-  const navigate = useNavigate()
 
-  // TODO: Replace the user ID with the actual user ID when users are implemented
-  const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
+  const navigate = useNavigate()
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
+    const userId = Cookies.get('userId') // Get userId from cookie
+
+    if (!userId) {
+      // Redirect the user to the login page if userId is not found in the cookie
+      navigate('/')
+      return // Exit early if userId is not available
+    }
+
     fetchHabits(userId)
       .then((response: { habits: Habit[]; deviceId: string }) => {
         // Check if response is not empty
@@ -36,7 +43,7 @@ export default function MyHabitsPage() {
         setLoading(false) // Set loading status to false after fetching data
       })
       .catch((error) => console.error('Error fetching habit data:', error))
-  }, []) // Empty dependency array ensures this effect runs only once on component mount
+  }, [navigate])
 
   // Function to handle selecting a habit card
   const handleHabitSelect = (id: number, name: string, side: number, type: string, deviceId: string) => {

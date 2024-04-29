@@ -1,3 +1,4 @@
+// CURRENTLY UNUSED
 // Page for updating user information
 
 import { Button } from '@/Components/shadcnComponents/button'
@@ -12,30 +13,27 @@ import {
 import { Input } from '@/Components/shadcnComponents/input'
 import { Label } from '@/Components/shadcnComponents/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/shadcnComponents/tabs'
-import { UserInformation, getUserInformation } from '@/Api/api'
-import { useEffect, useState } from 'react'
+import { UserInformation } from '@/Api/api'
+import { useState } from 'react'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 export function AccountPage() {
-  // State to store user data
-  const [userData, setUserData] = useState<UserInformation | null>(null)
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   // Toast for user confirmation
   const { toast } = useToast()
 
-  useEffect(() => {
-    // Fetch user information when the component mounts
-    const fetchUserData = async () => {
-      try {
-        const userInfo = await getUserInformation('0') // TODO: replace '0' with the actual user ID
-        setUserData(userInfo)
-      } catch (error) {
-        // TODO: Handle errors
-        console.error('Error fetching user information:', error)
-      }
-    }
-    fetchUserData() // Call the function to fetch user information
-  }, []) // Empty dependency array ensures useEffect runs only once
+  // Dummy user data
+  const userData: UserInformation = {
+    username: 'dummy_user',
+    email: 'dummy@example.com',
+    password: '********', // You might want to handle passwords differently in production
+  }
 
   function saveChanges() {
     // TODO: Add functionality for saving changes to the account
@@ -58,13 +56,28 @@ export function AccountPage() {
   }
 
   function signOut() {
-    // TODO: Add functionality for signing out
-    // For now a toast will appear
-    toast({
-      variant: 'destructive',
-      title: 'Error',
-      description: 'Failed to sign out.',
-    })
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // Remove the userId cookie
+      Cookies.remove('userId')
+
+      // Navigate to user login if successfully removing userId
+      if (!Cookies.get('userId')) {
+        navigate('/')
+      }
+    } catch (error) {
+      // A toast will appear if there is an error
+      toast({
+        variant: 'success',
+        title: 'Error',
+        description: 'Failed to sign out.',
+      })
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -72,7 +85,13 @@ export function AccountPage() {
       {/* Heading and sign out button */}
       <div className="flex justify-between p-5">
         <h1 className="text-4xl font-bold leading-tight text-slate-900">My Account</h1>
-        <Button onClick={signOut}>Sign out</Button>
+        {isLoading ? (
+          <div>
+            <p>Signing out</p>
+          </div>
+        ) : (
+          <Button onClick={signOut}>Sign out</Button>
+        )}
       </div>
 
       <div className="flex flex-grow justify-center items-center p-5">

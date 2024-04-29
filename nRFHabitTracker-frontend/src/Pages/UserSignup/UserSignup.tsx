@@ -16,6 +16,11 @@ import {
   CardTitle,
 } from '@/Components/shadcnComponents/card'
 import { useNavigate } from 'react-router-dom'
+import { UserRegistration } from '@/Api/api'
+import { useState } from 'react'
+
+// Define the password regex
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
 
 // Defining form validation schema using zod
 const signupSchema = z
@@ -27,12 +32,15 @@ const signupSchema = z
     email: z.string().email({
       message: 'Invalid email address.',
     }),
-    password: z.string().min(6, {
-      message: 'Password must be at least 6 characters long.',
-    }),
-    confirmPassword: z.string().min(6, {
-      message: 'Confirm password must be at least 6 characters long.',
-    }),
+    password: z
+      .string()
+      .min(6, {
+        message: 'Password must be at least 6 characters long.',
+      })
+      .refine((value) => passwordRegex.test(value), {
+        message: 'Password must contain at least one lowercase letter, one uppercase letter, and one number.',
+      }),
+    confirmPassword: z.string(),
     deviceid: z.string().min(6, {
       message: 'Device ID must be at least 6 characters long.',
     }),
@@ -43,6 +51,12 @@ const signupSchema = z
   })
 
 export function SignupPage() {
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -55,11 +69,33 @@ export function SignupPage() {
   })
   const navigate = useNavigate()
 
-  function onSubmit(values: z.infer<typeof signupSchema>) {
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
     console.log(values)
-    // TODO: Implement your signup logic
-    //placeholder for actual login logic
-    navigate('/my-habits')
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // Call the UserRegistration function with form field values
+      await UserRegistration(values.username, values.email, values.deviceid, values.password)
+
+      // Navigate to the verification page if user is successfully created
+      navigate('/verify-user', { state: { username: values.username } })
+    } catch (error) {
+      // Handle error
+      if (error instanceof Error) {
+        if (error.message.includes('LimitExceededException')) {
+          setErrorMessage('Failed to sign up due to too many tries today. Please try again later.')
+        } else if (error.message.includes('UsernameExistsException')) {
+          setErrorMessage('The chosen username already exists. Please choose another username.')
+        } else {
+          // Default error message for other types of errors
+          setErrorMessage('Failed to sign up. Please try again.')
+        }
+      }
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   // Navigate to the login page
@@ -148,7 +184,7 @@ export function SignupPage() {
                 <FormItem>
                   <FormLabel>Device ID</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Enter your device ID" {...field} />
+                    <Input placeholder="Enter your device ID" {...field} />
                   </FormControl>
                   {form.formState.errors.deviceid && (
                     <FormMessage>{form.formState.errors.deviceid.message}</FormMessage>
@@ -159,9 +195,16 @@ export function SignupPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col items-start">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Button type="submit">Sign Up</Button>
-          </form>
+          {isLoading ? (
+            <p>Signing up...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Button type="submit">Sign Up</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
           <CardDescription style={{ cursor: 'pointer', marginTop: '20px' }} onClick={goToLoginPage}>
             Already have an account? <span style={{ textDecoration: 'underline' }}>Log in</span>
           </CardDescription>

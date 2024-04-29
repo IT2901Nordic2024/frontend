@@ -17,18 +17,27 @@ import {
   CardTitle,
 } from '@/Components/shadcnComponents/card'
 import { useNavigate } from 'react-router-dom'
+import { Login } from '@/Api/api'
+import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: 'Username must be at least 2 characters long.',
+    message: 'A valid username must be entered.',
   }),
   password: z.string().min(6, {
-    message: 'Password must be at least 6 characters long.',
+    message: 'A valid password must be entered.',
   }),
 })
 
 export function LoginPage() {
+  // State to track loading
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,11 +49,28 @@ export function LoginPage() {
   const navigate = useNavigate()
 
   // Defines a submit handler function
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values, for example, check if the information match a user on the server
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    //placeholder for actual login logic
-    navigate('/my-habits')
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      // Call the Login function with form field values
+      const response = await Login(values.username, values.password)
+      const userId = response.userId
+
+      // Save userId in a cookie
+      Cookies.set('userId', userId, { expires: 1 }) // expires in 1 day
+
+      // Navigate to the verification page if user is successfully created
+      navigate('/my-habits')
+    } catch (error) {
+      // Handle error
+      setErrorMessage('Failed to log in. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   // Navigate to the signup page
@@ -102,9 +128,16 @@ export function LoginPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col items-start">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Button type="submit">Login</Button>
-          </form>
+          {isLoading ? (
+            <p>Logging in...</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Button type="submit">Login</Button>
+              </form>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
+          )}
           <div style={{ marginBottom: '20px' }} />
           <CardDescription style={{ cursor: 'pointer' }} onClick={goToSignupPage}>
             Don't have an account? <span style={{ textDecoration: 'underline' }}>Sign up</span>
