@@ -193,9 +193,6 @@ export default function AnalyticsPage() {
     )}
       
     <div className="flex-1">
-        <CardHeader>
-          <CardTitle>Summary ⏰</CardTitle>
-        </CardHeader>
         {habit ? (
       type === 'time' ? 
       <div className="flex-1">
