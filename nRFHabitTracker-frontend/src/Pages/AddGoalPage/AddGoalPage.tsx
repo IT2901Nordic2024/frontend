@@ -26,9 +26,6 @@ const formSchema = z.object({
   target: z.number().min(1, {
     message: 'Target must be 1 or higher.',
   }),
-  unit: z.string({
-    required_error: 'Please select a unit.',
-  }),
   frequency: z.string({
     required_error: 'Please select a frequency.',
   }),
@@ -80,7 +77,7 @@ export default function AddGoalPage() {
       }
       console.log(userId + ' and ' + habitId)
       // Call the setHabitGoal function with form field values
-      await setHabitGoal(userId, habitId, values.question, values.target, values.unit, values.frequency)
+      await setHabitGoal(userId, habitId, values.question, values.target, values.frequency)
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
@@ -146,30 +143,6 @@ export default function AddGoalPage() {
                     />
                   </FormControl>
                   {form.formState.errors.target && <FormMessage>{form.formState.errors.target.message}</FormMessage>}
-                </FormItem>
-              )}
-            ></FormField>
-            {/* Select for unit */}
-            <FormField
-              control={form.control}
-              name="unit"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Unit</FormLabel>
-                  </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a unit" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="hours">Hours</SelectItem>
-                      <SelectItem value="pcs">Pcs</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {form.formState.errors.unit && <FormMessage>{form.formState.errors.unit.message}</FormMessage>}
                 </FormItem>
               )}
             ></FormField>

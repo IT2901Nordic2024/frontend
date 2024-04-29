@@ -26,7 +26,6 @@ interface Habit {
 }
 
 interface Goal {
-  unit: string
   question: string
   target: string
   frequency: string
@@ -139,7 +138,6 @@ export default function AnalyticsPage() {
         state: {
           name: name,
           habitId: id,
-          unit: goal.unit,
           question: goal.question,
           target: goal.target,
           frequency: goal.frequency,
@@ -195,7 +193,6 @@ export default function AnalyticsPage() {
             <GoalsChart
               events={habit ? habit.habitEvents : []}
               type={type}
-              unit={goal.unit}
               target={Number(goal.target)}
               question={goal.question + '?'}
               frequency={goal.frequency}

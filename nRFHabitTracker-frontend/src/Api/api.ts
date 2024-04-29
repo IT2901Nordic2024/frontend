@@ -29,7 +29,6 @@ export interface UserInformation {
 
 // Interface representing the structure of a goal
 interface Goal {
-  unit: string
   question: string
   target: string
   frequency: string
@@ -274,12 +273,14 @@ export async function setHabitGoal(
   habitId: string,
   question: string,
   target: number,
-  unit: string,
   frequency: string
 ): Promise<void> {
   try {
     // Remove all question marks from the question, due to backend not supporting question marks
     const cleanedQuestion = question.replace(/\?/g, '')
+
+    // Temp unit, as it is not supported for other units than what the unit for the data already is (count / timer)
+    const unit = "default"
 
     const response = await fetch(
       `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/setHabitGoal/${userId}/${habitId}/${cleanedQuestion}/${target}/${unit}/${frequency}`,

@@ -23,7 +23,6 @@ const formSchema = z
   .object({
     question: z.string().optional(),
     target: z.number().optional(),
-    unit: z.string().optional(),
     frequency: z.string().optional(),
   })
   .refine(
@@ -59,10 +58,9 @@ export default function AddGoalPage() {
   const location = useLocation()
 
   // Destructure the 'name' and habitId from the location state
-  const { name, habitId, unit, question, target, frequency } = location.state as {
+  const { name, habitId, question, target, frequency } = location.state as {
     name: string
     habitId: string
-    unit: string
     question: string
     target: string
     frequency: string
@@ -92,11 +90,10 @@ export default function AddGoalPage() {
       // Set default values if not provided
       const questionValue = values.question || question
       const targetValue = values.target || target
-      const unitValue = values.unit || unit
       const frequencyValue = values.frequency || frequency
 
       // Call the setHabitGoal function with form field values
-      await setHabitGoal(userId, habitId, questionValue, Number(targetValue), unitValue, frequencyValue)
+      await setHabitGoal(userId, habitId, questionValue, Number(targetValue), frequencyValue)
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
@@ -167,31 +164,6 @@ export default function AddGoalPage() {
                 </FormItem>
               )}
             ></FormField>
-            {/* Select for unit */}
-            <FormField
-              control={form.control}
-              name="unit"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Current unit: {unit}</FormLabel>
-                  </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a unit" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="hours">Hours</SelectItem>
-                      <SelectItem value="pcs">Pcs</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {form.formState.errors.unit && <FormMessage>{form.formState.errors.unit.message}</FormMessage>}
-                </FormItem>
-              )}
-            ></FormField>
-            {/* Select for frequency */}
             <FormField
               control={form.control}
               name="frequency"
