@@ -167,22 +167,22 @@ useEffect(() => {
         )}
         </CardContent>
       </Card>
-      {/* Example card */}
+      {/* Analytics section */}
       <Card className="w-[100%] mx-auto">
   <CardHeader>
     <CardTitle>Analytics</CardTitle>
   </CardHeader>
-  <CardContent className="flex flex-row justify-between">
-  <Card>
+  <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
+  <Card className="flex-1">
         <CardHeader>
           <CardTitle>Calender</CardTitle>
         </CardHeader>
         {habit ? (
       type === 'time' ? 
-      <div className="flex-1">
+      <div className="w-full px-2 sm:px-0">
         <Calendar events={habit.habitEvents} timerHabit={true}/>
       </div> : 
-      <div className="flex-1">
+      <div className="w-full px-2 sm:px-0">
         <Calendar events={habit.habitEvents} timerHabit={false}/>
       </div>
     ) : (
