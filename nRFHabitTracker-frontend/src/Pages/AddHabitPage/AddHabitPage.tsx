@@ -16,16 +16,32 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 export function AddHabitPage() {
+  // Get the navigation function
+  const navigate = useNavigate()
+
+  // Error handling
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   // State to track saving process
   const [isLoading, setIsLoading] = useState(false) // State to track loading
 
+  // Get the current location
+  const location = useLocation()
+
   // Toast for user confirmation
   const { toast } = useToast()
+
+  // Get userId from cookie
+  const userId = Cookies.get('userId')
+
+  // Destructure values from the location state
+  const { deviceId } = location.state as { deviceId: string }
 
   // Function to handle adding a habit
   async function handleAdd(values: z.infer<typeof formSchema>) {
@@ -33,9 +49,11 @@ export function AddHabitPage() {
       // Set loading to true
       setIsLoading(true)
 
-      // TODO: Replace the user ID with the actual user ID when users are implemented as well as device ID
-      const userId = 'c04ca9fc-0061-70aa-8ea2-8f26da31c64e'
-      const deviceId = 'MyIotThing'
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in the cookie
+        navigate('/')
+        return // Exit early if userId is not available
+      }
 
       // Call the addHabit function with form field values
       await addHabit(userId, deviceId, values.name, values.type, values.side)
@@ -77,17 +95,16 @@ export function AddHabitPage() {
     },
   })
 
-  // Get the navigation function
-  const navigate = useNavigate()
+  // Navigate back to the previous page if the user cancels the action
+  function cancel() {
+    navigate(-1) // This navigates back to the previous page in the history
+  }
 
-  // Error handling
-  const [errorMessage, setErrorMessage] = useState<string>('')
-
-  // Navigate back to the previous page
+  // Navigate back to the previous page if successfully adding a new habit
   function navigateBack() {
     navigate(-1) // This navigates back to the previous page in the history
 
-    // If successfull as confirmation toast will appear on the screen
+    // If successfull a confirmation toast will appear on the screen
     toast({
       variant: 'success',
       title: 'Success!',
@@ -129,24 +146,24 @@ export function AddHabitPage() {
                   <div className="flex-col justify-start items-start gap-2 flex">
                     <FormLabel>Side</FormLabel>
                   </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a side" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="overflow-y-scroll max-h-60">
-                      <SelectItem value="1">Side 1</SelectItem>
-                      <SelectItem value="2">Side 2</SelectItem>
-                      <SelectItem value="3">Side 3</SelectItem>
-                      <SelectItem value="4">Side 4</SelectItem>
-                      <SelectItem value="5">Side 5</SelectItem>
-                      <SelectItem value="6">Side 6</SelectItem>
-                      <SelectItem value="7">Side 7</SelectItem>
-                      <SelectItem value="8">Side 8</SelectItem>
-                      <SelectItem value="9">Side 9</SelectItem>
-                      <SelectItem value="10">Side 10</SelectItem>
-                      <SelectItem value="11">Side 11</SelectItem>
+                      <SelectItem value="0">Side 1</SelectItem>
+                      <SelectItem value="1">Side 2</SelectItem>
+                      <SelectItem value="2">Side 3</SelectItem>
+                      <SelectItem value="3">Side 4</SelectItem>
+                      <SelectItem value="4">Side 5</SelectItem>
+                      <SelectItem value="5">Side 6</SelectItem>
+                      <SelectItem value="6">Side 7</SelectItem>
+                      <SelectItem value="7">Side 8</SelectItem>
+                      <SelectItem value="8">Side 9</SelectItem>
+                      <SelectItem value="9">Side 10</SelectItem>
+                      <SelectItem value="10">Side 11</SelectItem>
                     </SelectContent>
                   </Select>
                   {form.formState.errors.side && <FormMessage>{form.formState.errors.side.message}</FormMessage>}
@@ -178,7 +195,7 @@ export function AddHabitPage() {
             ></FormField>
           </Form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-row justify-between">
           {/* Conditionally render loading indicator */}
           {/* Button to add the habit */}
           {isLoading ? (
@@ -191,6 +208,10 @@ export function AddHabitPage() {
               {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             </div>
           )}
+          {/* Button to cancel adding a habit */}
+          <Button variant="destructive" onClick={cancel}>
+            Cancel
+          </Button>
         </CardFooter>
       </Card>
     </div>

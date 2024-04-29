@@ -1,14 +1,32 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { TbUserEdit } from 'react-icons/tb'
+import { TbLogout2 } from 'react-icons/tb'
 import { FiHome } from 'react-icons/fi'
+import Cookies from 'js-cookie'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
+import { ToastAction } from '@radix-ui/react-toast'
 
 export function Footer() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Navigation function to the profil page
-  function goToProfilePage() {
-    navigate('/account')
+  // Toast for user confirmation
+  const { toast } = useToast()
+
+  // Function for checking if the user is logged in or not
+  function userId() {
+    if (Cookies.get('userId')) {
+      return true
+    }
+    return false
+  }
+
+  // Log out function
+  function logout() {
+    Cookies.remove('userId') // Remove the userId cookie
+    // Navigate to user login if successfully removing userId
+    if (!userId()) {
+      navigate('/')
+    }
   }
 
   // Navigation function to the habit/home page
@@ -21,17 +39,30 @@ export function Footer() {
     navigate('/my-device')
   }
 
+  // Render the footer only if the user is logged in
+  if (!userId()) return null
+
   return (
     <>
       {/* Footer container */}
       <div className="w-screen h-14 bg-[#334155] flex fixed bottom-0 border-t border-[#E4E4E7] z-50">
         {/* Profile icon */}
         <div
-          onClick={goToProfilePage}
+          onClick={() => {
+            toast({
+              variant: 'destructive',
+              title: 'Confirm your action',
+              description: 'Are you sure you want to log out?',
+              action: (
+                <ToastAction altText="Yes" onClick={logout}>
+                  Yes
+                </ToastAction>
+              ),
+            })
+          }}
           className="cursor-pointer flex items-center justify-center w-1/3"
-          style={{ backgroundColor: location.pathname === '/account' ? '#1E293B' : 'transparent' }}
         >
-          <TbUserEdit size={35} color="white" />
+          <TbLogout2 size={35} color="white" />
         </div>
         {/* Habits/Home icon */}
         <div
@@ -41,7 +72,7 @@ export function Footer() {
         >
           <FiHome size={35} color="white" />
         </div>
-        {/* Connect Device icon */}
+        {/* Device icon */}
         <div
           onClick={goToDevicePage}
           className="cursor-pointer flex items-center justify-center w-1/3"
