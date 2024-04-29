@@ -13,6 +13,7 @@ const Summary: React.FC<SummaryProps> = ({ events, timerHabit }) => {
 
   let totalMilliseconds = 0;
 
+  // Calculating total time spent
   if (timerHabit) {
     events.forEach(([start, end]) => {
       totalMilliseconds += (end - start) * 1000;
@@ -25,6 +26,7 @@ const Summary: React.FC<SummaryProps> = ({ events, timerHabit }) => {
 
   const totalHours = totalMilliseconds / 3600000;
 
+    // Grouping data by day for average calculation
   const dataGroupedByDay: { [key: string]: number } = {};
   events.forEach(([timestamp]) => {
     const date = new Date(timestamp * 1000);
