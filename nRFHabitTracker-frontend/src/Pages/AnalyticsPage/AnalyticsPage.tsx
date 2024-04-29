@@ -131,14 +131,21 @@ export default function AnalyticsPage() {
     navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, deviceId: deviceId } })
   }
 
-  // Function to handle editing a goal
-  const handleEditGoal = () => {
-    // TODO: create function for editing a goal
-  }
-
-  // Function to handle deleting a goal
-  const handleDeleteGoal = () => {
-    setGoal(null)
+  // Navigate to the "edit goal" page
+  function goToEditGoalPage() {
+    // Functionality for sending the user to the page for adding goals
+    if (goal) {
+      navigate(`${location.pathname}/editGoal`, {
+        state: {
+          name: name,
+          habitId: id,
+          unit: goal.unit,
+          question: goal.question,
+          target: goal.target,
+          frequency: goal.frequency,
+        },
+      })
+    }
   }
 
   return (
@@ -146,9 +153,35 @@ export default function AnalyticsPage() {
       {/* Heading with the habit's name */}
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">{name}</h1>
-        <Button className={`ml-4 ${goal ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
-          Add Goal
-        </Button>
+        {/* Button to delete habit */}
+        {isDeleting ? (
+          <p>Deleting habit...</p>
+        ) : (
+          <Button
+            variant="destructive"
+            onClick={() => {
+              toast({
+                variant: 'destructive',
+                title: 'Confirm your action',
+                description: 'Are you sure you want to delete your habit forever?',
+                action: (
+                  <ToastAction
+                    altText="Yes"
+                    onClick={() => {
+                      if (userId) {
+                        deleteHabit(userId, id)
+                      }
+                    }}
+                  >
+                    Yes
+                  </ToastAction>
+                ),
+              })
+            }}
+          >
+            Delete Habit
+          </Button>
+        )}
       </div>
       {/* Card for displaying goal chart */}
       <Card className={`w-[100%] mx-auto ${goal ? 'visible' : 'hidden'}`}>
@@ -171,12 +204,9 @@ export default function AnalyticsPage() {
             <p>Loading data...</p>
           )}
         </CardContent>
-        <CardFooter className="flex flex-row justify-between">
-          <Button variant="secondary" onClick={handleEditGoal}>
+        <CardFooter>
+          <Button variant="secondary" onClick={goToEditGoalPage}>
             Edit
-          </Button>
-          <Button variant="destructive" onClick={handleDeleteGoal}>
-            Delete
           </Button>
         </CardFooter>
       </Card>
@@ -211,35 +241,10 @@ export default function AnalyticsPage() {
       <div className="flex justify-between">
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>
-        {/* Button to delete habit */}
-        {isDeleting ? (
-          <p>Deleting habit...</p>
-        ) : (
-          <Button
-            variant="destructive"
-            onClick={() => {
-              toast({
-                variant: 'destructive',
-                title: 'Confirm your action',
-                description: 'Are you sure you want to delete your habit forever?',
-                action: (
-                  <ToastAction
-                    altText="Yes"
-                    onClick={() => {
-                      if (userId) {
-                        deleteHabit(userId, id)
-                      }
-                    }}
-                  >
-                    Yes
-                  </ToastAction>
-                ),
-              })
-            }}
-          >
-            Delete Habit
-          </Button>
-        )}
+        {/* Button to add goal */}
+        <Button className={`ml-4 ${goal ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
+          Add Goal
+        </Button>
       </div>
     </div>
   )

@@ -19,20 +19,23 @@ import { useState } from 'react'
 import { setHabitGoal } from '@/Api/api'
 
 // Defining form validation schema using zod
-const formSchema = z.object({
-  question: z.string().min(3, {
-    message: 'Question must be at least 3 characters.',
-  }),
-  target: z.number().min(1, {
-    message: 'Target must be 1 or higher.',
-  }),
-  unit: z.string({
-    required_error: 'Please select a unit.',
-  }),
-  frequency: z.string({
-    required_error: 'Please select a frequency.',
-  }),
-})
+const formSchema = z
+  .object({
+    question: z.string().optional(),
+    target: z.number().optional(),
+    unit: z.string().optional(),
+    frequency: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      // Check if at least one field has a value
+      return Object.values(data).some((value) => value !== null && value !== undefined && value !== '')
+    },
+    {
+      // Custom error message if no field has been changed
+      message: 'At least one field must be changed',
+    }
+  )
 
 export default function AddGoalPage() {
   // State to track loading
@@ -56,7 +59,14 @@ export default function AddGoalPage() {
   const location = useLocation()
 
   // Destructure the 'name' and habitId from the location state
-  const { name, habitId } = location.state as { name: string; habitId: string }
+  const { name, habitId, unit, question, target, frequency } = location.state as {
+    name: string
+    habitId: string
+    unit: string
+    question: string
+    target: string
+    frequency: string
+  }
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -78,9 +88,15 @@ export default function AddGoalPage() {
         navigate('/')
         return // Exit early if userId is not available
       }
-      console.log(userId + ' and ' + habitId)
+
+      // Set default values if not provided
+      const questionValue = values.question || question
+      const targetValue = values.target || target
+      const unitValue = values.unit || unit
+      const frequencyValue = values.frequency || frequency
+
       // Call the setHabitGoal function with form field values
-      await setHabitGoal(userId, habitId, values.question, values.target, values.unit, values.frequency)
+      await setHabitGoal(userId, habitId, questionValue, Number(targetValue), unitValue, frequencyValue)
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
@@ -97,11 +113,13 @@ export default function AddGoalPage() {
     <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
       <Card style={{ minWidth: '350px' }} className="w-[30%] mx-auto">
         <CardHeader>
-          <CardTitle>Add a Goal for '{name}'</CardTitle>
-          <CardDescription>Add a goal for your habit</CardDescription>
+          <CardTitle>Edit the Goal for '{name}'</CardTitle>
+          <CardDescription>
+            Make changes to your goal. If you wish to keep a value as it is, leave the field empty.
+          </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {/* Form for adding a goal */}
+          {/* Form for editing a goal */}
           <Form {...form}>
             {/* Input for question */}
             <FormField
@@ -110,7 +128,7 @@ export default function AddGoalPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Question</FormLabel>
+                    <FormLabel>Current question: {question}</FormLabel>
                   </div>
                   <FormControl>
                     <Input
@@ -132,7 +150,7 @@ export default function AddGoalPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Target</FormLabel>
+                    <FormLabel>Current target: {target}</FormLabel>
                   </div>
                   <FormControl>
                     <Input
@@ -156,7 +174,7 @@ export default function AddGoalPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Unit</FormLabel>
+                    <FormLabel>Current unit: {unit}</FormLabel>
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
@@ -180,7 +198,7 @@ export default function AddGoalPage() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex-col justify-start items-start gap-2 flex">
-                    <FormLabel>Frequency</FormLabel>
+                    <FormLabel>Current frequency: {frequency}</FormLabel>
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
@@ -194,8 +212,9 @@ export default function AddGoalPage() {
                       <SelectItem value="month">Every Month</SelectItem>
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.frequency && (
-                    <FormMessage>{form.formState.errors.frequency.message}</FormMessage>
+                  {/* Display error message */}
+                  {Object.keys(form.formState.errors).length > 0 && (
+                    <p className="text-red-500">At least one field must be changed.</p>
                   )}
                 </FormItem>
               )}
@@ -209,10 +228,10 @@ export default function AddGoalPage() {
           </Button>
           {/* Button to add goal */}
           {isLoading ? (
-            <p>Adding goal...</p>
+            <p>Saving changes...</p>
           ) : (
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Button variant="secondary">Add</Button>
+              <Button variant="secondary">Save changes</Button>
             </form>
           )}
         </CardFooter>
