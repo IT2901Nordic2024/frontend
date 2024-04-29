@@ -13,7 +13,7 @@ export const Calendar: React.FC<CalendarProps> = ({ events, timerHabit }) => {
     }
 
     const uniqueDays = new Set();
-
+    // Grouping data by day for calender highlighting
     if(timerHabit){
         events.forEach((event) => {
             const startDate = new Date(event[0]*1000);
@@ -30,6 +30,7 @@ export const Calendar: React.FC<CalendarProps> = ({ events, timerHabit }) => {
         });
     }
 
+    // Mark all unique days in the calender
     const highlightedDates = Array.from(uniqueDays).map((date) => new Date(date as string));
 
     return (

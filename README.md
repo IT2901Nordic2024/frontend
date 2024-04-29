@@ -24,6 +24,7 @@ List of the project's main features (pages).
   - **Api**: Contains the API configuration and endpoints for interacting with backend services.
   - **App**: Contains the main entry point of the application.
   - **Components**: Holds reusable UI components used throughout the application.
+    - **calender**: Components related to calender functionality, used on the analytics page
     - **charts**: Components related to charting functionality.
     - **deviceSVG**: Component for rendering a DOD figure with text inside.
     - **footer**: Component for displaying a footer.
@@ -32,7 +33,9 @@ List of the project's main features (pages).
     - **navBar**: Component for displaying a navigation bar.
     - **shadcnComponents**: Components provided by the Shadcn UI library.
       - **button**: Displays a button or a component that looks like a button.
+      - **button2**: Button used by shadcn calender component.
       - **card**: Displays a card with header, content, and footer.
+      - **CoolCard**: functional component that shows text in a visualy appealing way
       - **form**: Building forms with React Hook Form and Zod.
       - **input**: Displays a form input field or a component that looks like an input field.
       - **label**: Renders an accessible label associated with controls.
