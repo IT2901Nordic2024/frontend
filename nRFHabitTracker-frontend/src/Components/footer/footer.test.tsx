@@ -19,7 +19,7 @@ describe('Footer', () => {
     render(
       <BrowserRouter>
         <Footer />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
     const profileIcon = screen.getByAltText('user')
     await userEvent.click(profileIcon)
@@ -30,7 +30,7 @@ describe('Footer', () => {
     render(
       <BrowserRouter>
         <Footer />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
     const habitsIcon = screen.getByAltText('home')
     await userEvent.click(habitsIcon)
@@ -41,7 +41,7 @@ describe('Footer', () => {
     render(
       <BrowserRouter>
         <Footer />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
     const addHabitIcon = screen.getByAltText('plus')
     await userEvent.click(addHabitIcon)

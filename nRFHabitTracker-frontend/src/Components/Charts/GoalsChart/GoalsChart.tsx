@@ -1,10 +1,9 @@
 import ReactApexChart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
 
-
 interface GoalsChartProps {
-  events: Array<[number, number]>;
-  type: string;
+  events: Array<[number, number]>
+  type: string
   target: number
   question: string
   frequency: string
@@ -18,7 +17,7 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
   // Calculate goals based on the frequency
   if (frequency === 'day') {
     dailyGoal = target // Daily target is the target itself
-    weeklyGoal = target * 7// Weekly target is 7 times the daily target
+    weeklyGoal = target * 7 // Weekly target is 7 times the daily target
   } else if (frequency === 'week') {
     weeklyGoal = target // Weekly target is the target itself
     dailyGoal = target / 7 // Daily goal is the weekly target divided by 7
@@ -28,47 +27,47 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
   let totalToday = 0 // Today's data
   let totalLastWeek = 0 // This week's data
 
-  const today = new Date(2024, 2, 15);
-  console.log(today);
-  today.setHours(0,0,0,0);
+  const today = new Date(2024, 2, 15)
+  console.log(today)
+  today.setHours(0, 0, 0, 0)
 
-  const oneWeekAgo = new Date(today);
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  oneWeekAgo.setHours(0,0,0,0);
+  const oneWeekAgo = new Date(today)
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+  oneWeekAgo.setHours(0, 0, 0, 0)
 
   if (type === 'time') {
     events.forEach(([start, end]) => {
-      const startDate = new Date(start * 1000);
-      startDate.setHours(0, 0, 0, 0); // Normalize the time to midnight
-      const endDate = new Date(end * 1000);
-      endDate.setHours(0, 0, 0, 0); // Normalize the time to midnight
+      const startDate = new Date(start * 1000)
+      startDate.setHours(0, 0, 0, 0) // Normalize the time to midnight
+      const endDate = new Date(end * 1000)
+      endDate.setHours(0, 0, 0, 0) // Normalize the time to midnight
 
       // Calculate the duration in seconds and convert it to hours
-      const durationHours = (end - start) / 3600; // Convert seconds to hours
+      const durationHours = (end - start) / 3600 // Convert seconds to hours
 
       if (startDate.getTime() === today.getTime()) {
-        totalToday += durationHours;
+        totalToday += durationHours
       }
 
       if (startDate >= oneWeekAgo && startDate <= today) {
-        totalLastWeek += durationHours;
+        totalLastWeek += durationHours
       }
-    });
+    })
     // Round the values to two decimal places
-    totalToday = Number(totalToday.toFixed(2));
-    totalLastWeek = Number(totalLastWeek.toFixed(2));
-  } else{
+    totalToday = Number(totalToday.toFixed(2))
+    totalLastWeek = Number(totalLastWeek.toFixed(2))
+  } else {
     events.forEach(([timestamp, value]) => {
-      const eventDate = new Date(timestamp * 1000);
-      eventDate.setHours(0, 0, 0, 0); // Normalizes the time part to ensure comparison by date only
-      
+      const eventDate = new Date(timestamp * 1000)
+      eventDate.setHours(0, 0, 0, 0) // Normalizes the time part to ensure comparison by date only
+
       if (eventDate.getTime() === today.getTime()) {
-        totalToday += value;
+        totalToday += value
       }
       if (eventDate >= oneWeekAgo && eventDate <= today) {
-        totalLastWeek += value;
+        totalLastWeek += value
       }
-    });
+    })
   }
 
   // Series data for the chart, representing today's and this week's data.

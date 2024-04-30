@@ -36,7 +36,7 @@ const formSchema = z
     {
       // Custom error message if no field has been changed
       message: 'At least one field must be changed',
-    }
+    },
   )
 
 export default function EditGoalPage() {

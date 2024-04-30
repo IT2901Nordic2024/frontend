@@ -27,7 +27,7 @@ export default function DevicePage() {
   const [deviceData, setDeviceData] = useState<Device[]>([])
   const [selectedSide, setSelectedSide] = useState<number>(12)
   const [svgHeight, setSvgHeight] = useState<number>(
-    window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4
+    window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4,
   )
 
   // Get the navigation function
