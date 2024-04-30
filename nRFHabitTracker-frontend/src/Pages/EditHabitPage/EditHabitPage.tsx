@@ -1,4 +1,4 @@
-// Page for changing an exisiting habit
+// Page for editing an exisiting habit
 
 import { Button } from '@/Components/shadcnComponents/button'
 import {
@@ -22,13 +22,78 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import Cookies from 'js-cookie'
 
 export default function EditHabitPage() {
-  // State to track saving process
+  // States to track saving process and error handling
   const [isLoading, setIsLoading] = useState(false) // State to track loading
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   // Toast for user confirmation
   const { toast } = useToast()
 
-  // Function to handle adding a habit
+  // Get the navigation function and current location
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Destructure values from the location state
+  const { id, name, side, deviceId } = location.state as { id: number; name: string; side: string; deviceId: string }
+
+  // Defining form validation schema using zod
+  const formSchema = z
+    .object({
+      name: z.string().optional(),
+      side: z.string().optional(),
+    })
+    .refine((data) => {
+      // Check if either name or side is different from initial values and not empty
+      const nameChanged = data.name !== undefined && data.name !== '' && data.name !== name
+      const sideChanged = data.side !== undefined && data.side !== '' && data.side !== String(side)
+
+      return nameChanged || sideChanged
+    })
+
+  // Function to navigate back to the previous page
+  function navigateBack() {
+    navigate(-1)
+  }
+
+  // Function to navigate back to the analytics page with updated values
+  function navigateBackAfterSave(updatedValues: { id: number; name?: string; side?: string }) {
+    // Define an object to hold the updated values
+    const updatedState: { id: number; name?: string; side?: string } = { id }
+
+    // Check if there's a change in the name, if yes, update the name field
+    if (updatedValues.name && updatedValues.name !== 'noChange') {
+      updatedState.name = updatedValues.name
+    } else {
+      updatedState.name = name // If no change, keep the original name
+    }
+
+    // Check if there's a change in the side, if yes, update the side field
+    if (updatedValues.side && updatedValues.side !== 'noChange') {
+      updatedState.side = updatedValues.side
+    } else {
+      updatedState.side = String(side) // If no change, keep the original side
+    }
+
+    // Navigate back to the previous page with the updated state
+    navigate(`/my-habits/${id}`, { state: updatedState })
+
+    // If successfull as confirmation toast will appear on the screen
+    toast({
+      variant: 'success',
+      title: 'Success!',
+      description: 'Your changes have been saved.',
+    })
+  }
+
+  // Defines form using useForm hook
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+    },
+  })
+
+  // Function to handle saving changes to a habit
   async function handleSave(values: z.infer<typeof formSchema>) {
     try {
       // Set loading to true
@@ -59,75 +124,6 @@ export default function EditHabitPage() {
       setIsLoading(false)
     }
   }
-
-  // Defining form validation schema using zod
-  const formSchema = z
-    .object({
-      name: z.string().optional(),
-      side: z.string().optional(),
-    })
-    .refine((data) => {
-      // Check if either name or side is different from initial values and not empty
-      const nameChanged = data.name !== undefined && data.name !== '' && data.name !== name
-      const sideChanged = data.side !== undefined && data.side !== '' && data.side !== String(side)
-
-      return nameChanged || sideChanged
-    })
-
-  // Get the navigation function
-  const navigate = useNavigate()
-
-  // Error handling
-  const [errorMessage, setErrorMessage] = useState<string>('')
-
-  // Navigate back to the previous page
-  function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
-  }
-
-  // Navigate back to the analytics page with updated values
-  function navigateBackAfterSave(updatedValues: { id: number; name?: string; side?: string }) {
-    // Define an object to hold the updated values
-    const updatedState: { id: number; name?: string; side?: string } = { id }
-
-    // Check if there's a change in the name, if yes, update the name field
-    if (updatedValues.name && updatedValues.name !== 'noChange') {
-      updatedState.name = updatedValues.name
-    } else {
-      updatedState.name = name // If no change, keep the original name
-    }
-
-    // Check if there's a change in the side, if yes, update the side field
-    if (updatedValues.side && updatedValues.side !== 'noChange') {
-      updatedState.side = updatedValues.side
-    } else {
-      updatedState.side = String(side) // If no change, keep the original side
-    }
-
-    // Navigate back to the previous page with the updated state
-    navigate(`/my-habits/${id}`, { state: updatedState })
-
-    // If successfull as confirmation toast will appear on the screen
-    toast({
-      variant: 'success',
-      title: 'Success!',
-      description: 'Your changes have been saved.',
-    })
-  }
-
-  // Get the current location
-  const location = useLocation()
-
-  // Destructure values from the location state
-  const { id, name, side, deviceId } = location.state as { id: number; name: string; side: string; deviceId: string }
-
-  // Defines form using useForm hook
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-    },
-  })
 
   return (
     <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>

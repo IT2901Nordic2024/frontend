@@ -1,4 +1,4 @@
-// Page for addin habits to their device
+// Page for adding habit tracking to a user's device
 
 import { Button } from '@/Components/shadcnComponents/button'
 import {
@@ -21,17 +21,31 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { useState } from 'react'
 import Cookies from 'js-cookie'
 
-export function AddHabitPage() {
-  // Get the navigation function
-  const navigate = useNavigate()
+// Defining form validation schema using zod
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'Name must be at least 2 characters.',
+    })
+    .max(20, {
+      message: 'Name can not be longer than 20 characters.',
+    }),
+  side: z.string({
+    required_error: 'Please select a side.',
+  }),
+  type: z.string({
+    required_error: 'Please select a type.',
+  }),
+})
 
-  // Error handling
+export function AddHabitPage() {
+  // States to track saving process and error handling
+  const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  // State to track saving process
-  const [isLoading, setIsLoading] = useState(false) // State to track loading
-
-  // Get the current location
+  // Get the navigation function and current location
+  const navigate = useNavigate()
   const location = useLocation()
 
   // Toast for user confirmation
@@ -40,52 +54,8 @@ export function AddHabitPage() {
   // Get userId from cookie
   const userId = Cookies.get('userId')
 
-  // Destructure values from the location state
+  // Destructure deviceId from the location state
   const { deviceId } = location.state as { deviceId: string }
-
-  // Function to handle adding a habit
-  async function handleAdd(values: z.infer<typeof formSchema>) {
-    try {
-      // Set loading to true
-      setIsLoading(true)
-
-      if (!userId) {
-        // Redirect the user to the login page if userId is not found in the cookie
-        navigate('/')
-        return // Exit early if userId is not available
-      }
-
-      // Call the addHabit function with form field values
-      await addHabit(userId, deviceId, values.name, values.type, values.side)
-
-      // Navigate back to the previous page
-      navigateBack()
-    } catch (error) {
-      // Set error for readability
-      setErrorMessage('Failed to add habit. Please try again.')
-    } finally {
-      // Set loading to false when the loading finishes (whether successful or not)
-      setIsLoading(false)
-    }
-  }
-
-  // Defining form validation schema using zod
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, {
-        message: 'Name must be at least 2 characters.',
-      })
-      .max(20, {
-        message: 'Name can not be longer than 20 characters.',
-      }),
-    side: z.string({
-      required_error: 'Please select a side.',
-    }),
-    type: z.string({
-      required_error: 'Please select a type.',
-    }),
-  })
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,21 +65,42 @@ export function AddHabitPage() {
     },
   })
 
-  // Navigate back to the previous page if the user cancels the action
-  function cancel() {
-    navigate(-1) // This navigates back to the previous page in the history
+  // Navigate back to the previous page
+  function navigateBack() {
+    navigate(-1)
   }
 
-  // Navigate back to the previous page if successfully adding a new habit
-  function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
+  // Function to handle adding a habit
+  async function handleAdd(values: z.infer<typeof formSchema>) {
+    try {
+      // Set loading to true
+      setIsLoading(true)
 
-    // If successfull a confirmation toast will appear on the screen
-    toast({
-      variant: 'success',
-      title: 'Success!',
-      description: 'Your habit has been added.',
-    })
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in cookies
+        navigate('/')
+        return // Exit early if userId is not available
+      }
+
+      // Call the addHabit function with form field values
+      await addHabit(userId, deviceId, values.name, values.type, values.side)
+
+      // Navigate back to the previous page
+      navigateBack()
+
+      // If successfull a confirmation toast will appear on the screen
+      toast({
+        variant: 'success',
+        title: 'Success!',
+        description: 'Your habit has been added.',
+      })
+    } catch (error) {
+      // Set error for readability
+      setErrorMessage('Failed to add habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -206,7 +197,7 @@ export function AddHabitPage() {
             </form>
           )}
           {/* Button to cancel adding a habit */}
-          <Button variant="destructive" onClick={cancel}>
+          <Button variant="destructive" onClick={navigateBack}>
             Cancel
           </Button>
         </CardFooter>

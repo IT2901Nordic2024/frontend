@@ -14,7 +14,13 @@ export default function MyHabitsPage() {
   const [deviceId, setDeviceId] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
 
+  // Get the navigation function
   const navigate = useNavigate()
+
+  // Function to handle selecting a habit card
+  const handleHabitSelect = (id: number, name: string, side: number, type: string, deviceId: string) => {
+    navigate(`/my-habits/${id}`, { state: { id: id, name: name, side: side, type: type, deviceId: deviceId } })
+  }
 
   // Effect hook to fetch habits data when the component mounts
   useEffect(() => {
@@ -26,6 +32,7 @@ export default function MyHabitsPage() {
       return // Exit early if userId is not available
     }
 
+    // API function for fetching habits
     fetchHabits(userId)
       .then((response: { habits: Habit[]; deviceId: string }) => {
         // Check if response is not empty
@@ -44,11 +51,6 @@ export default function MyHabitsPage() {
       })
       .catch((error) => console.error('Error fetching habit data:', error))
   }, [navigate])
-
-  // Function to handle selecting a habit card
-  const handleHabitSelect = (id: number, name: string, side: number, type: string, deviceId: string) => {
-    navigate(`/my-habits/${id}`, { state: { id: id, name: name, side: side, type: type, deviceId: deviceId } })
-  }
 
   return (
     <div className="m-5">
@@ -87,7 +89,9 @@ export default function MyHabitsPage() {
           ))
         ) : (
           // Display message if no habits have been created
-          <p>No habits have been created yet. Start by adding a new habit!</p>
+          <div className="flex flex-grow justify-center items-center px-5 pt-2">
+            <p>Start by adding a new habit!</p>
+          </div>
         )}
       </div>
     </div>

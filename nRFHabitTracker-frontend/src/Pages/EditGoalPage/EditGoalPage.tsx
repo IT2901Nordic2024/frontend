@@ -40,27 +40,21 @@ const formSchema = z
   )
 
 export default function EditGoalPage() {
-  // State to track loading
+  // States to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  // Get the navigation function and current location
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Toast for user confirmation
+  const { toast } = useToast()
 
   // Get userId from cookie
   const userId = Cookies.get('userId')
 
-  // Get the navigation function
-  const navigate = useNavigate()
-
-  // Navigate back to the previous page
-  function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
-  }
-
-  // Get the current location
-  const location = useLocation()
-
-  // Destructure the 'name' and habitId from the location state
+  // Destructure needed variables from the location state
   const { name, habitId, question, target, frequency } = location.state as {
     name: string
     habitId: string
@@ -68,9 +62,6 @@ export default function EditGoalPage() {
     target: string
     frequency: string
   }
-
-  // Toast for user confirmation
-  const { toast } = useToast()
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -80,7 +71,12 @@ export default function EditGoalPage() {
     },
   })
 
-  // Defines a submit handler function
+  // Navigate back to the previous page
+  function navigateBack() {
+    navigate(-1)
+  }
+
+  // Defines a submit handler function for editing a goal
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Set loading to true

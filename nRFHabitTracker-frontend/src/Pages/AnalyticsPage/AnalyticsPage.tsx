@@ -34,16 +34,18 @@ interface Goal {
 }
 
 export default function AnalyticsPage() {
-  // State to track saving process
-  const [isDeleting, setIsDeleting] = useState(false) // State to track loading
-
-  // Error handling
+  // States to track saving process, error handling, Habit object and Goal object
+  const [isDeleting, setIsDeleting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [habit, setHabit] = useState<Habit | null>(null)
+  const [goal, setGoal] = useState<Goal | null>(null)
 
-  // Get the current location
+  // Get the navigation function and current location
+  const navigate = useNavigate()
   const location = useLocation()
 
-  const navigate = useNavigate()
+  // Toast for user confirmation
+  const { toast } = useToast()
 
   // Get userId from cookie
   const userId = Cookies.get('userId')
@@ -57,12 +59,7 @@ export default function AnalyticsPage() {
     deviceId: string
   }
 
-  //set Habit
-  const [habit, setHabit] = useState<Habit | null>(null)
-  const [goal, setGoal] = useState<Goal | null>(null)
-
-  const { toast } = useToast()
-
+  // Function for deleting a habit
   async function deleteHabit(userId: string, habitId: number) {
     try {
       // Set loading to true
@@ -74,7 +71,7 @@ export default function AnalyticsPage() {
       // Navigate back to the main page
       navigate(`/my-habits`)
 
-      // If successfull as confirmation toast will appear on the screen
+      // If successfull a confirmation toast will appear on the screen
       toast({
         variant: 'success',
         title: 'Success!',
@@ -89,6 +86,7 @@ export default function AnalyticsPage() {
     }
   }
 
+  // Function for fetching habit data
   async function fetchHabitData(userId: string, habitId: number) {
     try {
       const habitData = await FetchHabit(userId, habitId)
@@ -98,6 +96,7 @@ export default function AnalyticsPage() {
     }
   }
 
+  // Function for fetching habit goal data
   async function fetchHabitGoal(userId: string, habitId: string) {
     try {
       const goalData = await getHabitGoal(userId, habitId)
@@ -105,10 +104,11 @@ export default function AnalyticsPage() {
         setGoal(goalData as Goal)
       }
     } catch (error) {
-      console.error('Error fetching habit data:', error)
+      throw error
     }
   }
 
+  // UseEffect for fetching habit and goal data if there exist a userId in cookies
   useEffect(() => {
     if (userId) {
       fetchHabitData(userId, id)
@@ -118,21 +118,18 @@ export default function AnalyticsPage() {
     }
   }, [id, userId, navigate])
 
-  // Navigate to the "add goal" page
-  function goToAddGoalPage() {
-    // Functionality for sending the user to the page for adding goals
-    navigate(`${location.pathname}/addGoal`, { state: { name: name, habitId: id } })
-  }
-
-  // Navigate to the "edit habit" page
+  // Navigation function to the "edit habit" page with needed state variables
   function goToEditHabitPage() {
-    // Functionality for sending the user to the page for changing their habit
     navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, deviceId: deviceId } })
   }
 
-  // Navigate to the "edit goal" page
+  // Navigation function to the "add goal" page with needed state variables
+  function goToAddGoalPage() {
+    navigate(`${location.pathname}/addGoal`, { state: { name: name, habitId: id } })
+  }
+
+  // Navigation function to the "edit goal" page with needed state variables
   function goToEditGoalPage() {
-    // Functionality for sending the user to the page for adding goals
     if (goal) {
       navigate(`${location.pathname}/editGoal`, {
         state: {

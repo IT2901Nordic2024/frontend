@@ -1,3 +1,5 @@
+// Page for adding a goal to a habit
+
 import { Input } from '@/Components/shadcnComponents/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/shadcnComponents/select'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/shadcnComponents/form'
@@ -33,31 +35,22 @@ const formSchema = z.object({
 })
 
 export default function AddGoalPage() {
-  // State to track loading
+  // States to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  // Toast for user confirmation
+  const { toast } = useToast()
 
   // Get userId from cookie
   const userId = Cookies.get('userId')
 
-  // Get the navigation function
+  // Get the navigation function and current location
   const navigate = useNavigate()
-
-  // Navigate back to the previous page
-  function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
-  }
-
-  // Get the current location
   const location = useLocation()
 
-  // Destructure the 'name' and habitId from the location state
+  // Destructure the name and habitId from the location state
   const { name, habitId } = location.state as { name: string; habitId: string }
-
-  // Toast for user confirmation
-  const { toast } = useToast()
 
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,14 +60,19 @@ export default function AddGoalPage() {
     },
   })
 
-  // Defines a submit handler function
+  // Navigate back to the previous page in the history
+  function navigateBack() {
+    navigate(-1)
+  }
+
+  // Defines a submit handler function for setting a habit goal
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Set loading to true
       setIsLoading(true)
 
       if (!userId) {
-        // Redirect the user to the login page if userId is not found in the cookie
+        // Redirect the user to the login page if userId is not found in cookies
         navigate('/')
         return // Exit early if userId is not available
       }
@@ -92,6 +90,7 @@ export default function AddGoalPage() {
         description: 'Your goal has been added.',
       })
     } catch (error) {
+      // Set a user friendly error message
       setErrorMessage('Failed to add goal. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

@@ -157,7 +157,6 @@ export async function FetchHabit(userId: string, habitId: number): Promise<Habit
     const data: HabitEvents = await response.json()
     return data
   } catch (error) {
-    console.error('There was a problem with fetching from api:', error)
     throw error
   }
 }

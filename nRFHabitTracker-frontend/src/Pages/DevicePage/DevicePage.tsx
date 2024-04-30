@@ -1,4 +1,4 @@
-// Page for showing different analytics when clicking on a habit card
+// Page where the user can see which habit is currently connected to which side on their device
 
 import { fetchHabits } from '@/Api/api'
 import SVGComponent from '@/Components/deviceSVG/deviceSVG'
@@ -30,9 +30,10 @@ export default function DevicePage() {
     window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4
   )
 
+  // Get the navigation function
   const navigate = useNavigate()
 
-  // Effect hook to fetch habits data when the component mounts
+  // Effect hooks to fetch habits data when the component mounts, as well as creating the device data
   useEffect(() => {
     const userId = Cookies.get('userId') // Get userId from cookie
 
@@ -71,6 +72,7 @@ export default function DevicePage() {
     }
   }, [habitsData]) // Update device data whenever habits data changes
 
+  // Effect hooks to resize the svg based on window size
   useEffect(() => {
     const handleResize = () => {
       setSvgHeight(window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.4)
@@ -79,7 +81,7 @@ export default function DevicePage() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Update selected side
+  // Update selected side base on button click
   const handleButtonClick = (side: number) => {
     setSelectedSide(side)
   }

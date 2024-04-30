@@ -1,5 +1,4 @@
-// This page sign-up form for new users,
-// It utilizes react-hook-form and zod for handling form state and validations, and navigates to the main page upon successful sign-up or to the login page for existing users.
+// This is the page for new users to sign up
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -50,12 +49,14 @@ const signupSchema = z
   })
 
 export function SignupPage() {
-  // State to track loading
+  // State to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
 
+  // Get the navigation function
+  const navigate = useNavigate()
+
+  // Defines form using useForm hook
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -66,8 +67,13 @@ export function SignupPage() {
       deviceid: '',
     },
   })
-  const navigate = useNavigate()
 
+  // Function to nvigate to the login page
+  function goToLoginPage() {
+    navigate('/')
+  }
+
+  // Defines a submit handler function for signing up
   async function onSubmit(values: z.infer<typeof signupSchema>) {
     try {
       // Set loading to true
@@ -94,11 +100,6 @@ export function SignupPage() {
       // Set loading to false when the loading finishes (whether successful or not)
       setIsLoading(false)
     }
-  }
-
-  // Navigate to the login page
-  function goToLoginPage() {
-    navigate('/')
   }
 
   return (
