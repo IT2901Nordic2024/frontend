@@ -136,6 +136,10 @@ To run automated tests, use the following command:
 
 `npm test`
 
+To run tests and see test coverage, use the following command:
+
+`npx jest --coverage`
+
 ## E2E-tests
 
 For the nRFHabitTracker-frontend project, we use Cypress, a powerful and easy-to-use E2E testing framework that allows us to simulate real user interactions with the application.
