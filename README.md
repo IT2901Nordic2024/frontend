@@ -2,6 +2,22 @@
 
 This is the frontend part of our habit tracker project. It is a web interface made for displaying the data gathered by the nRF9160 chip provided by Nordic Semiconductor.
 
+## Table of Contents
+
+- [Features](#features)
+- [Folder Structure](#folder-structure)
+- [Technologies](#technologies)
+- [Future Work](#future-work)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [E2E-tests](#e2e-tests)
+  - [Prerequisites](#prerequisites-1)
+  - [Opening Cypress Test Runner](#opening-cypress-test-runner)
+  - [Running Cypress Tests Headlessly](#running-cypress-tests-headlessly)
+  - [Running Specific Test Files](#running-specific-test-files)
+
 ## Features
 
 List of the project's main features (pages).
@@ -62,6 +78,20 @@ List the technologies, frameworks, and libraries used in the project.
 - [React Icons](https://react-icons.github.io/react-icons/) - Library for customizable SVG icons
 - [useHooks](https://usehooks-ts.com/) - A React hooks library that provides a set of hooks that enables you to build your React applications faster
 - [js-cookie](https://github.com/js-cookie/js-cookie) - A JavaScript API for handling cookies
+
+## Future Work
+
+This being a student project over a limited amount of time, there still are some areas of improvement by the end of this project.
+
+- **Enhanced User Experience**: Continuously improve the user interface and experience based on user feedback and usability testing. This involved aspects such as refining existing features, optimising page loading times, or adding animations for a more engaging experience.
+- **Goals**: This is one of the last features the group managed to finish. Functionality for deleting an exisiting goal is missing. There is also no indications whether or not the goal is reached as of now. For future work it would be possible to both have visual feedback in the frontend as well as audiatory feedback from the device when a goal is reached.
+- **Security**: As of now the user login utilises cookies to store user IDs for maintaining a login session for 1 day. In order to enhance security and make sure that user data is prodected, there are some areas that should be improved:
+  - **Access Tokens**: Instead of solely relying on cookies for session management, there should be used access tokens sent from the backend instead of the user ID. This was not implemented due to access tokens not being supported by our current backend system. This approach provides better security by avoiding the vulnerabilities associated with storing sensitive information in cookies.
+  - **Input Validation**: Implement robust input validation to prevent common security vulnerabilities such as SQL injection.
+  - **Rate Limiting and IP Whitelisting**: Implement rate limiting and IP whitelisting mechanisms to protect against brute force attacks and unauthorised access attempts. This helps prevent repeatedly attempting to guess user credentials or exploit vulnerabilities in the system.
+  - **Session Expiry and Refresh Tokens**: Implement session expiry policies to automatically invalidate user sessions after a certain period of inactivity, reducing the risk of session hijacking. Additionally, consider implementing refresh tokens to enable session renewal without requiring users to re-enter their credentials frequently.
+- **Performance Optimisation**: Optimise the performance of the application by identifying and addressing bottlenecks in code, reducing unnecessary network requests, and implementing lazy loading for resources. Improving performance can lead to faster load times and a smoother user experience.
+- **Accessibility Improvements**: Ensure that the application complies with accessibility standards to make it usable for users with disabilities. This can involve implementing features such as keyboard navigation (this is somewhat implemented already, but not fully), screen reader compatibility, and proper semantic markup.
 
 ## Getting Started
 
