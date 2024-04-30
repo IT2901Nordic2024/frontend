@@ -1,6 +1,6 @@
 import { Calendar as CalenderComp } from '@/Components/shadcnComponents/calendar'
 
-interface CalendarProps {
+export interface CalendarProps {
   events: Array<[number, number]>
   timerHabit: boolean
 }
