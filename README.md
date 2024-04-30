@@ -12,6 +12,7 @@ This is the frontend part of our habit tracker project. It is a web interface ma
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
+- [Unit Testing](#unit-testing)
 - [E2E-tests](#e2e-tests)
   - [Prerequisites](#prerequisites-1)
   - [Opening Cypress Test Runner](#opening-cypress-test-runner)
@@ -112,22 +113,28 @@ Before you begin, ensure you have met the following requirements:
 After ensuring you have the correct versions of Node.js and npm installed, follow these steps to install the project dependencies:
 
 1. **Clone the repository** (if you haven't already done so):
-   **git clone https://github.com/IT2901Nordic2024/frontend.git**
-   **cd nRFHabitTracker-frontend**
+
+   `git clone https://github.com/IT2901Nordic2024/frontend.git`
+
+   `cd nRFHabitTracker-frontend`
 
 1. **Install dependencies** by running:
-   **npm install**
+
+   `npm install`
 
 ### Running the Application
 
 To run the application in development mode, execute the following command:
 
-**npm run dev**
-This command starts a local development server, typically accessible via `http://localhost:5174/`.
+`npm run dev`
 
-<!-- ## Testing
+This command starts a local development server, typically accessible via `http://localhost:5173/`.
+
+## Unit Testing
+
 To run automated tests, use the following command:
-**npm test** -->
+
+`npm test`
 
 ## E2E-tests
 
