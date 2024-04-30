@@ -17,6 +17,7 @@ This is the frontend part of our habit tracker project. It is a web interface ma
   - [Opening Cypress Test Runner](#opening-cypress-test-runner)
   - [Running Cypress Tests Headlessly](#running-cypress-tests-headlessly)
   - [Running Specific Test Files](#running-specific-test-files)
+- [Prettier](#prettier)
 
 ## Features
 
@@ -160,3 +161,9 @@ This command runs all your tests in headless mode and outputs the results to you
 If you wish to run a specific test file instead of all tests, you can use the `--spec` flag followed by the path to the test file:
 
 `npx cypress run --spec "cypress/e2e/test_file.spec.ts"`
+
+## Prettier
+
+If you wish to run prettier across all files, run:
+
+`npx prettier --write .`
