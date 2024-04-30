@@ -194,23 +194,22 @@ export default function EditHabitPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
+          {/* Button to cancel changing the habit */}
+          <Button variant="destructive" onClick={navigateBack}>
+            Cancel
+          </Button>
           {/* Conditionally render loading indicator */}
           {/* Button to save the changes */}
           {isLoading ? (
             <p>Saving changes...</p>
           ) : (
-            <div className="flex flex-col gap-2">
-              <form onSubmit={form.handleSubmit(handleSave)}>
-                <Button variant="secondary">Save changes</Button>
-              </form>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            </div>
+            <form onSubmit={form.handleSubmit(handleSave)}>
+              <Button variant="secondary">Save changes</Button>
+            </form>
           )}
-          {/* Button to cancel changing the habit */}
-          <Button variant="destructive" onClick={navigateBack}>
-            Cancel
-          </Button>
         </CardFooter>
+        {/* Error message */}
+        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

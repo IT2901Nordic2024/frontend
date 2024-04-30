@@ -27,10 +27,17 @@ export interface UserInformation {
   password: string
 }
 
+// Interface representing the structure of a goal
+interface Goal {
+  question: string
+  target: string
+  frequency: string
+}
+
 // API-ID for editing, adding, fetching and deleting habits
 const apiID = "prg7rbhyt8"
 
-//API-ID for fetching habit events
+//API-ID for fetching habit events and goals
 const apiID2 = "4lze1bagzk"
 
 //API-ID for user functionality
@@ -168,7 +175,7 @@ export async function FetchHabit(userId: string, habitId: number): Promise<Habit
   }
 }
 
-// Function for user registration
+// Function for user registration via AWS API Gateway
 export async function UserRegistration(
   username: string,
   email: string,
@@ -200,7 +207,7 @@ export async function UserRegistration(
   }
 }
 
-// Function for user verification
+// Function for user verification via AWS API Gateway
 export async function VerifyUser(
   username: string,
   confirmationCode: string
@@ -230,7 +237,7 @@ export async function VerifyUser(
   }
 }
 
-// Function for user login
+// Function for user login via AWS API Gateway
 export async function Login(
   username: string,
   password: string
@@ -253,6 +260,75 @@ export async function Login(
     
     const data = await response.json();
     return data
+  } catch (error) {
+    // Handle error here
+    console.error(error)
+    throw error
+  }
+}
+
+// Function for setting a goal via AWS API Gateway
+export async function setHabitGoal(
+  userId: string,
+  habitId: string,
+  question: string,
+  target: number,
+  frequency: string
+): Promise<void> {
+  try {
+    // Remove all question marks from the question, due to backend not supporting question marks
+    const cleanedQuestion = question.replace(/\?/g, '')
+
+    // Temp unit, as it is not supported for other units than what the unit for the data already is (count / timer)
+    const unit = "default"
+
+    const response = await fetch(
+      `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/setHabitGoal/${userId}/${habitId}/${cleanedQuestion}/${target}/${unit}/${frequency}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to add goal')
+    }
+    
+    const data = await response.json();
+    return data
+  } catch (error) {
+    // Handle error here
+    console.error(error)
+    throw error
+  }
+}
+
+// Function for getting a goal via AWS API Gateway
+export async function getHabitGoal(
+  userId: string,
+  habitId: string,
+): Promise<Goal> {
+  try {
+    const response = await fetch(
+      `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/getHabitGoal/${userId}/${habitId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Failed to get goal')
+    }
+    
+    const data: { habitGoal: Goal } = await response.json();
+    return data.habitGoal;
   } catch (error) {
     // Handle error here
     console.error(error)

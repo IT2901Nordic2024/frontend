@@ -201,18 +201,17 @@ export function AddHabitPage() {
           {isLoading ? (
             <p>Adding habit...</p>
           ) : (
-            <div className="flex flex-col gap-2">
-              <form onSubmit={form.handleSubmit(handleAdd)}>
-                <Button variant="secondary">Add</Button>
-              </form>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            </div>
+            <form onSubmit={form.handleSubmit(handleAdd)}>
+              <Button variant="secondary">Add</Button>
+            </form>
           )}
           {/* Button to cancel adding a habit */}
           <Button variant="destructive" onClick={cancel}>
             Cancel
           </Button>
         </CardFooter>
+        {/* Error message */}
+        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

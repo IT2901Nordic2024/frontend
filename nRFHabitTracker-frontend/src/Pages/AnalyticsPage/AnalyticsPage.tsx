@@ -12,7 +12,7 @@ import {
 } from '@/Components/shadcnComponents/card'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { DeleteHabit, FetchHabit } from '@/Api/api'
+import { DeleteHabit, FetchHabit, getHabitGoal } from '@/Api/api'
 import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
@@ -25,6 +25,12 @@ interface Habit {
   habitId: number
   userId: number
   habitEvents: Array<[number, number]>
+}
+
+interface Goal {
+  question: string
+  target: string
+  frequency: string
 }
 
 export default function AnalyticsPage() {
@@ -53,6 +59,7 @@ export default function AnalyticsPage() {
 
   //set Habit
   const [habit, setHabit] = useState<Habit | null>(null)
+  const [goal, setGoal] = useState<Goal | null>(null)
 
   const { toast } = useToast()
 
@@ -93,9 +100,21 @@ export default function AnalyticsPage() {
     }
   }
 
+  async function fetchHabitGoal(userId: string, habitId: string) {
+    try {
+      const goalData = await getHabitGoal(userId, habitId)
+      if (goalData) {
+        setGoal(goalData as Goal)
+      }
+    } catch (error) {
+      console.error('Error fetching habit data:', error)
+    }
+  }
+
   useEffect(() => {
     if (userId) {
       fetchHabitData(userId, id)
+      fetchHabitGoal(userId, String(id))
     } else {
       navigate('/')
     }
@@ -104,7 +123,7 @@ export default function AnalyticsPage() {
   // Navigate to the "add goal" page
   function goToAddGoalPage() {
     // Functionality for sending the user to the page for adding goals
-    navigate(`${location.pathname}/addGoal`, { state: { name: name } })
+    navigate(`${location.pathname}/addGoal`, { state: { name: name, habitId: id } })
   }
 
   // Navigate to the "edit habit" page
@@ -113,18 +132,20 @@ export default function AnalyticsPage() {
     navigate(`${location.pathname}/editHabit`, { state: { id: id, name: name, side: side, deviceId: deviceId } })
   }
 
-  // Temp variable for holding information about whether there exist a goal
-  const [goalExist, setgoalExist] = useState<boolean>(true)
-
-  // Function to handle editing a goal
-  const handleEditGoal = () => {
-    // TODO: create function for editing a goal
-  }
-
-  // Function to handle deleting a goal
-  const handleDeleteGoal = () => {
-    setgoalExist(false)
-    // TODO: create function for deleting the goal in backend
+  // Navigate to the "edit goal" page
+  function goToEditGoalPage() {
+    // Functionality for sending the user to the page for adding goals
+    if (goal) {
+      navigate(`${location.pathname}/editGoal`, {
+        state: {
+          name: name,
+          habitId: id,
+          question: goal.question,
+          target: goal.target,
+          frequency: goal.frequency,
+        },
+      })
+    }
   }
 
   return (
@@ -132,26 +153,59 @@ export default function AnalyticsPage() {
       {/* Heading with the habit's name */}
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">{name}</h1>
-        <Button className={`ml-4 ${goalExist ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
-          Add Goal
-        </Button>
+        {/* Button to delete habit */}
+        {isDeleting ? (
+          <p>Deleting habit...</p>
+        ) : (
+          <Button
+            variant="destructive"
+            onClick={() => {
+              toast({
+                variant: 'destructive',
+                title: 'Confirm your action',
+                description: 'Are you sure you want to delete your habit forever?',
+                action: (
+                  <ToastAction
+                    altText="Yes"
+                    onClick={() => {
+                      if (userId) {
+                        deleteHabit(userId, id)
+                      }
+                    }}
+                  >
+                    Yes
+                  </ToastAction>
+                ),
+              })
+            }}
+          >
+            Delete Habit
+          </Button>
+        )}
       </div>
       {/* Card for displaying goal chart */}
-      <Card className={`w-[100%] mx-auto ${goalExist ? 'visible' : 'hidden'}`}>
+      <Card className={`w-[100%] mx-auto ${goal ? 'visible' : 'hidden'}`}>
         <CardHeader>
           <CardTitle>Goal ⭐</CardTitle>
           <CardDescription>Your goal for this habit</CardDescription>
         </CardHeader>
         {/* Sample data => to be replaced */}
         <CardContent>
-          {<GoalsChart today={1} week={7} target={14} question={'How is my progress?'} frequency={'week'} />}
+          {goal ? (
+            <GoalsChart
+              events={habit ? habit.habitEvents : []}
+              type={type}
+              target={Number(goal.target)}
+              question={goal.question + '?'}
+              frequency={goal.frequency}
+            />
+          ) : (
+            <p>Loading data...</p>
+          )}
         </CardContent>
-        <CardFooter className="flex flex-row justify-between">
-          <Button variant="secondary" onClick={handleEditGoal}>
+        <CardFooter>
+          <Button variant="secondary" onClick={goToEditGoalPage}>
             Edit
-          </Button>
-          <Button variant="destructive" onClick={handleDeleteGoal}>
-            Delete
           </Button>
         </CardFooter>
       </Card>
@@ -212,35 +266,10 @@ export default function AnalyticsPage() {
       <div className="flex justify-between">
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>
-        {/* Button to delete habit */}
-        {isDeleting ? (
-          <p>Deleting habit...</p>
-        ) : (
-          <Button
-            variant="destructive"
-            onClick={() => {
-              toast({
-                variant: 'destructive',
-                title: 'Confirm your action',
-                description: 'Are you sure you want to delete your habit forever?',
-                action: (
-                  <ToastAction
-                    altText="Yes"
-                    onClick={() => {
-                      if (userId) {
-                        deleteHabit(userId, id)
-                      }
-                    }}
-                  >
-                    Yes
-                  </ToastAction>
-                ),
-              })
-            }}
-          >
-            Delete Habit
-          </Button>
-        )}
+        {/* Button to add goal */}
+        <Button className={`ml-4 ${goal ? 'hidden' : 'visible'}`} onClick={goToAddGoalPage}>
+          Add Goal
+        </Button>
       </div>
     </div>
   )

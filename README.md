@@ -10,7 +10,8 @@ List of the project's main features (pages).
 - **Sign Up Page**: Features comprehensive input validation ensuring user data meets security and format standards.
 - **Verification Page**: Page for verification after signing up. The user must write in a valid verification code sent to thei email to be able to log in.
 - **Device Page**: Allows users to see information about their device and which habit is connected to which side.
-- **Add Goal Page**: This page makes it possible to add a new goal for a habit. The user has to type in a question, the target, unit and frequency wished for. These fields are validated, and the goal is added on the analytics page if valid. As of now charting the goal is not fully implemented as we are waiting for implementation from the backend. But if a goal is added, sample data showing the visuals are shown.
+- **Add Goal Page**: This page makes it possible to add a new goal for a habit. The user has to type in a question, the target, unit and frequency wished for. These fields are validated, and the goal is added on the analytics page if valid.
+- **Edit Goal Page**: Page for editing an existing goal for a habit, using the same methods as the add goal page.
 - **Add Habit Page**: Page for the user to add new habits to their system. The user must choose a name, side and type for the tracking, which are validated as needed. This data will then display on the main page (My Habits Page).
 - **Analytics Page**: Page that displays all analytics needed to see about a habit. You reach this page by clicking on a habit card on the main page. A history card will show a chart usefull for the tracking type. The goal card will show the user specified goal for this habit, if set. A user can have one goal for each habit. There is also a Calender with active days marked and a small summary section.
 - **My Habits Page**: This is the main page for users once they have logged in. Fetches and displays the user's habits from an AWS API Gateway.
@@ -43,7 +44,7 @@ List of the project's main features (pages).
       - **tabs**: A set of layered sections of content—known as tab panels—that are displayed one at a time.
       - **toast**, **toaster** and **use-toast**: A succinct message that is displayed temporarily.
     - **utils**: Connected to the shadcn components.
-  - **Pages**: Contains the pages listed above under *Features*.
+  - **Pages**: Contains the pages listed above under _Features_.
 
 ## Technologies
 
