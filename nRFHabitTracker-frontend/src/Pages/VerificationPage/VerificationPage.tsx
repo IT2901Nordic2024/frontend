@@ -107,7 +107,7 @@ export default function VerificationPage() {
               <form onSubmit={form.handleSubmit(verification)}>
                 <Button type="submit">Confirm</Button>
               </form>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              {errorMessage && <p className="text-red-600">{errorMessage}</p>}
             </div>
           )}
           <CardDescription style={{ cursor: 'pointer', marginTop: '20px' }} onClick={navigateBack}>

@@ -198,7 +198,7 @@ export default function AddGoalPage() {
           )}
         </CardFooter>
         {/* Error message */}
-        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
+        {!isLoading && errorMessage && <p className="text-red-600 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

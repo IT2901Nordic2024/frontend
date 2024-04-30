@@ -132,7 +132,7 @@ export function LoginPage() {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <Button type="submit">Login</Button>
               </form>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              {errorMessage && <p className="text-red-600">{errorMessage}</p>}
             </div>
           )}
           <div style={{ marginBottom: '20px' }} />

@@ -187,6 +187,10 @@ export function AddHabitPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-row justify-between">
+          {/* Button to cancel adding a habit */}
+          <Button variant="destructive" onClick={navigateBack}>
+            Cancel
+          </Button>
           {/* Conditionally render loading indicator */}
           {/* Button to add the habit */}
           {isLoading ? (
@@ -196,13 +200,9 @@ export function AddHabitPage() {
               <Button variant="secondary">Add</Button>
             </form>
           )}
-          {/* Button to cancel adding a habit */}
-          <Button variant="destructive" onClick={navigateBack}>
-            Cancel
-          </Button>
         </CardFooter>
         {/* Error message */}
-        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
+        {!isLoading && errorMessage && <p className="text-red-600 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

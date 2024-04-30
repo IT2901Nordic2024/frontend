@@ -261,7 +261,7 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
       {/* Error message */}
-      {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
+      {errorMessage && <p className="text-red-600 m-5">{errorMessage}</p>}
       <div className="flex justify-between">
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>

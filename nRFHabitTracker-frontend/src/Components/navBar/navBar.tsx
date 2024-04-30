@@ -33,9 +33,9 @@ export function NavBar() {
 
   // Function to determine if the text should have a different color based on whether it is clicked or hovered
   function isActive(path?: string) {
-    if (path === '/my-habits') return location.pathname === path || isHabitsHovered ? '#94A3B8' : 'white'
-    if (path === '/my-device') return location.pathname === path || isDeviceHovered ? '#94A3B8' : 'white'
-    return islogoutHovered ? '#94A3B8' : 'white' // Color changes if the logout button is hovered over
+    if (path === '/my-habits') return location.pathname === path || isHabitsHovered ? '#a2b3ca' : 'white'
+    if (path === '/my-device') return location.pathname === path || isDeviceHovered ? '#a2b3ca' : 'white'
+    return islogoutHovered ? '#a2b3ca' : 'white' // Color changes if the logout button is hovered over
   }
 
   // Function for checking if the user is logged in or not
