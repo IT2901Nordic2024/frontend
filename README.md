@@ -22,9 +22,9 @@ This is the frontend part of our habit tracker project. It is a web interface ma
 
 List of the project's main features (pages).
 
-- **Log In Page**: Includes real-time client-side validation to enhance user experience and data integrity. This is the page the user enters when they enter the web interface.
-- **Sign Up Page**: Features comprehensive input validation ensuring user data meets security and format standards.
-- **Verification Page**: Page for verification after signing up. The user must write in a valid verification code sent to thei email to be able to log in.
+- **Log In Page**: This is the page the user enters when they enter the web interface, if not already logged in. Includes validation to enhance user experience and data integrity.
+- **Sign Up Page**: Page for signing up if the user don't already have an account. Input validation ensuring user data meets security and format standards.
+- **Verification Page**: Page for verification after signing up. The user must write in a valid verification code sent to their email to be able to log in.
 - **Device Page**: Allows users to see information about their device and which habit is connected to which side.
 - **Add Goal Page**: This page makes it possible to add a new goal for a habit. The user has to type in a question, the target, unit and frequency wished for. These fields are validated, and the goal is added on the analytics page if valid.
 - **Edit Goal Page**: Page for editing an existing goal for a habit, using the same methods as the add goal page.
@@ -48,11 +48,13 @@ List of the project's main features (pages).
     - **habitCard**: Component for displaying habit cards.
     - **loadingSpinner**: Component for graphics when something loads.
     - **navBar**: Component for displaying a navigation bar.
+    - **summary**: Component for displaying a summary of the habit data.
     - **shadcnComponents**: Components provided by the Shadcn UI library.
       - **button**: Displays a button or a component that looks like a button.
       - **button2**: Button used by shadcn calender component.
+      - **calender**: A date field component that allows users to enter and edit date.
       - **card**: Displays a card with header, content, and footer.
-      - **CoolCard**: functional component that shows text in a visualy appealing way
+      - **coolCard**: functional component that shows text in a visualy appealing way
       - **form**: Building forms with React Hook Form and Zod.
       - **input**: Displays a form input field or a component that looks like an input field.
       - **label**: Renders an accessible label associated with controls.
@@ -87,11 +89,13 @@ This being a student project over a limited amount of time, there still are some
 - **Goals**: This is one of the last features the group managed to finish. Functionality for deleting an exisiting goal is missing. There is also no indications whether or not the goal is reached as of now. For future work it would be possible to both have visual feedback in the frontend as well as audiatory feedback from the device when a goal is reached.
 - **Security**: As of now the user login utilises cookies to store user IDs for maintaining a login session for 1 day. In order to enhance security and make sure that user data is prodected, there are some areas that should be improved:
   - **Access Tokens**: Instead of solely relying on cookies for session management, there should be used access tokens sent from the backend instead of the user ID. This was not implemented due to access tokens not being supported by our current backend system. This approach provides better security by avoiding the vulnerabilities associated with storing sensitive information in cookies.
-  - **Input Validation**: Implement robust input validation to prevent common security vulnerabilities such as SQL injection.
+  - **Input Validation**: Implement robust input validation to prevent common security vulnerabilities such as SQL injection. An example of missing validation is regarding device ID.
   - **Rate Limiting and IP Whitelisting**: Implement rate limiting and IP whitelisting mechanisms to protect against brute force attacks and unauthorised access attempts. This helps prevent repeatedly attempting to guess user credentials or exploit vulnerabilities in the system.
   - **Session Expiry and Refresh Tokens**: Implement session expiry policies to automatically invalidate user sessions after a certain period of inactivity, reducing the risk of session hijacking. Additionally, consider implementing refresh tokens to enable session renewal without requiring users to re-enter their credentials frequently.
 - **Performance Optimisation**: Optimise the performance of the application by identifying and addressing bottlenecks in code, reducing unnecessary network requests, and implementing lazy loading for resources. Improving performance can lead to faster load times and a smoother user experience.
 - **Accessibility Improvements**: Ensure that the application complies with accessibility standards to make it usable for users with disabilities. This can involve implementing features such as keyboard navigation (this is somewhat implemented already, but not fully), screen reader compatibility, and proper semantic markup.
+- **Features**: An "Account page" and a "Connect Device page" were created, which are currently unused, as well as connected components. For future work, it would make sense for the user to be able to edit their user information, meaning username, password and email, hence why the account page was made. Functionality for this is yet not made in the backend. The page for connecting the device would replace the field for device ID while signing up. Then the user would be able to connect, as well as disconnecting to any advice they would like.
+- **Deleting user data**: It is crucial for a user to be able to delete their own data, meaning both their account as well as different habit trackings.
 
 ## Getting Started
 
