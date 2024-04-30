@@ -32,11 +32,11 @@ export function AccountPage() {
   const userData: UserInformation = {
     username: 'dummy_user',
     email: 'dummy@example.com',
-    password: '********', // You might want to handle passwords differently in production
+    password: '********',
   }
 
   function saveChanges() {
-    // TODO: Add functionality for saving changes to the account
+    // Missing functionality for saving changes to the account
     // For now a toast will appear
     toast({
       variant: 'destructive',
@@ -46,7 +46,7 @@ export function AccountPage() {
   }
 
   function savePassword() {
-    // TODO: Add functionality for saving password changes
+    // Missing functionality for saving password changes
     // For now a toast will appear
     toast({
       variant: 'destructive',
@@ -130,7 +130,7 @@ export function AccountPage() {
                 </CardContent>
                 {/* Button to save changes */}
                 <CardFooter>
-                  {/* TODO: Add functionality when clicking button */}
+                  {/* Missing functionality when clicking button */}
                   <Button onClick={saveChanges}>Save changes</Button>
                 </CardFooter>
               </Card>
@@ -156,7 +156,7 @@ export function AccountPage() {
                 </CardContent>
                 {/* Button to save password */}
                 <CardFooter>
-                  {/* TODO: Add functionality when clicking button */}
+                  {/* Missing functionality when clicking button */}
                   <Button onClick={savePassword}>Save password</Button>
                 </CardFooter>
               </Card>

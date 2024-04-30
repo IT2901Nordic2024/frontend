@@ -58,8 +58,7 @@ export async function fetchHabits(userId: string): Promise<{ habits: Habit[], de
     const data: { username: string, deviceId: string, habits: Habit[] } = await response.json()
     return { habits: data.habits, deviceId: data.deviceId }; // Return the array of habits and deviceId
   } catch (error) {
-    // Handle errors if any occur during the fetch operation
-    console.error('There was a problem with fetching from api:', error)
+    // Catch errors if any occur during the fetch operation
     throw error
   }
 }
@@ -88,11 +87,7 @@ export async function addHabit(
       throw new Error('Failed to add habit')
     }
 
-    // TODO: Handle success response here
-    console.log('Habit added successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error adding habit:', error)
     throw error
   }
 }
@@ -121,11 +116,7 @@ export async function EditHabit(
       throw new Error('Failed to edit habit')
     }
 
-    // TODO: Handle success response here
-    console.log('Habit added successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error adding habit:', error)
     throw error
   }
 }
@@ -151,11 +142,7 @@ export async function DeleteHabit(
       throw new Error('Failed to delete habit')
     }
 
-    // TODO: Handle success response here
-    console.log('Habit deleted successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error deleting habit:', error)
     throw error
   }
 }
@@ -199,10 +186,7 @@ export async function UserRegistration(
       throw new Error(data)
     }
 
-    console.log('User created successfully')
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
@@ -228,11 +212,7 @@ export async function VerifyUser(
       throw new Error('Failed to verify user')
     }
 
-    // TODO: Handle success response here
-    console.log('User verified successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error verifying user:', error)
     throw error
   }
 }
@@ -261,8 +241,6 @@ export async function Login(
     const data = await response.json();
     return data
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
@@ -299,9 +277,8 @@ export async function setHabitGoal(
     
     const data = await response.json();
     return data
+
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
@@ -328,10 +305,10 @@ export async function getHabitGoal(
     }
     
     const data: { habitGoal: Goal } = await response.json();
+
     return data.habitGoal;
+
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }

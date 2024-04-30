@@ -78,7 +78,6 @@ export default function EditGoalPage() {
 
   // Defines a submit handler function
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -100,7 +99,7 @@ export default function EditGoalPage() {
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to edit goal. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

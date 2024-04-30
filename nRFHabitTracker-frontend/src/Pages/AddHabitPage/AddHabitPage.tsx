@@ -61,7 +61,7 @@ export function AddHabitPage() {
       // Navigate back to the previous page
       navigateBack()
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to add habit. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

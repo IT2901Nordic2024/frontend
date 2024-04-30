@@ -50,7 +50,6 @@ export function LoginPage() {
 
   // Defines a submit handler function
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -65,7 +64,7 @@ export function LoginPage() {
       // Navigate to the main page if user is successfully logged in
       navigate('/my-habits')
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to log in. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

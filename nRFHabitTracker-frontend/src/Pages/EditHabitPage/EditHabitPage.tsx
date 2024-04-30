@@ -52,7 +52,7 @@ export default function EditHabitPage() {
       // Navigate back to the previous page
       navigateBackAfterSave({ id: id, name: habitName, side: side })
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to edit habit. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

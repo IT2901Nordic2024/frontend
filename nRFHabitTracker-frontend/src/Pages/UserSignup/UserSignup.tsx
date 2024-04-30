@@ -24,7 +24,6 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
 
 // Defining form validation schema using zod
 const signupSchema = z
-  // TODO: Update validation to be accurate
   .object({
     username: z.string().min(2, {
       message: 'Username must be at least 2 characters long.',
@@ -70,7 +69,6 @@ export function SignupPage() {
   const navigate = useNavigate()
 
   async function onSubmit(values: z.infer<typeof signupSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -81,7 +79,7 @@ export function SignupPage() {
       // Navigate to the verification page if user is successfully created
       navigate('/verify-user', { state: { username: values.username } })
     } catch (error) {
-      // Handle error
+      // Set error for readability
       if (error instanceof Error) {
         if (error.message.includes('LimitExceededException')) {
           setErrorMessage('Failed to sign up due to too many tries today. Please try again later.')

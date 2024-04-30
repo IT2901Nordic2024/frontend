@@ -53,12 +53,9 @@ export default function VerificationPage() {
   }
 
   async function verification(values: z.infer<typeof confirmationSchema>) {
-    console.log(values.confirmationcode)
     try {
       // Set loading to true
       setIsLoading(true)
-
-      console.log(username)
 
       // Call the VerifyUser function with input field value
       await VerifyUser(username, values.confirmationcode)
@@ -66,7 +63,7 @@ export default function VerificationPage() {
       // Navigate to login page
       navigate('/')
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to verify user. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

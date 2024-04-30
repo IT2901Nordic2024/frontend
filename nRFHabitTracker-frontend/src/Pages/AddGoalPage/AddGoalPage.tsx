@@ -65,7 +65,6 @@ export default function AddGoalPage() {
 
   // Defines a submit handler function
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -75,14 +74,13 @@ export default function AddGoalPage() {
         navigate('/')
         return // Exit early if userId is not available
       }
-      console.log(userId + ' and ' + habitId)
+
       // Call the setHabitGoal function with form field values
       await setHabitGoal(userId, habitId, values.question, values.target, values.frequency)
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
     } catch (error) {
-      // Handle error
       setErrorMessage('Failed to add goal. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

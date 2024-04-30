@@ -81,7 +81,7 @@ export default function AnalyticsPage() {
         description: 'Your habit has been deleted.',
       })
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to delete habit. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)
@@ -93,10 +93,8 @@ export default function AnalyticsPage() {
     try {
       const habitData = await FetchHabit(userId, habitId)
       setHabit(habitData)
-
-      console.log(JSON.stringify(habitData, null, 2))
     } catch (error) {
-      console.error('Error fetching habit data:', error)
+      throw error
     }
   }
 
@@ -230,37 +228,41 @@ export default function AnalyticsPage() {
       </Card>
       {/* Analytics section */}
       <Card className="w-[100%] mx-auto">
-  <CardHeader>
-    <CardTitle>Analytics 🔎</CardTitle>
-  </CardHeader>
-  <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
-        {habit ? (
-      type === 'time' ? 
-      <div className="flex-1">
-        <Calendar events={habit.habitEvents} timerHabit={true}/>
-      </div> : 
-      <div className="flex-1">
-        <Calendar events={habit.habitEvents} timerHabit={false}/>
-      </div>
-    ) : (
-      <p>Loading data...</p>
-    )}
-      
-    <div className="flex-1">
-        {habit ? (
-      type === 'time' ? 
-      <div className="flex-1">
-        <Summary events={habit.habitEvents} timerHabit={true}/>
-      </div> : 
-      <div className="flex-1">
-        <Summary events={habit.habitEvents} timerHabit={false}/>
-      </div>
-    ) : (
-      <p>Loading data...</p>
-    )}
-    </div>
-  </CardContent>
-</Card>
+        <CardHeader>
+          <CardTitle>Analytics 🔎</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+          {habit ? (
+            type === 'time' ? (
+              <div className="flex-1">
+                <Calendar events={habit.habitEvents} timerHabit={true} />
+              </div>
+            ) : (
+              <div className="flex-1">
+                <Calendar events={habit.habitEvents} timerHabit={false} />
+              </div>
+            )
+          ) : (
+            <p>Loading data...</p>
+          )}
+
+          <div className="flex-1">
+            {habit ? (
+              type === 'time' ? (
+                <div className="flex-1">
+                  <Summary events={habit.habitEvents} timerHabit={true} />
+                </div>
+              ) : (
+                <div className="flex-1">
+                  <Summary events={habit.habitEvents} timerHabit={false} />
+                </div>
+              )
+            ) : (
+              <p>Loading data...</p>
+            )}
+          </div>
+        </CardContent>
+      </Card>
       {/* Error message */}
       {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
       <div className="flex justify-between">
