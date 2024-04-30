@@ -17,11 +17,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { setHabitGoal } from '@/Api/api'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 
 // Defining form validation schema using zod
 const formSchema = z.object({
-  question: z.string().min(3, {
-    message: 'Question must be at least 3 characters.',
+  question: z.string().min(1, {
+    message: 'Question must be at least 1 character.',
   }),
   target: z.number().min(1, {
     message: 'Target must be 1 or higher.',
@@ -55,6 +56,9 @@ export default function AddGoalPage() {
   // Destructure the 'name' and habitId from the location state
   const { name, habitId } = location.state as { name: string; habitId: string }
 
+  // Toast for user confirmation
+  const { toast } = useToast()
+
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,8 +82,15 @@ export default function AddGoalPage() {
       // Call the setHabitGoal function with form field values
       await setHabitGoal(userId, habitId, values.question, values.target, values.frequency)
 
-      // Navigate to the analytics page if goal is successfully edited
+      // Navigate to the analytics page if goal is successfully added
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
+
+      // If successfull a confirmation toast will appear on the screen
+      toast({
+        variant: 'success',
+        title: 'Success!',
+        description: 'Your goal has been added.',
+      })
     } catch (error) {
       setErrorMessage('Failed to add goal. Please try again.')
     } finally {

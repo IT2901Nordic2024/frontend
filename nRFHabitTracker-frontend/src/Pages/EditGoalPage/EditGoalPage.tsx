@@ -19,12 +19,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { setHabitGoal } from '@/Api/api'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 
 // Defining form validation schema using zod
 const formSchema = z
   .object({
     question: z.string().optional(),
-    target: z.number().optional(),
+    target: z.number().min(1, { message: 'Target must be 1 or higher.' }).optional(),
     frequency: z.string().optional(),
   })
   .refine(
@@ -68,6 +69,9 @@ export default function EditGoalPage() {
     frequency: string
   }
 
+  // Toast for user confirmation
+  const { toast } = useToast()
+
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,6 +102,13 @@ export default function EditGoalPage() {
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
+
+      // If successfull a confirmation toast will appear on the screen
+      toast({
+        variant: 'success',
+        title: 'Success!',
+        description: 'Your changes have been saved.',
+      })
     } catch (error) {
       // Set error for readability
       setErrorMessage('Failed to edit goal. Please try again.')
