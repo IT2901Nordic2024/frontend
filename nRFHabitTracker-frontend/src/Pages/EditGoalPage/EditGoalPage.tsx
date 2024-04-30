@@ -19,12 +19,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { setHabitGoal } from '@/Api/api'
+import { useToast } from '@/Components/shadcnComponents/use-toast'
 
 // Defining form validation schema using zod
 const formSchema = z
   .object({
     question: z.string().optional(),
-    target: z.number().optional(),
+    target: z.number().min(1, { message: 'Target must be 1 or higher.' }).optional(),
     frequency: z.string().optional(),
   })
   .refine(
@@ -35,31 +36,25 @@ const formSchema = z
     {
       // Custom error message if no field has been changed
       message: 'At least one field must be changed',
-    }
+    },
   )
 
 export default function EditGoalPage() {
-  // State to track loading
+  // States to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  // Get the navigation function and current location
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Toast for user confirmation
+  const { toast } = useToast()
 
   // Get userId from cookie
   const userId = Cookies.get('userId')
 
-  // Get the navigation function
-  const navigate = useNavigate()
-
-  // Navigate back to the previous page
-  function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
-  }
-
-  // Get the current location
-  const location = useLocation()
-
-  // Destructure the 'name' and habitId from the location state
+  // Destructure needed variables from the location state
   const { name, habitId, question, target, frequency } = location.state as {
     name: string
     habitId: string
@@ -76,9 +71,13 @@ export default function EditGoalPage() {
     },
   })
 
-  // Defines a submit handler function
+  // Navigate back to the previous page
+  function navigateBack() {
+    navigate(-1)
+  }
+
+  // Defines a submit handler function for editing a goal
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -99,8 +98,15 @@ export default function EditGoalPage() {
 
       // Navigate to the analytics page if goal is successfully edited
       navigate(`/my-habits/${habitId}`, { state: { id: habitId, name: name } })
+
+      // If successfull a confirmation toast will appear on the screen
+      toast({
+        variant: 'success',
+        title: 'Success!',
+        description: 'Your changes have been saved.',
+      })
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to edit goal. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

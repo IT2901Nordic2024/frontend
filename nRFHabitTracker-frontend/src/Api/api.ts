@@ -17,7 +17,7 @@ export interface HabitEvents {
 
 // Interface representing the structure of a Login response
 export interface LoginResponse {
-  userId: string;
+  userId: string
 }
 
 // Interface representing the structure of user information
@@ -35,16 +35,16 @@ interface Goal {
 }
 
 // API-ID for editing, adding, fetching and deleting habits
-const apiID = "prg7rbhyt8"
+const apiID = 'prg7rbhyt8'
 
 //API-ID for fetching habit events and goals
-const apiID2 = "4lze1bagzk"
+const apiID2 = '4lze1bagzk'
 
 //API-ID for user functionality
-const apiID3 = "mg7sr4uvql"
+const apiID3 = 'mg7sr4uvql'
 
 // Function to fetch habits data from an AWS API Gateway endpoint
-export async function fetchHabits(userId: string): Promise<{ habits: Habit[], deviceId: string }> {
+export async function fetchHabits(userId: string): Promise<{ habits: Habit[]; deviceId: string }> {
   try {
     // Fetch data from the API endpoint
     const response = await fetch(`https://${apiID}.execute-api.eu-north-1.amazonaws.com/habits/${userId}`)
@@ -55,11 +55,10 @@ export async function fetchHabits(userId: string): Promise<{ habits: Habit[], de
     }
 
     // Parse the JSON response and extract the 'habits' array
-    const data: { username: string, deviceId: string, habits: Habit[] } = await response.json()
-    return { habits: data.habits, deviceId: data.deviceId }; // Return the array of habits and deviceId
+    const data: { username: string; deviceId: string; habits: Habit[] } = await response.json()
+    return { habits: data.habits, deviceId: data.deviceId } // Return the array of habits and deviceId
   } catch (error) {
-    // Handle errors if any occur during the fetch operation
-    console.error('There was a problem with fetching from api:', error)
+    // Catch errors if any occur during the fetch operation
     throw error
   }
 }
@@ -70,7 +69,7 @@ export async function addHabit(
   deviceId: string,
   habitName: string,
   habitType: string,
-  side: string
+  side: string,
 ): Promise<void> {
   try {
     const response = await fetch(
@@ -80,19 +79,14 @@ export async function addHabit(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
 
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to add habit')
     }
-
-    // TODO: Handle success response here
-    console.log('Habit added successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error adding habit:', error)
     throw error
   }
 }
@@ -103,7 +97,7 @@ export async function EditHabit(
   deviceId: string,
   habitName: string,
   side: string,
-  habitId: number
+  habitId: number,
 ): Promise<void> {
   try {
     const response = await fetch(
@@ -113,28 +107,20 @@ export async function EditHabit(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to edit habit')
     }
-
-    // TODO: Handle success response here
-    console.log('Habit added successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error adding habit:', error)
     throw error
   }
 }
 
 // Function to delete a habit via AWS API Gateway
-export async function DeleteHabit(
-  userId: string,
-  habitId: number
-): Promise<void> {
+export async function DeleteHabit(userId: string, habitId: number): Promise<void> {
   try {
     const response = await fetch(
       `https://${apiID}.execute-api.eu-north-1.amazonaws.com/deleteHabit/${userId}/${habitId}`,
@@ -143,25 +129,22 @@ export async function DeleteHabit(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
 
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to delete habit')
     }
-
-    // TODO: Handle success response here
-    console.log('Habit deleted successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error deleting habit:', error)
     throw error
   }
 }
 export async function FetchHabit(userId: string, habitId: number): Promise<HabitEvents> {
   try {
-    const response = await fetch(`https://${apiID2}.execute-api.eu-north-1.amazonaws.com/getHabitEvents/${userId}/${habitId}`)
+    const response = await fetch(
+      `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/getHabitEvents/${userId}/${habitId}`,
+    )
 
     if (!response.ok) {
       throw new Error('Failed to fetch habit')
@@ -170,18 +153,12 @@ export async function FetchHabit(userId: string, habitId: number): Promise<Habit
     const data: HabitEvents = await response.json()
     return data
   } catch (error) {
-    console.error('There was a problem with fetching from api:', error)
     throw error
   }
 }
 
 // Function for user registration via AWS API Gateway
-export async function UserRegistration(
-  username: string,
-  email: string,
-  deviceId: string,
-  password: string
-){
+export async function UserRegistration(username: string, email: string, deviceId: string, password: string) {
   try {
     const response = await fetch(
       `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/signup/${username}/${email}/${deviceId}/${password}`,
@@ -190,28 +167,21 @@ export async function UserRegistration(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       const data = JSON.stringify(await response.json())
       throw new Error(data)
     }
-
-    console.log('User created successfully')
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
 
 // Function for user verification via AWS API Gateway
-export async function VerifyUser(
-  username: string,
-  confirmationCode: string
-): Promise<void> {
+export async function VerifyUser(username: string, confirmationCode: string): Promise<void> {
   try {
     const response = await fetch(
       `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/verifyUser/${username}/${confirmationCode}`,
@@ -220,28 +190,20 @@ export async function VerifyUser(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to verify user')
     }
-
-    // TODO: Handle success response here
-    console.log('User verified successfully')
   } catch (error) {
-    // Handle error here
-    console.error('Error verifying user:', error)
     throw error
   }
 }
 
 // Function for user login via AWS API Gateway
-export async function Login(
-  username: string,
-  password: string
-): Promise<{ userId: string }> {
+export async function Login(username: string, password: string): Promise<{ userId: string }> {
   try {
     const response = await fetch(
       `https://${apiID3}.execute-api.eu-north-1.amazonaws.com/login/${username}/${password}`,
@@ -250,19 +212,17 @@ export async function Login(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to log in')
     }
-    
-    const data = await response.json();
+
+    const data = await response.json()
     return data
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
@@ -273,14 +233,14 @@ export async function setHabitGoal(
   habitId: string,
   question: string,
   target: number,
-  frequency: string
+  frequency: string,
 ): Promise<void> {
   try {
     // Remove all question marks from the question, due to backend not supporting question marks
     const cleanedQuestion = question.replace(/\?/g, '')
 
     // Temp unit, as it is not supported for other units than what the unit for the data already is (count / timer)
-    const unit = "default"
+    const unit = 'default'
 
     const response = await fetch(
       `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/setHabitGoal/${userId}/${habitId}/${cleanedQuestion}/${target}/${unit}/${frequency}`,
@@ -289,28 +249,23 @@ export async function setHabitGoal(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to add goal')
     }
-    
-    const data = await response.json();
+
+    const data = await response.json()
     return data
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }
 
 // Function for getting a goal via AWS API Gateway
-export async function getHabitGoal(
-  userId: string,
-  habitId: string,
-): Promise<Goal> {
+export async function getHabitGoal(userId: string, habitId: string): Promise<Goal> {
   try {
     const response = await fetch(
       `https://${apiID2}.execute-api.eu-north-1.amazonaws.com/getHabitGoal/${userId}/${habitId}`,
@@ -319,19 +274,18 @@ export async function getHabitGoal(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     )
-    
+
     // Check if the response is ok
     if (!response.ok) {
       throw new Error('Failed to get goal')
     }
-    
-    const data: { habitGoal: Goal } = await response.json();
-    return data.habitGoal;
+
+    const data: { habitGoal: Goal } = await response.json()
+
+    return data.habitGoal
   } catch (error) {
-    // Handle error here
-    console.error(error)
     throw error
   }
 }

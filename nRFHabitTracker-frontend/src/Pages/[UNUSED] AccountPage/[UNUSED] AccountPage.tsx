@@ -23,6 +23,7 @@ export function AccountPage() {
   // State to track loading
   const [isLoading, setIsLoading] = useState(false)
 
+  // Get the navigation function
   const navigate = useNavigate()
 
   // Toast for user confirmation
@@ -32,11 +33,12 @@ export function AccountPage() {
   const userData: UserInformation = {
     username: 'dummy_user',
     email: 'dummy@example.com',
-    password: '********', // You might want to handle passwords differently in production
+    password: '********',
   }
 
+  // Function for saving email and username changes
   function saveChanges() {
-    // TODO: Add functionality for saving changes to the account
+    // Missing functionality for saving changes to the account
     // For now a toast will appear
     toast({
       variant: 'destructive',
@@ -45,8 +47,9 @@ export function AccountPage() {
     })
   }
 
+  // Function for saving password changes
   function savePassword() {
-    // TODO: Add functionality for saving password changes
+    // Missing functionality for saving password changes
     // For now a toast will appear
     toast({
       variant: 'destructive',
@@ -55,6 +58,7 @@ export function AccountPage() {
     })
   }
 
+  // Function for signing out
   function signOut() {
     try {
       // Set loading to true
@@ -93,7 +97,6 @@ export function AccountPage() {
           <Button onClick={signOut}>Sign out</Button>
         )}
       </div>
-
       <div className="flex flex-grow justify-center items-center p-5">
         <div className="flex flex-col w-full max-w-lg">
           {/* Tabs component for switching between account and password sections */}
@@ -130,7 +133,7 @@ export function AccountPage() {
                 </CardContent>
                 {/* Button to save changes */}
                 <CardFooter>
-                  {/* TODO: Add functionality when clicking button */}
+                  {/* Missing functionality when clicking button */}
                   <Button onClick={saveChanges}>Save changes</Button>
                 </CardFooter>
               </Card>
@@ -156,7 +159,7 @@ export function AccountPage() {
                 </CardContent>
                 {/* Button to save password */}
                 <CardFooter>
-                  {/* TODO: Add functionality when clicking button */}
+                  {/* Missing functionality when clicking button */}
                   <Button onClick={savePassword}>Save password</Button>
                 </CardFooter>
               </Card>

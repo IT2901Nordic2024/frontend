@@ -1,4 +1,4 @@
-// Page for changing an exisiting habit
+// Page for editing an exisiting habit
 
 import { Button } from '@/Components/shadcnComponents/button'
 import {
@@ -22,43 +22,19 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import Cookies from 'js-cookie'
 
 export default function EditHabitPage() {
-  // State to track saving process
+  // States to track saving process and error handling
   const [isLoading, setIsLoading] = useState(false) // State to track loading
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   // Toast for user confirmation
   const { toast } = useToast()
 
-  // Function to handle adding a habit
-  async function handleSave(values: z.infer<typeof formSchema>) {
-    try {
-      // Set loading to true
-      setIsLoading(true)
+  // Get the navigation function and current location
+  const navigate = useNavigate()
+  const location = useLocation()
 
-      const userId = Cookies.get('userId') // Get userId from cookie
-
-      if (!userId) {
-        // Redirect the user to the login page if userId is not found in the cookie
-        navigate('/')
-        return // Exit early if userId is not available
-      }
-
-      // Set default values if not provided
-      const habitName = values.name || 'noChange'
-      const side = values.side || 'noChange'
-
-      // Call the EditdHabit function with form field values
-      await EditHabit(userId, deviceId, habitName, side, id)
-
-      // Navigate back to the previous page
-      navigateBackAfterSave({ id: id, name: habitName, side: side })
-    } catch (error) {
-      // Handle error
-      setErrorMessage('Failed to edit habit. Please try again.')
-    } finally {
-      // Set loading to false when the loading finishes (whether successful or not)
-      setIsLoading(false)
-    }
-  }
+  // Destructure values from the location state
+  const { id, name, side, deviceId } = location.state as { id: number; name: string; side: string; deviceId: string }
 
   // Defining form validation schema using zod
   const formSchema = z
@@ -74,18 +50,12 @@ export default function EditHabitPage() {
       return nameChanged || sideChanged
     })
 
-  // Get the navigation function
-  const navigate = useNavigate()
-
-  // Error handling
-  const [errorMessage, setErrorMessage] = useState<string>('')
-
-  // Navigate back to the previous page
+  // Function to navigate back to the previous page
   function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
+    navigate(-1)
   }
 
-  // Navigate back to the analytics page with updated values
+  // Function to navigate back to the analytics page with updated values
   function navigateBackAfterSave(updatedValues: { id: number; name?: string; side?: string }) {
     // Define an object to hold the updated values
     const updatedState: { id: number; name?: string; side?: string } = { id }
@@ -115,12 +85,6 @@ export default function EditHabitPage() {
     })
   }
 
-  // Get the current location
-  const location = useLocation()
-
-  // Destructure values from the location state
-  const { id, name, side, deviceId } = location.state as { id: number; name: string; side: string; deviceId: string }
-
   // Defines form using useForm hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -128,6 +92,38 @@ export default function EditHabitPage() {
       name: '',
     },
   })
+
+  // Function to handle saving changes to a habit
+  async function handleSave(values: z.infer<typeof formSchema>) {
+    try {
+      // Set loading to true
+      setIsLoading(true)
+
+      const userId = Cookies.get('userId') // Get userId from cookie
+
+      if (!userId) {
+        // Redirect the user to the login page if userId is not found in the cookie
+        navigate('/')
+        return // Exit early if userId is not available
+      }
+
+      // Set default values if not provided
+      const habitName = values.name || 'noChange'
+      const side = values.side || 'noChange'
+
+      // Call the EditdHabit function with form field values
+      await EditHabit(userId, deviceId, habitName, side, id)
+
+      // Navigate back to the previous page
+      navigateBackAfterSave({ id: id, name: habitName, side: side })
+    } catch (error) {
+      // Set error for readability
+      setErrorMessage('Failed to edit habit. Please try again.')
+    } finally {
+      // Set loading to false when the loading finishes (whether successful or not)
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="flex justify-center items-center" style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>

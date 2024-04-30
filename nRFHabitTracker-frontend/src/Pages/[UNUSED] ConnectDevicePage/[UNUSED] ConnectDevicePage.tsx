@@ -34,8 +34,10 @@ export function ConnectDevicePage() {
 
   // Defines a submit handler function
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Do something with the form value, submit to server
-    console.log(values)
+    // Missing functionality
+    if (!values) {
+      return
+    }
   }
 
   return (

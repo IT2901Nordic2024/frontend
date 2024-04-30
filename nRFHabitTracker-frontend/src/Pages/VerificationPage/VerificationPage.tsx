@@ -26,18 +26,18 @@ const confirmationSchema = z.object({
 })
 
 export default function VerificationPage() {
-  // State to track loading
+  // State variables to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  // Get the current location
+  // Get the navigation function and current location
+  const navigate = useNavigate()
   const location = useLocation()
 
-  // Destructure values from the location state
+  // Destructure username from the location state
   const { username } = location.state as { username: string }
 
+  // Defines form using useForm hook
   const form = useForm<z.infer<typeof confirmationSchema>>({
     resolver: zodResolver(confirmationSchema),
     defaultValues: {
@@ -45,20 +45,16 @@ export default function VerificationPage() {
     },
   })
 
-  const navigate = useNavigate()
-
-  // Navigate back to the previous page
+  // Function to navigate back to the previous page
   function navigateBack() {
-    navigate(-1) // This navigates back to the previous page in the history
+    navigate(-1)
   }
 
+  // Funtion for handling the verification form
   async function verification(values: z.infer<typeof confirmationSchema>) {
-    console.log(values.confirmationcode)
     try {
       // Set loading to true
       setIsLoading(true)
-
-      console.log(username)
 
       // Call the VerifyUser function with input field value
       await VerifyUser(username, values.confirmationcode)
@@ -66,7 +62,7 @@ export default function VerificationPage() {
       // Navigate to login page
       navigate('/')
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to verify user. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)

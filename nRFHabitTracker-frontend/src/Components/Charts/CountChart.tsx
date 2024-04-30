@@ -1,38 +1,38 @@
-import ReactApexChart from 'react-apexcharts';
-import { ApexOptions } from 'apexcharts';
+import ReactApexChart from 'react-apexcharts'
+import { ApexOptions } from 'apexcharts'
 
 interface ChartProps {
-  events: Array<[number, number]>;
+  events: Array<[number, number]>
 }
 
 export const CountChart: React.FC<ChartProps> = ({ events }) => {
   if (!events || events.length === 0) {
-    console.log('No data found');
-    return <p>No data logged yet</p>;
+    console.log('No data found')
+    return <p>No data logged yet</p>
   }
 
   // Data processing
-  const dataGroupedByDay: { [key: string]: number } = {};
+  const dataGroupedByDay: { [key: string]: number } = {}
 
   events.forEach(([timestamp, count]) => {
-    const date = new Date(timestamp * 1000);
-    const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    const date = new Date(timestamp * 1000)
+    const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
     if (!dataGroupedByDay[dayKey]) {
-      dataGroupedByDay[dayKey] = 0;
+      dataGroupedByDay[dayKey] = 0
     }
-    dataGroupedByDay[dayKey] += count;
-  });
+    dataGroupedByDay[dayKey] += count
+  })
 
   // Format the grouped data for ApexCharts
-  const formattedData = Object.keys(dataGroupedByDay).map(day => ({
+  const formattedData = Object.keys(dataGroupedByDay).map((day) => ({
     x: day,
-    y: dataGroupedByDay[day]
-  }));
+    y: dataGroupedByDay[day],
+  }))
 
   // Options for ApexCharts
   const options: ApexOptions = {
     chart: {
-      type: 'bar', 
+      type: 'bar',
       toolbar: {
         show: true,
         tools: {
@@ -48,8 +48,8 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     },
     plotOptions: {
       bar: {
-        horizontal: false 
-      }
+        horizontal: false,
+      },
     },
     xaxis: {
       type: 'datetime',
@@ -64,19 +64,19 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     },
     tooltip: {
       x: {
-        format: 'dd MMM yyyy'
+        format: 'dd MMM yyyy',
       },
       y: {
-        formatter: (value) => `${value} Times`
-      }
+        formatter: (value) => `${value} Times`,
+      },
     },
-  };
+  }
 
   return (
-    <div className=''>
+    <div className="">
       <ReactApexChart options={options} series={[{ name: 'Total Count', data: formattedData }]} type="bar" />
     </div>
-  );
-};
+  )
+}
 
-export default CountChart;
+export default CountChart

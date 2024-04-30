@@ -1,5 +1,4 @@
 // This page represents a login page where users can input their credentials to log in.
-// It utilizes React hooks and form handling using react-hook-form and zod for validation.
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -32,10 +31,8 @@ const formSchema = z.object({
 })
 
 export function LoginPage() {
-  // State to track loading
+  // State to track loading and error handling
   const [isLoading, setIsLoading] = useState(false)
-
-  // Error handling
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   // Defines form using useForm hook
@@ -46,11 +43,17 @@ export function LoginPage() {
       password: '',
     },
   })
+
+  // Get the navigation function
   const navigate = useNavigate()
 
-  // Defines a submit handler function
+  // Function for sending the user to the signup page
+  function goToSignupPage() {
+    navigate('/signup')
+  }
+
+  // Defines a submit handler function for logging in
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     try {
       // Set loading to true
       setIsLoading(true)
@@ -60,23 +63,17 @@ export function LoginPage() {
       const userId = response.userId
 
       // Save userId in a cookie
-      Cookies.set('userId', userId, { expires: 1 }) // expires in 1 day
+      Cookies.set('userId', userId, { expires: 1 }) // Expires in 1 day
 
       // Navigate to the main page if user is successfully logged in
       navigate('/my-habits')
     } catch (error) {
-      // Handle error
+      // Set error for readability
       setErrorMessage('Failed to log in. Please try again.')
     } finally {
       // Set loading to false when the loading finishes (whether successful or not)
       setIsLoading(false)
     }
-  }
-
-  // Navigate to the signup page
-  function goToSignupPage() {
-    // Functionality for sending the user to the signup page
-    navigate('/signup')
   }
 
   return (
