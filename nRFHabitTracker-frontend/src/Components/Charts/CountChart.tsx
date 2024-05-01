@@ -4,19 +4,24 @@ import { ApexOptions } from 'apexcharts';
 import { Button } from '../shadcnComponents/button';
 
 interface ChartProps {
-  events: Array<[number, number]>
+  events: Array<[number, number]>;
 }
 
+// Component to render a bar chart representing event counts per day over a week.
 export const CountChart: React.FC<ChartProps> = ({ events }) => {
+  // State to track the current week's starting Monday.
   const [currentWeek, setCurrentWeek] = useState<Date>(getMonday());
+  // State to hold the formatted data for the chart.
   const [filteredData, setFilteredData] = useState<{ x: string, y: number }[]>([]);
-  
 
+  // Effect to update the chart data whenever the currentWeek or events change.
   useEffect(() => {
+    // Calculate the start and end of the current week.
     const startOfWeek = new Date(currentWeek);
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
 
+    // Initialize an object to aggregate counts by day.
     const dataGroupedByDay: { [key: string]: number } = {};
     for (let i = 0; i < 7; i++) {
       const day = new Date(startOfWeek);
@@ -25,6 +30,7 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
       dataGroupedByDay[dayKey] = 0;
     }
 
+    // Loop through events and accumulate counts for each day in the current week.
     events.forEach(([timestamp, count]) => {
       const date = new Date(timestamp * 1000);
       if (date >= startOfWeek && date <= endOfWeek) {
@@ -33,6 +39,7 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
       }
     });
 
+    // Convert the aggregated data into an array for the chart.
     const formattedData = Object.keys(dataGroupedByDay).map(day => ({
       x: day,
       y: dataGroupedByDay[day]
@@ -41,6 +48,7 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     setFilteredData(formattedData);
   }, [currentWeek, events]);
 
+  // Handlers to navigate to the next or previous week.
   const handleNextWeek = () => {
     setCurrentWeek(prev => new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() + 7));
   };
@@ -49,6 +57,7 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     setCurrentWeek(prev => new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() - 7));
   };
 
+  // Chart configuration options.
   const options: ApexOptions = {
     chart: {
       type: 'bar',
@@ -91,6 +100,7 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
     },
   };
 
+  // Render chart or a message if no data is available.
   if (!events || events.length === 0) {
     console.log('No data found');
     return <p>No data logged yet</p>;
@@ -104,11 +114,12 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
         <Button onClick={handleNextWeek}>Next Week</Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CountChart;
 
+// Utility function to get the current week's Monday.
 function getMonday(d = new Date()) {
   d = new Date(d);
   const day = d.getDay(),
