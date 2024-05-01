@@ -35,6 +35,7 @@ export default function MyHabitsPage() {
     // API function for fetching habits
     fetchHabits(userId)
       .then((response: { habits: Habit[]; deviceId: string }) => {
+        setDeviceId(response.deviceId) // Set device ID if there are no habits
         // Check if response is not empty
         if (response.habits.length > 0) {
           // Transform the fetched data to match the structure expected by the component
