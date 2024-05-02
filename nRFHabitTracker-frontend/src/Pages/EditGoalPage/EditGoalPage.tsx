@@ -189,7 +189,6 @@ export default function EditGoalPage() {
                     <SelectContent>
                       <SelectItem value="day">Every Day</SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
-                      <SelectItem value="month">Every Month</SelectItem>
                     </SelectContent>
                   </Select>
                   {/* Display error message */}

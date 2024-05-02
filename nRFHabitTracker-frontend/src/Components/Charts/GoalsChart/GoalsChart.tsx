@@ -27,8 +27,7 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
   let totalToday = 0 // Today's data
   let totalLastWeek = 0 // This week's data
 
-  const today = new Date(2024, 2, 15)
-  console.log(today)
+  const today = new Date()
   today.setHours(0, 0, 0, 0)
 
   const oneWeekAgo = new Date(today)
