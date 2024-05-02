@@ -102,7 +102,6 @@ export const CountChart: React.FC<ChartProps> = ({ events }) => {
 
   // Render chart or a message if no data is available.
   if (!events || events.length === 0) {
-    console.log('No data found')
     return <p>No data logged yet</p>
   }
 

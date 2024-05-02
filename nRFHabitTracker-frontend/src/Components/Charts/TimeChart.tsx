@@ -117,7 +117,6 @@ export const TimeChart: React.FC<ChartProps> = ({ events }) => {
 
   // Render the component, showing a message if no data is available
   if (!events || events.length === 0) {
-    console.log('No data found')
     return <p>No data logged yet</p>
   }
 
