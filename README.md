@@ -82,6 +82,7 @@ List the technologies, frameworks, and libraries used in the project.
 - [React Icons](https://react-icons.github.io/react-icons/) - Library for customizable SVG icons
 - [useHooks](https://usehooks-ts.com/) - A React hooks library that provides a set of hooks that enables you to build your React applications faster
 - [js-cookie](https://github.com/js-cookie/js-cookie) - A JavaScript API for handling cookies
+- [react-remove-scroll](https://www.npmjs.com/package/react-remove-scroll) - Disables scroll outside of children node.
 
 ## Future Work
 
