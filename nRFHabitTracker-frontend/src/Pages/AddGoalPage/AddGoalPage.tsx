@@ -172,7 +172,6 @@ export default function AddGoalPage() {
                     <SelectContent>
                       <SelectItem value="day">Every Day</SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
-                      <SelectItem value="month">Every Month</SelectItem>
                     </SelectContent>
                   </Select>
                   {form.formState.errors.frequency && (
