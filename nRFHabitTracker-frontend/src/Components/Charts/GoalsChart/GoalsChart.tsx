@@ -148,7 +148,7 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
   }
 
   return (
-    <div className="text-2xl font-semibold leading-none tracking-tight">
+    <div className="goal-chart text-2xl font-semibold leading-none tracking-tight">
       {question} <ReactApexChart options={options} series={series} type="bar" height={window.innerHeight * 0.25} />
     </div>
   )

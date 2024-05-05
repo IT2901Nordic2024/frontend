@@ -165,12 +165,12 @@ export default function AddGoalPage() {
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="select-frequency-trigger">
                         <SelectValue placeholder="Select a frequency" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="day">Every Day</SelectItem>
+                      <SelectItem className="select-frequency-day" value="day">Every Day</SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
                     </SelectContent>
                   </Select>

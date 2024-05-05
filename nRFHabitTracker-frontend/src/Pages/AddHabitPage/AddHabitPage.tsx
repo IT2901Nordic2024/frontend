@@ -139,7 +139,7 @@ export function AddHabitPage() {
                   </div>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className='select-side-trigger'>
                         <SelectValue placeholder="Select a side" />
                       </SelectTrigger>
                     </FormControl>
@@ -148,7 +148,7 @@ export function AddHabitPage() {
                       <SelectItem value="1">Side 2</SelectItem>
                       <SelectItem value="2">Side 3</SelectItem>
                       <SelectItem value="3">Side 4</SelectItem>
-                      <SelectItem value="4">Side 5</SelectItem>
+                      <SelectItem className="select-side-5" value="4">Side 5</SelectItem>
                       <SelectItem value="5">Side 6</SelectItem>
                       <SelectItem value="6">Side 7</SelectItem>
                       <SelectItem value="7">Side 8</SelectItem>
@@ -171,12 +171,12 @@ export function AddHabitPage() {
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className='select-type-trigger'>
                         <SelectValue placeholder="Select a type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent position="popper">
-                      <SelectItem value="count">Count</SelectItem>
+                      <SelectItem className='select-count-trigger' value="count">Count</SelectItem>
                       <SelectItem value="time">Time</SelectItem>
                     </SelectContent>
                   </Select>
