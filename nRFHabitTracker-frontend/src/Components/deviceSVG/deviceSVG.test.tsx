@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import SVGComponent from './deviceSVG'; 
+import '@testing-library/jest-dom';
 
 describe('SVGComponent', () => {
   const mockDeviceData = [
@@ -8,7 +9,7 @@ describe('SVGComponent', () => {
 
   it('renders without crashing', () => {
     render(<SVGComponent svgHeight={300} selectedSide={1} deviceData={mockDeviceData} />);
-    expect(screen.getByRole('img')).toBeInTheDocument();
+    expect(screen.getByTestId("device-svg")).toBeInTheDocument();
   });
 
   it('displays the correct habit based on selected side', () => {

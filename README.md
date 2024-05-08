@@ -4,21 +4,23 @@ This is the frontend part of our habit tracker project. It is a web interface ma
 
 ## Table of Contents
 
-- [Features](#features)
-- [Folder Structure](#folder-structure)
-- [Technologies](#technologies)
-- [Future Work](#future-work)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
-- [Unit Testing](#unit-testing)
-- [E2E-tests](#e2e-tests)
-  - [Prerequisites](#prerequisites-1)
-  - [Opening Cypress Test Runner](#opening-cypress-test-runner)
-  - [Running Cypress Tests Headlessly](#running-cypress-tests-headlessly)
-  - [Running Specific Test Files](#running-specific-test-files)
-- [Prettier](#prettier)
+- [nRFHabitTracker-frontend](#nrfhabittracker-frontend)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Folder Structure](#folder-structure)
+  - [Technologies](#technologies)
+  - [Future Work](#future-work)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Running the Application](#running-the-application)
+  - [Unit Testing](#unit-testing)
+  - [E2E-tests](#e2e-tests)
+    - [Prerequisites](#prerequisites-1)
+    - [Opening Cypress Test Runner](#opening-cypress-test-runner)
+    - [Running Cypress Tests Headlessly](#running-cypress-tests-headlessly)
+    - [Running Specific Test Files](#running-specific-test-files)
+  - [Prettier](#prettier)
 
 ## Features
 
