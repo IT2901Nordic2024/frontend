@@ -13,6 +13,7 @@ const SVGComponent: React.FC<SVGProps> = ({ svgHeight, selectedSide, deviceData 
     <div className="flex justify-center mt-5">
       {/* Custom SVG */}
       <svg
+        data-testid="device-svg" // Test ID for testing
         height={svgHeight}
         viewBox="0 0 1600 1600"
         version="1.1"

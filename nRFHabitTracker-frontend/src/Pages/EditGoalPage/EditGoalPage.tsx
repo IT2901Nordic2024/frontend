@@ -182,18 +182,20 @@ export default function EditGoalPage() {
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="select-frequency-trigger">
                         <SelectValue placeholder="Select a frequency" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="day">Every Day</SelectItem>
+                      <SelectItem className="select-frequency-day" value="day">
+                        Every Day
+                      </SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
                     </SelectContent>
                   </Select>
                   {/* Display error message */}
                   {Object.keys(form.formState.errors).length > 0 && (
-                    <p className="text-red-500">At least one field must be changed.</p>
+                    <p className="text-red-600">At least one field must be changed.</p>
                   )}
                 </FormItem>
               )}
@@ -210,12 +212,14 @@ export default function EditGoalPage() {
             <p>Saving changes...</p>
           ) : (
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Button variant="secondary">Save changes</Button>
+              <Button className="submit-changes" variant="secondary">
+                Save changes
+              </Button>
             </form>
           )}
         </CardFooter>
         {/* Error message */}
-        {!isLoading && errorMessage && <p className="text-red-500 flex justify-center mb-4">{errorMessage}</p>}
+        {!isLoading && errorMessage && <p className="text-red-600 flex justify-center mb-4">{errorMessage}</p>}
       </Card>
     </div>
   )

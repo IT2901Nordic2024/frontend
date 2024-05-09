@@ -201,7 +201,7 @@ export function SignupPage() {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <Button type="submit">Sign Up</Button>
               </form>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              {errorMessage && <p className="text-red-600">{errorMessage}</p>}
             </div>
           )}
           <CardDescription style={{ cursor: 'pointer', marginTop: '20px' }} onClick={goToLoginPage}>

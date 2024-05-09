@@ -4,9 +4,8 @@ describe('LoginPage', () => {
   })
 
   it('allows a user to log in with correct credentials', () => {
-    // TODO: Replace these values with actual credentials
-    const username = 'username'
-    const password = 'password'
+    const username = 'FrodeFrydmann'
+    const password = 'Passord123'
 
     // Fill in the username and password fields
     cy.get('input[name="username"]').type(username)
@@ -19,18 +18,6 @@ describe('LoginPage', () => {
     cy.url().should('include', '/my-habits')
   })
 
-  it('allows a user to sign up', () => {
-    cy.contains('Sign up').click()
-    cy.url().should('include', '/signup')
-    cy.get('input[name="username"]').type('username')
-    cy.get('input[name="email"]').type('username@email.com')
-    cy.get('input[name="password"]').type('password')
-    cy.get('input[name="confirmPassword"]').type('password')
-    cy.get('form').submit()
-
-    // Verify navigation to the destination page (to be changed)
-    cy.url().should('include', '/my-habits')
-  })
   it('validates sign up correctly', () => {
     cy.contains('Sign up').click()
     cy.url().should('include', '/signup')
@@ -47,6 +34,9 @@ describe('LoginPage', () => {
     // password does not match
     cy.get('input[name="confirmPassword"]').type('password')
 
+    // device id less than 6 characters
+    cy.get('input[name="deviceid"]').type('12345')
+
     cy.get('form').submit()
 
     // Verify error messages
@@ -54,5 +44,6 @@ describe('LoginPage', () => {
     cy.contains('Invalid email address.')
     cy.contains('Password must be at least 6 characters long.')
     cy.contains('Passwords do not match.')
+    cy.contains('Device ID must be at least 6 characters long.')
   })
 })

@@ -17,7 +17,7 @@ import { useToast } from '@/Components/shadcnComponents/use-toast'
 import { ToastAction } from '@/Components/shadcnComponents/toast'
 import TimeChart from '@/Components/Charts/TimeChart'
 import CountChart from '@/Components/Charts/CountChart'
-import Calendar from '@/Components/Calender/Calender'
+import Calendar from '@/Components/Calender/Calendar'
 import Summary from '@/Components/Summary/Summary'
 import Cookies from 'js-cookie'
 
@@ -147,12 +147,21 @@ export default function AnalyticsPage() {
     <div className="flex flex-col m-5">
       {/* Heading with the habit's name */}
       <div className="flex justify-between">
-        <h1 className="text-4xl font-bold leading-tight overflow-hidden text-slate-900">{name}</h1>
+        <div style={{ maxWidth: '70%' }}>
+          <h1
+            className="text-3xl sm:text-4xl font-bold leading-tight overflow-hidden text-slate-900"
+            style={{ overflowWrap: 'break-word', wordWrap: 'break-word' }}
+          >
+            {name}
+          </h1>
+        </div>
+
         {/* Button to delete habit */}
         {isDeleting ? (
           <p>Deleting habit...</p>
         ) : (
           <Button
+            className="delete-habit-button"
             variant="destructive"
             onClick={() => {
               toast({
@@ -162,6 +171,7 @@ export default function AnalyticsPage() {
                 action: (
                   <ToastAction
                     altText="Yes"
+                    className="confirm-delete"
                     onClick={() => {
                       if (userId) {
                         deleteHabit(userId, id)
@@ -199,7 +209,7 @@ export default function AnalyticsPage() {
           )}
         </CardContent>
         <CardFooter>
-          <Button variant="secondary" onClick={goToEditGoalPage}>
+          <Button className="edit-button" variant="secondary" onClick={goToEditGoalPage}>
             Edit
           </Button>
         </CardFooter>
@@ -261,7 +271,7 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
       {/* Error message */}
-      {errorMessage && <p className="text-red-500 m-5">{errorMessage}</p>}
+      {errorMessage && <p className="text-red-600 m-5">{errorMessage}</p>}
       <div className="flex justify-between">
         {/* Button to edit habit */}
         <Button onClick={goToEditHabitPage}>Edit Habit</Button>

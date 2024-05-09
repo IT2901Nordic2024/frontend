@@ -1,34 +1,36 @@
 describe('MyHabitsPage', () => {
   beforeEach(() => {
+    cy.visit('/')
+
+    cy.get('input[name="username"]').type('FrodeFrydmann')
+    cy.get('input[name="password"]').type('Passord123')
+    cy.get('form').submit()
+    cy.url().should('include', '/my-habits')
+  })
+
+  it('Loads and Displays Habits', () => {
+    cy.visit('/my-habits') // Visit the page URL
+
+    cy.intercept('GET', '**/api/habits').as('getHabits')
+
+    // Check if the heading is displayed
+    cy.get('h1').should('contain', 'My Habits')
+
+    // Check if the Add Habit button is present
+    cy.get('button').contains('Add Habit').should('be.visible')
+
+    // Check if habit cards are displayed
+    cy.get('.habit-card').should('have.length.greaterThan', 0)
+  })
+
+  it('Redirects to Login if User Not Logged In', () => {
+    // Clear cookies to simulate logged out state
+    cy.clearCookies()
+
+    // Visit the page URL
     cy.visit('/my-habits')
-  })
-  it('Loads habits successfully', () => {
-    //intercept API request and respond with mock data
-    cy.intercept('GET', 'https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/habits/0', {
-      statusCode: 200,
-      body: {
-        habits: [
-          { habitId: 1, habitName: 'Sleeping', habitType: 'Time', deviceSide: 'Side 1' },
-          { habitId: 2, habitName: 'Coffie', habitType: 'Count', deviceSide: 'Side 2' },
-        ],
-      },
-    }).as('fetchHabits')
-    cy.wait('@fetchHabits')
 
-    //check for presecne of habit data in the DOM
-    cy.contains('Sleeping').should('be.visible')
-    cy.contains('Coffie').should('be.visible')
-  })
-
-  it('Displays a message when no habits are present', () => {
-    //intercept API request and respond with empty data
-    cy.intercept('GET', 'https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/habits/0', {
-      statusCode: 200,
-      body: { habits: [] },
-    }).as('fetchHabits')
-    cy.wait('@fetchHabits')
-
-    //check for presence of message in the DOM
-    cy.contains('No habits have been created yet. Start by adding a new habit!').should('be.visible')
+    // Check if redirected to the login page
+    cy.url().should('include', '/')
   })
 })

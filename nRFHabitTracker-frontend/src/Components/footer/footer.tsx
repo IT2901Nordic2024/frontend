@@ -61,6 +61,7 @@ export function Footer() {
             })
           }}
           className="cursor-pointer flex items-center justify-center w-1/3"
+          data-testid="footer-logout"
         >
           <TbLogout2 size={35} color="white" />
         </div>
@@ -68,6 +69,7 @@ export function Footer() {
         <div
           onClick={goToHabitsPage}
           className="cursor-pointer flex items-center justify-center w-1/3"
+          data-testid="footer-home"
           style={{ backgroundColor: location.pathname === '/my-habits' ? '#1E293B' : 'transparent' }}
         >
           <FiHome size={35} color="white" />
@@ -76,6 +78,7 @@ export function Footer() {
         <div
           onClick={goToDevicePage}
           className="cursor-pointer flex items-center justify-center w-1/3"
+          data-testid="footer-device"
           style={{ backgroundColor: location.pathname === '/my-device' ? '#1E293B' : 'transparent' }}
         >
           {/* Custom SVG */}

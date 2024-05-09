@@ -41,15 +41,16 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
       const endDate = new Date(end * 1000)
       endDate.setHours(0, 0, 0, 0) // Normalize the time to midnight
 
-      // Calculate the duration in seconds and convert it to hours
-      const durationHours = (end - start) / 3600 // Convert seconds to hours
+      // Calculate the duration in seconds and convert it to minutes
+      const durationSec = end - start
+      const durationMin = durationSec / 60
 
       if (startDate.getTime() === today.getTime()) {
-        totalToday += durationHours
+        totalToday += durationMin
       }
 
       if (startDate >= oneWeekAgo && startDate <= today) {
-        totalLastWeek += durationHours
+        totalLastWeek += durationMin
       }
     })
     // Round the values to two decimal places
@@ -135,7 +136,7 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
       show: true, // Hide the y-axis
       max: maxYaxisValue, // Max value for the y-axis
       title: {
-        text: type === 'time' ? 'Total Hours' : 'Total Count', // Y-axis title
+        text: type === 'time' ? 'Total Minutes' : 'Total Count', // Y-axis title
       },
     },
     tooltip: {
@@ -148,7 +149,7 @@ const GoalsChart: React.FC<GoalsChartProps> = ({ events, type, target, frequency
   }
 
   return (
-    <div className="text-2xl font-semibold leading-none tracking-tight">
+    <div className="goal-chart text-2xl font-semibold leading-none tracking-tight">
       {question} <ReactApexChart options={options} series={series} type="bar" height={window.innerHeight * 0.25} />
     </div>
   )

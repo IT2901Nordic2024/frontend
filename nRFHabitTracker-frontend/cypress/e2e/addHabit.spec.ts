@@ -1,6 +1,12 @@
 describe('AddHabitPage', () => {
   beforeEach(() => {
-    cy.visit('/add-habit')
+    cy.visit('/')
+
+    cy.get('input[name="username"]').type('FrodeFrydmann')
+    cy.get('input[name="password"]').type('Passord123')
+    cy.get('form').submit()
+    cy.url().should('include', '/my-habits')
+    cy.get('button').contains('Add Habit').click()
   })
   it('Validates user input', () => {
     // Fill in the habit name field
@@ -15,33 +21,30 @@ describe('AddHabitPage', () => {
     cy.contains('Please select a type.')
   })
   it('Allows a user to add a habit', () => {
-    cy.intercept(
-      'PUT',
-      'https://hk7sx4q7v9.execute-api.eu-north-1.amazonaws.com/createHabit/0/firmwareSimulatorThing/Coffee/count/1',
-      {
-        statusCode: 200,
-      },
-    ).as('addHabit')
+    // Intercept the request
+    cy.intercept('PUT', '**/createHabit/**', {
+      statusCode: 200,
+      body: {},
+    }).as('addHabitRequest')
 
-    // Verify that the habit has been added
-    cy.window().then((win) => {
-      cy.spy(win.console, 'log').as('consoleLog')
-    })
+    // Fill in the habit name
+    cy.get('input[placeholder="Name of your habit"]').type('Exercise')
 
-    // Fill in the habit name field
-    cy.get('input[placeholder="Name of your habit"]').type('Coffee')
+    // Open the side dropdown and select an item
+    cy.get('.select-side-trigger').click()
+    cy.get('.select-side-5').click()
 
-    cy.contains('Select a side').click()
-    cy.contains('Side 1').click()
-
-    cy.contains('Select a type').click()
-    cy.contains('Count').click()
+    // Open the type dropdown and select an item
+    cy.get('.select-type-trigger').click()
+    cy.get('.select-count-trigger').click()
 
     // Submit the form
-    cy.get('form').submit()
+    cy.get('button').contains('Add').click()
 
-    cy.wait('@addHabit')
+    // Wait for the request to be made
+    cy.wait('@addHabitRequest')
 
-    cy.get('@consoleLog').should('be.calledWith', 'Habit added successfully')
+    // Check for success message
+    cy.contains('Your habit has been added.').should('be.visible')
   })
 })
