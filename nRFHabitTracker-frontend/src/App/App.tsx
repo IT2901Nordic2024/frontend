@@ -1,53 +1,102 @@
 // Contains the main routing logic for the application
 // utilizes the react-router-dom library to handle routing
 
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import SensorData from '../Pages/SensorPage/SensorPage';
-import {LoginPage} from '@/Pages/LoginPage/LoginPage';
-import { NavBar } from '@/Components/navBar/navBar';
-import { ConnectDevicePage } from '@/Pages/ConnectDevicePage/ConnectDevicePage';
-import { SignupPage } from '@/Pages/UserSignup/UserSignup';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import { LoginPage } from '@/Pages/LoginPage/LoginPage'
+import { NavBar } from '@/Components/navBar/navBar'
+import { SignupPage } from '@/Pages/UserSignup/UserSignup'
+import { Footer } from '@/Components/footer/footer'
+import { AddHabitPage } from '@/Pages/AddHabitPage/AddHabitPage'
+import MyHabitsPage from '@/Pages/MyHabitsPage/MyHabitsPage'
+import { RemoveScroll } from 'react-remove-scroll'
+import AnalyticsPage from '@/Pages/AnalyticsPage/AnalyticsPage'
+import AddGoalPage from '@/Pages/AddGoalPage/AddGoalPage'
+import EditHabitPage from '@/Pages/EditHabitPage/EditHabitPage'
+import { Toaster } from '@/Components/shadcnComponents/toaster'
+import DevicePage from '@/Pages/DevicePage/DevicePage'
+import { useEffect, useState } from 'react'
+import VerificationPage from '@/Pages/VerificationPage/VerificationPage'
+import EditGoalPage from '@/Pages/EditGoalPage/EditGoalPage'
 
+// Layout component that includes the navigation bar and the main content outlet, as well as checking window size and choosing between navbar and footer based on this
+const Layout: React.FC = () => {
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768)
 
-// Layout component that includes the navigation bar and the main content outlet
-const HeaderLayout = () => (
-  <>
-    <NavBar /> {/* Nav bar to be displayed on every page */}
-    
-      <Outlet /> 
-    
-  </>
-);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-const router = createBrowserRouter(
-  [
-    {
-      element: <HeaderLayout />, // Root layout component
-      children: [
-        {
-          path: '/',
-          element: <LoginPage />,
-        },
-        {
-          path: '/sensor-data',
-          element: <SensorData />,
-        },
-        {
-          path: '/connect-device',
-          element: <ConnectDevicePage />,
-        },
-        {
-          path: '/signup',
-          element: <SignupPage />,
-        },
-        // Add more routes as necessary
-      ],
-    },
-  ]
-);
-
-function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      {!isMobileView && <NavBar />} {/* Nav bar to be displayed on desktop view */}
+      {/* Will make the content alone scrollable */}
+      <RemoveScroll>
+        <div style={{ height: 'calc(100vh - 56px)', overflow: 'auto' }}>
+          <Outlet /> {/* Main content outlet */}
+          <Toaster /> {/* Confirmation toaster */}
+        </div>
+      </RemoveScroll>
+      {isMobileView && <Footer />} {/* Footer to be displayed on mobile view */}
+    </>
+  )
 }
 
-export default App;
+const router = createBrowserRouter([
+  {
+    element: <Layout />, // Root layout component
+    children: [
+      {
+        path: '/',
+        element: <LoginPage />,
+      },
+      {
+        path: '/signup',
+        element: <SignupPage />,
+      },
+      {
+        path: '/my-habits',
+        element: <MyHabitsPage />,
+      },
+      {
+        path: '/my-habits/add-habit',
+        element: <AddHabitPage />,
+      },
+      {
+        path: '/my-habits/:id',
+        element: <AnalyticsPage />,
+      },
+      {
+        path: '/my-habits/:id/addGoal',
+        element: <AddGoalPage />,
+      },
+      {
+        path: '/my-habits/:id/editHabit',
+        element: <EditHabitPage />,
+      },
+      {
+        path: '/my-device',
+        element: <DevicePage />,
+      },
+      {
+        path: '/verify-user',
+        element: <VerificationPage />,
+      },
+      {
+        path: '/my-habits/:id/editGoal',
+        element: <EditGoalPage />,
+      },
+
+      // Add more routes as necessary
+    ],
+  },
+])
+
+function App() {
+  return <RouterProvider router={router} />
+}
+
+export default App
