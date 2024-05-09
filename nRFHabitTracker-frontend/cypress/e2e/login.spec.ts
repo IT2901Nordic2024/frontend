@@ -1,4 +1,3 @@
-
 describe('LoginPage', () => {
   beforeEach(() => {
     cy.visit('/')
@@ -47,5 +46,4 @@ describe('LoginPage', () => {
     cy.contains('Passwords do not match.')
     cy.contains('Device ID must be at least 6 characters long.')
   })
-
 })

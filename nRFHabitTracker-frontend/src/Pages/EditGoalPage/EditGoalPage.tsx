@@ -182,12 +182,14 @@ export default function EditGoalPage() {
                   </div>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className='select-frequency-trigger'>
+                      <SelectTrigger className="select-frequency-trigger">
                         <SelectValue placeholder="Select a frequency" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem className='select-frequency-day' value="day">Every Day</SelectItem>
+                      <SelectItem className="select-frequency-day" value="day">
+                        Every Day
+                      </SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
                     </SelectContent>
                   </Select>
@@ -210,7 +212,9 @@ export default function EditGoalPage() {
             <p>Saving changes...</p>
           ) : (
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Button className='submit-changes' variant="secondary">Save changes</Button>
+              <Button className="submit-changes" variant="secondary">
+                Save changes
+              </Button>
             </form>
           )}
         </CardFooter>

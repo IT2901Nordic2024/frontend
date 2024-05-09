@@ -170,7 +170,9 @@ export default function AddGoalPage() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem className="select-frequency-day" value="day">Every Day</SelectItem>
+                      <SelectItem className="select-frequency-day" value="day">
+                        Every Day
+                      </SelectItem>
                       <SelectItem value="week">Every Week</SelectItem>
                     </SelectContent>
                   </Select>

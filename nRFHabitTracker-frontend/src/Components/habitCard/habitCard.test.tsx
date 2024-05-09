@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import HabitCard from './habitCard'
 import '@testing-library/jest-dom'
 
-
 describe('HabitCard', () => {
   const mockOnClick = jest.fn() // Create a mock function for the onClick handler.
 
